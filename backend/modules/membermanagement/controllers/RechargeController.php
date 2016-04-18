@@ -4,7 +4,7 @@ namespace app\modules\membermanagement\controllers;
 
 use yii\web\Controller;
 
-class DefaultController extends Controller
+class RechargeController extends Controller
 {
     public function actionIndex()
     {

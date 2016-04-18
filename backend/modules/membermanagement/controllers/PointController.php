@@ -4,7 +4,7 @@ namespace app\modules\membermanagement\controllers;
 
 use yii\web\Controller;
 
-class DefaultController extends Controller
+class PointController extends Controller
 {
     public function actionPointset()
     {

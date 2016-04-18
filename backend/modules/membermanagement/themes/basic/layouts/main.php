@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 use app\modules\membermanagement\themes\basic\myasset\ThemeAsset;
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
@@ -51,20 +52,20 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 </li>
                 <!-- 二级 -->
                 <ul>
-                    <li class="active"><a href="#"><?= \Yii::t('app', 'Membership') ?></a></li>
-                    <li><a href="#"><?= \Yii::t('app', 'Recharge') ?></a></li>
-                    <li><a href="#"><?= \Yii::t('app', 'Refund') ?></a></li>
+                    <li class="active"><a href="<?php echo Url::toRoute(['member/index']);?>"><?= \Yii::t('app', 'Membership') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['recharge/index']);?>"><?= \Yii::t('app', 'Recharge') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['refund/index']);?>"><?= \Yii::t('app', 'Refund') ?></a></li>
                     <li><a href="#"><?= \Yii::t('app', 'Points') ?><i></i></a></li>
                     <ul>
-                        <li><a href="#"><?= \Yii::t('app', 'Point Set') ?></a></li>
-                        <li><a href="#"><?= \Yii::t('app', 'Exchange') ?></a></li>
+                        <li><a href="<?php echo Url::toRoute(['point/pointset']);?>"><?= \Yii::t('app', 'Point Set') ?></a></li>
+                        <li><a href="<?php echo Url::toRoute(['point/exchange']);?>"><?= \Yii::t('app', 'Exchange') ?></a></li>
                     </ul>
                     <li><a href="#"><?= \Yii::t('app', 'Message') ?><i></i></a></li>
                     <ul>
-                        <li><a href="#"><?= \Yii::t('app', 'SendMessage') ?></a></li>
-                        <li><a href="#"><?= \Yii::t('app', 'MessageLog') ?></a></li>
-                        <li><a href="#"><?= \Yii::t('app', 'Contacts') ?></a></li>
-                        <li><a href="#"><?= \Yii::t('app', 'Phrasebook') ?></a></li>
+                        <li><a href="<?php echo Url::toRoute(['message/sendmessage']);?>"><?= \Yii::t('app', 'SendMessage') ?></a></li>
+                        <li><a href="<?php echo Url::toRoute(['message/messagelog']);?>"><?= \Yii::t('app', 'MessageLog') ?></a></li>
+                        <li><a href="<?php echo Url::toRoute(['message/contacts']);?>"><?= \Yii::t('app', 'Contacts') ?></a></li>
+                        <li><a href="<?php echo Url::toRoute(['message/phrasebook']);?>"><?= \Yii::t('app', 'Phrasebook') ?></a></li>
                     </ul>
                 </ul>
             </ul>
