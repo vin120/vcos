@@ -19,25 +19,45 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Country</a></div>
+    <?php
+			$form = ActiveForm::begin([
+					'method'=>'post',
+					'enableClientValidation'=>false,
+					'enableClientScript'=>false
+			]); 
+		?>
     <div class="search">
-        <label>
-            <span>User Name:</span>
-            <input type="text"></input>
-        </label>
-        <label>
-            <span>Role:</span>
-            <select>
-                <option>公司经理</option>
-            </select>
-        </label>
-        <label>
-            <span>Status:</span>
-            <select>
-                <option>All</option>
-            </select>
-        </label>
-        <span class="btn"><input type="button" value="SEARCH"></input></span>
-    </div>
+				<p>
+					<label>
+						<span>Country Name:</span>
+						<input type="text"></input>
+					</label>
+					<label>
+						<span>area Name:</span>
+						<input type="text"></input>
+					</label>
+					<label>
+						<span>Status:</span>
+						<select>
+							<option>All</option>
+						</select>
+					</label>
+				</p>
+				<p>
+					<label>
+						<span>Code(2 characters):</span>
+						<input type="text"></input>
+					</label>
+					<label>
+						<span>Code(3 characters):</span>
+						<input type="text"></input>
+					</label>
+					<span class="btn"><input type="button" value="SEARCH"></input></span>
+				</p>
+			</div>
+    <?php 
+		ActiveForm::end(); 
+		?>
     <div class="searchResult">
     <?php
 			$form = ActiveForm::begin([
@@ -51,9 +71,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <thead>
             <tr>
                 <th><input type="checkbox"></input></th>
-                <th>country_code</th>
-                <th>counry_short_code</th>
-                <th>counry_name</th>
+                <th>Country Name</th>
+                <th>Code(2 characters)</th>
+                <th>Code(3 characters)</th>
+                <th>area Name</th>
                 <th>Status</th>
                 <th>Operate</th>
             </tr>
@@ -62,9 +83,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <?php foreach($country_result as $key=>$row){?>
             <tr>
                 <td><input type="checkbox" name="ids[]" value="<?php echo $row['country_code'];?>"></input></td>
+                <td><?php echo $row['country_name'];?></td>
                 <td><?php echo $row['country_code'];?></td>
                 <td><?php echo $row['counry_short_code'];?></td>
-                <td><?php echo $row['country_name'];?></td>
+                <td><?php echo $row['area_name'];?></td>
                 <td><?php echo $row['status']?yii::t('vcos', 'Usable'):yii::t('vcos', 'Disabled');?></td>
                 <td class="op_btn">
                     <a href="<?php echo Url::toRoute(['country_edit','code'=>$row['country_code']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
@@ -131,9 +153,10 @@ window.onload = function(){
 	    	                $.each(data,function(key){
 	                        	str += "<tr>";
 	                            str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['country_code']+"'></input></td>";
+	                            str += "<td>"+data[key]['country_name']+"</td>";
 	                            str += "<td>"+data[key]['country_code']+"</td>";
 	                            str += "<td>"+data[key]['counry_short_code']+"</td>";
-	                            str += "<td>"+data[key]['country_name']+"</td>";
+	                            str += "<td>"+data[key]['area_name']+"</td>";
 	                            if(data[key]['status']==1)
 	                            	var status = "Usable";
 	                            else if(data[key]['status']==0)

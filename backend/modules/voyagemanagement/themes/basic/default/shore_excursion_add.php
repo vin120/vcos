@@ -41,22 +41,16 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 		<div>
 			<p>
 				<label>
-					<span class='max_l'>Shore Excursion Code:</span>
+					<span class='max_l'>Tour Code:</span>
 					<input type="text" id='code' name='code'></input>
 					
 				</label>
-				<label>
-					<span>Status:</span>
-					<select name="state" id="state">
-						<option value='1'>Usable</option>
-						<option value='0'>Disabled</option>
-					</select>
-				</label>
+				
 				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Shore Excursion Name:</span>
+					<span class='max_l'>Tour Name:</span>
 					<input type="text" id="name" name="name"></input>
 					
 				</label>
@@ -64,11 +58,20 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Shore Excursion Info:</span>
+					<span class='max_l'>Describe:</span>
 					<textarea id="desc" name="desc">
 					</textarea>
 				</label>
 				<span class='tips'></span>
+			</p>
+			<p>
+				<label>
+					<span class='max_l'>Status:</span>
+					<select name="state" id="state">
+						<option value='1'>Usable</option>
+						<option value='0'>Disabled</option>
+					</select>
+				</label>
 			</p>
 			<div class="btn">
 				<input type="submit" value="SAVE"></input>

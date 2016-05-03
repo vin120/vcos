@@ -52,13 +52,19 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 </li>
                 <!-- 二级 -->
                 <ul>
-                    <li class="active"><a href="<?php echo Url::toRoute(['cruise']);?>"><?= \Yii::t('app', 'Cruise') ?></a></li>
-                    <li><a href="<?php echo Url::toRoute(['country']);?>"><?= \Yii::t('app', 'Country') ?></a></li>
-                    <li><a href="<?php echo Url::toRoute(['port']);?>"><?= \Yii::t('app', 'Port') ?></a></li>
-                    <li><a href="<?php echo Url::toRoute(['cabin_type']);?>"><?= \Yii::t('app', 'Cabin Type') ?></a></li>
-                    <li><a href="<?php echo Url::toRoute(['shore_excursion']);?>"><?= \Yii::t('app', 'Shore Excursion') ?></a></li>
-                    <li><a href="<?php echo Url::toRoute(['voyage_set']);?>"><?= \Yii::t('app', 'Voyage Set') ?></a></li>
-
+                	<li class="active"><a href="<?php echo Url::toRoute(['area/area']);?>"><?= \Yii::t('app', 'Area') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['cruise/cruise']);?>"><?= \Yii::t('app', 'Cruise') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['default/country']);?>"><?= \Yii::t('app', 'Country') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['default/port']);?>"><?= \Yii::t('app', 'Port') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['default/cabin_type']);?>"><?= \Yii::t('app', 'Cabin Type') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['cabin/cabin']);?>"><?= \Yii::t('app', 'Cabin') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['active-config/active_config']);?>"><?= \Yii::t('app', 'Active Config') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['surcharge-config/surcharge_config']);?>"><?= \Yii::t('app', 'Surcharge Config') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['default/shore_excursion']);?>"><?= \Yii::t('app', 'Shore Excursion') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['voyage-set/index']);?>"><?= \Yii::t('app', 'Voyage Set') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['cabin-categorize/cabin_categorize']);?>"><?= \Yii::t('app', 'Cabin Categorize') ?></a></li>
+					<li><a href="<?php echo Url::toRoute(['cabin-pricing/cabin_pricing']);?>"><?= \Yii::t('app', 'Cabin Pricing') ?></a></li>
+					<li><a href="<?php echo Url::toRoute(['preferential-way/preferential_way']);?>"><?= \Yii::t('app', 'Preferential Way') ?></a></li>
                 </ul>
             </ul>
             <a href="#" id="closeAsideNav"><img src="<?=$baseUrl ?>images/asideNav_close.png"></a>

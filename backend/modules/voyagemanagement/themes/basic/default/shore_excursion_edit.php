@@ -21,7 +21,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['shore_excursion']);?>">Port</a>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['shore_excursion']);?>">Shore Excursion</a>&nbsp;&gt;&gt;&nbsp;
     <a href="#">Shore_excursion_edit</a></div>
     
     <div class="searchResult">
@@ -43,34 +43,37 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 			<input type="hidden" id="id" name="id" value="<?php echo $shore_excursion_result['id']?>" />
 			<p>
 				<label>
-					<span class='max_l'>Shore Excursion Code:</span>
+					<span class='max_l'>Tour Code:</span>
 					<input type="text" id='code' name='code' value="<?php echo $shore_excursion_result['se_code']?>"></input>
 					
 				</label>
-				<label>
-					<span>Status:</span>
-					<select name="state" id="state">
-						<option value='1' <?php echo $shore_excursion_result['status']==1?"selected='selected'":'';?>>Usable</option>
-						<option value='0' <?php echo $shore_excursion_result['status']==0?"selected='selected'":'';?>>Disabled</option>
-					</select>
-				</label>
+				
 				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Shore Excursion Name:</span>
+					<span class='max_l'>Tour Name:</span>
 					<input type="text" id="name" name="name" value="<?php echo $shore_excursion_result['se_name']?>"></input>
 				</label>
 				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Shore Excursion Info:</span>
+					<span class='max_l'>Describe:</span>
 					<textarea id="desc" name="desc">
 					<?php echo $shore_excursion_result['se_info']?>
 					</textarea>
 				</label>
 				<span class='tips'></span>
+			</p>
+			<p>
+				<label>
+					<span class='max_l'>Status:</span>
+					<select name="state" id="state">
+						<option value='1' <?php echo $shore_excursion_result['status']==1?"selected='selected'":'';?>>Usable</option>
+						<option value='0' <?php echo $shore_excursion_result['status']==0?"selected='selected'":'';?>>Disabled</option>
+					</select>
+				</label>
 			</p>
 			<div class="btn">
 				<input type="submit" value="SAVE"></input>
@@ -87,4 +90,3 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 </div>
 <!-- content end -->
 
-}

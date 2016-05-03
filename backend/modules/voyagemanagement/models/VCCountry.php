@@ -10,6 +10,7 @@ use Yii;
  * @property string $id
  * @property string $country_code
  * @property string $counry_short_code
+ * @property string $area_code
  * @property integer $status
  */
 class VCCountry extends \yii\db\ActiveRecord
@@ -29,7 +30,8 @@ class VCCountry extends \yii\db\ActiveRecord
     {
         return [
             [['status'], 'integer'],
-            [['country_code', 'counry_short_code'], 'string', 'max' => 12]
+            [['country_code', 'counry_short_code'], 'string', 'max' => 12],
+            [['area_code'], 'string', 'max' => 255]
         ];
     }
 
@@ -42,6 +44,7 @@ class VCCountry extends \yii\db\ActiveRecord
             'id' => 'ID',
             'country_code' => 'Country Code',
             'counry_short_code' => 'Counry Short Code',
+            'area_code' => 'Area Code',
             'status' => 'Status',
         ];
     }

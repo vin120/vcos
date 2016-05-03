@@ -11,6 +11,7 @@ use Yii;
  * @property string $voyage_code
  * @property string $voyage_name
  * @property string $voyage_desc
+ * @property string $i18n
  */
 class VCVoyageI18n extends \yii\db\ActiveRecord
 {
@@ -28,7 +29,8 @@ class VCVoyageI18n extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['voyage_code', 'voyage_name', 'voyage_desc'], 'string', 'max' => 255]
+            [['voyage_code', 'voyage_name', 'voyage_desc'], 'string', 'max' => 255],
+            [['i18n'], 'string', 'max' => 12]
         ];
     }
 
@@ -42,6 +44,7 @@ class VCVoyageI18n extends \yii\db\ActiveRecord
             'voyage_code' => 'Voyage Code',
             'voyage_name' => 'Voyage Name',
             'voyage_desc' => 'Voyage Desc',
+            'i18n' => 'I18n',
         ];
     }
 }

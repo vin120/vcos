@@ -14,6 +14,7 @@ class ThemeAsset extends AssetBundle
     public $sourcePath = '@app/modules/voyagemanagement/themes/basic/static';
     public $css = [
         'css/public.css',
+    	//'css/jedate.css',
 //        'css/style_test.css'
     ];
 
@@ -22,6 +23,6 @@ class ThemeAsset extends AssetBundle
     	'js/jquery.validate.min.js',
         'js/public.js',
     	'js/jqPaginator.js',
-    		
+    	//'js/jedate.js'
     ];
 }

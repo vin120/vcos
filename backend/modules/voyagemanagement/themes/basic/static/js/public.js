@@ -12,7 +12,8 @@ $(document).ready(function(){
 	    required: "Required fields",
 	    maxlength: $.validator.format("Please enter no more than {0} characters."), 
 	});
-
+	
+	
 	
 	//delete删除弹框
 	$(document).on('click',".delete",function(e) {
@@ -114,14 +115,7 @@ $(document).ready(function(){
 		   $("#promptBox").addClass('hide');
 	   })
 	
-	   
-	   
-	  
-
-	   
-	  
-	     
-	     
+	 
 	
 	//国家数据验证
 	$("#country_val").validate({
@@ -219,7 +213,8 @@ $(document).ready(function(){
         rules: {
             code:{required:true,isEnglish:true},
             desc:{required:true,isEnglish:true},
-            name:{required:true,isEnglish:true}
+            name:{required:true,isEnglish:true},
+            //photoimg:{required:true}
         },
         errorPlacement: function(error, element) { //错误信息位置设置方法
         	error.appendTo( element.parent().parent().find("span.tips") ); //这里的element是录入数据的对象
@@ -258,6 +253,11 @@ $(document).ready(function(){
        }
     });
 	
+	
+	$("#photoimg").on('change',function(){
+		var display = $("#img_back").css('display');
+		if(display == 'none'){$("#img_back").css('display','')}
+	});
 	
 	//cabin_type数据验证
 	$("#cabin_type_val").validate({
@@ -350,28 +350,62 @@ $(document).ready(function(){
 	
 	
 	
+	//voyage_set数据验证
+	$("#voyage_set_val").validate({
+        rules: {
+            code:{required:true,isEnglish:true},
+            desc:{required:true,isEnglish:true},
+            name:{required:true,isEnglish:true},
+        },
+        errorPlacement: function(error, element) { //错误信息位置设置方法
+        	error.appendTo( element.parent().parent().find("span.tips") ); //这里的element是录入数据的对象
+    	},
+    });
+	$("form#voyage_set_val").submit(function(){
+		
+		if($("input#s_time").val()==''){
+			$("input#s_time").parent().parent().find(".tips").html("Required fields");
+			return false;
+		}else{$("input#s_time").parent().parent().find(".tips").html("");}
+		if($("input#e_time").val()==''){
+			$("input#e_time").parent().parent().find(".tips").html("Required fields");
+			return false;
+		}else{
+			$("input#e_time").parent().parent().find(".tips").html("");
+		}
+	});
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//voyage_set添加编辑页面判断voyage_code是否唯一
+	$('form#voyage_set_val').submit(function(){
+        var a=1;
+        var op = $(this).attr('class');
+        var code = $("input#code").val();
+        var name = $("input#name").val();
+        var desc = $("textarea#desc").val();
+        if(code!='' && name!='' && desc!=''){
+        	
+        	var act = (op == 'voyage_set_edit')?1:2;
+        	if(op == "voyage_set_edit")
+        		var id = $("input#id").val();
+        	else 
+        		var id = '';
+        	
+        	 $.ajax({
+			        url:voyage_set_ajax_url,
+			        type:'get',
+			        data:'code='+code+'&act='+act+'&id='+id,
+			        async:false,
+			     	dataType:'json',
+			    	success:function(data){
+			    		if(data==0) a=0;
+			    		else{alert("Code can't repeat!");}
+			    	}      
+			    });
+        }
+       if(a == 1){
+           return false;
+       }
+    });
 	
 	
 	//表格全选反选功能
@@ -391,6 +425,15 @@ $(document).ready(function(){
 		$("form input#code_chara").val('');
 		$("form input#name").val('');
 		$("form textarea#desc").val('');
+		$("form input#detail_title").val('');
+		$("form textarea#detail_desc").val('');
+		$("form input#voyage_name").val('');
+		$("form input#voyage_num").val('');
+		$("form textarea#desc").val('');
+		$("form input#ticket_price").val('');
+		$("form input#ticket_taxes").val('');
+		$("form input#harbour_taxes").val('');
+		$("form input#deposit_ratio").val('');
 	});
 	
 	

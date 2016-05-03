@@ -14,6 +14,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 //$baseUrl = Yii::$app->assetManager->publish($assets);
 
 ?>
+<style type="text/css">
+	.write label span { width: 160px; }
+	.write select.input_select{ width: 165px; height: 26px; }
+</style>
 <script type="text/javascript">
 var ajax_url = "<?php echo Url::toRoute(['country_code_check']);?>";
 </script>
@@ -26,7 +30,7 @@ var ajax_url = "<?php echo Url::toRoute(['country_code_check']);?>";
     
     <div class="searchResult">
         
-        <div id="service_write" class="pop-ups write max_write">
+        <div id="service_write" class="write">
 
 		<?php
 			$form = ActiveForm::begin([
@@ -39,43 +43,45 @@ var ajax_url = "<?php echo Url::toRoute(['country_code_check']);?>";
 			]); 
 		?>
 		
+		
+		
 		<div>
-			<input type="hidden" id="id" name="id" value="<?php echo $country_result['id']?>" />
+		<input type="hidden" id="id" name="id" value="<?php echo $country_result['id']?>" />
 			<p>
-				<label>
-					<span class='max_l'>Country Code:</span>
-					<input type="text" id='code' name='code' value="<?php echo $country_result['country_code']?>"></input>
-					
-				</label>
-				<label>
-					<span>Status:</span>
-					<select name="state" id="state">
-						<option value='1' <?php echo $country_result['status']==1?"selected='selected'":'';?>>Usable</option>
-						<option value='0' <?php echo $country_result['status']==0?"selected='selected'":'';?>>Disabled</option>
-					</select>
-				</label>
-				<span class='tips'></span>
+			<label>
+				<span>Country Name:</span>
+				<input type="text" id="name" name="name" value="<?php echo $country_result['country_name']?>"></input>
+			</label>
+			<label>
+				<span>area Name:</span>
+				<select class="input_select" id="area_code" name="area_code">
+					<?php foreach ($area_result as $row){?>
+					<option <?php echo $row['area_code']==$country_result['area_code']?"selected='selected'":''; ?> value="<?php echo $row['area_code']?>"><?php echo $row['area_name']?></option>
+					<?php }?>
+				</select>
+			</label>
+			<label>
+				<span>Status:</span>
+				<select name="state" id="state">
+					<option value='1' <?php echo $country_result['status']==1?"selected='selected'":'';?>>Usable</option>
+					<option value='0' <?php echo $country_result['status']==0?"selected='selected'":'';?>>Disabled</option>
+				</select>
+			</label>
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Country Code(3 character):</span>
+					<span>Code(2 characters):</span>
+					<input type="text"  id='code' name='code' value="<?php echo $country_result['country_code']?>"></input>
+				</label>
+				<label>
+					<span>Code(3 characters):</span>
 					<input type="text" id="code_chara" name="code_chara" value="<?php echo $country_result['counry_short_code']?>"></input>
-					
 				</label>
-				<span class='tips'></span>
 			</p>
-			<p>
-				<label>
-					<span class='max_l'>Country Name:</span>
-					<input type="text" id="name" name="name" value="<?php echo $country_result['country_name']?>"></input>
-					
-				</label>
-				<span class='tips'></span>
-			</p>
-			<div class="btn">
-				<input type="submit" value="SAVE"></input>
-				<input class='cancle' type="button" value="CANCLE"></input>
-			</div>
+		</div>
+		<div class="btn">
+			<input type="submit" value="SAVE"></input>
+			<input class='cancle' type="button" value="CANCLE"></input>
 		</div>
 		<?php 
 		ActiveForm::end(); 
@@ -87,4 +93,4 @@ var ajax_url = "<?php echo Url::toRoute(['country_code_check']);?>";
 </div>
 <!-- content end -->
 
-}
+

@@ -21,7 +21,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['cabin_type']);?>">Port</a>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['cabin_type']);?>">Cabin Type</a>&nbsp;&gt;&gt;&nbsp;
     <a href="#">Cabin_type_edit</a></div>
     
     <div class="searchResult">
@@ -98,4 +98,4 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 </div>
 <!-- content end -->
 
-}
+

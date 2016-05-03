@@ -47,13 +47,6 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 					<input type="text" id='code' name='code' value="<?php echo $port_result['port_code']?>"></input>
 					
 				</label>
-				<label>
-					<span>Status:</span>
-					<select name="state" id="state">
-						<option value='1' <?php echo $port_result['status']==1?"selected='selected'":'';?>>Usable</option>
-						<option value='0' <?php echo $port_result['status']==0?"selected='selected'":'';?>>Disabled</option>
-					</select>
-				</label>
 				<span class='tips'></span>
 			</p>
 			<p>
@@ -83,6 +76,16 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 				</label>
 				<span class='tips'></span>
 			</p>
+			<p>
+				<label>
+					<span class='max_l'>Status:</span>
+					<select name="state" id="state">
+						<option value='1' <?php echo $port_result['status']==1?"selected='selected'":'';?>>Usable</option>
+						<option value='0' <?php echo $port_result['status']==0?"selected='selected'":'';?>>Disabled</option>
+					</select>
+				</label>
+				
+			</p>
 			<div class="btn">
 				<input type="submit" value="SAVE"></input>
 				<input class='cancle' type="button" value="CANCLE"></input>
@@ -97,5 +100,3 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
     </div>
 </div>
 <!-- content end -->
-
-}

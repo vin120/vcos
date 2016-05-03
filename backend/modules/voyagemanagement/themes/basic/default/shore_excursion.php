@@ -19,25 +19,33 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Shore Excursion</a></div>
+    <?php
+			$form = ActiveForm::begin([
+					'method'=>'post',
+					'enableClientValidation'=>false,
+					'enableClientScript'=>false
+			]); 
+		?>
     <div class="search">
         <label>
-            <span>User Name:</span>
-            <input type="text"></input>
-        </label>
-        <label>
-            <span>Role:</span>
-            <select>
-                <option>公司经理</option>
-            </select>
-        </label>
-        <label>
-            <span>Status:</span>
-            <select>
-                <option>All</option>
-            </select>
-        </label>
-        <span class="btn"><input type="button" value="SEARCH"></input></span>
+			<span>Tour Code:</span>
+			<input type="text"></input>
+		</label>
+		<label>
+			<span>Tour Name:</span>
+			<input type="text"></input>
+		</label>
+		<label>
+			<span>Status:</span>
+			<select>
+				<option>All</option>
+			</select>
+		</label>
+		<span class="btn"><input type="button" value="SEARCH"></input></span>
     </div>
+    <?php 
+		ActiveForm::end(); 
+		?>
     <div class="searchResult">
     <?php
 			$form = ActiveForm::begin([
@@ -51,9 +59,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <thead>
             <tr>
                 <th><input type="checkbox"></input></th>
-                <th>se_code</th>
-                <th>se_name</th>
-                <th>se_info</th>
+                <th>No.</th>
+                <th>Tour Code</th>
+                <th>Tour Name</th>
+                <th>Describe</th>
                 <th>Status</th>
                 <th>Operate</th>
             </tr>
@@ -62,6 +71,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <?php foreach($shore_excursion_result as $key=>$row){?>
             <tr>
                 <td><input type="checkbox" name="ids[]" value="<?php echo $row['se_code'];?>"></input></td>
+                <td><?php echo ($key+1);?></td>
                 <td><?php echo $row['se_code'];?></td>
                 <td><?php echo $row['se_name'];?></td>
                 <td><?php echo $row['se_info'];?></td>
@@ -131,6 +141,7 @@ window.onload = function(){
 	    	                $.each(data,function(key){
 	                        	str += "<tr>";
 	                            str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['se_code']+"'></input></td>";
+	                            str += "<td>"+(key+1)+"</td>";
 	                            str += "<td>"+data[key]['se_code']+"</td>";
 	                            str += "<td>"+data[key]['se_name']+"</td>";
 	                            str += "<td>"+data[key]['se_info']+"</td>";

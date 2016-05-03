@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "v_c_voyage".
  *
  * @property string $id
- * @property integer $cruise_id
+ * @property string $cruise_code
  * @property string $voyage_code
  * @property string $start_time
  * @property string $end_time
@@ -30,9 +30,9 @@ class VCVoyage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cruise_id', 'status'], 'integer'],
             [['start_time', 'end_time'], 'safe'],
-            [['voyage_code'], 'string', 'max' => 255]
+            [['status'], 'integer'],
+            [['cruise_code', 'voyage_code'], 'string', 'max' => 255]
         ];
     }
 
@@ -43,7 +43,7 @@ class VCVoyage extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'cruise_id' => 'Cruise ID',
+            'cruise_code' => 'Cruise Code',
             'voyage_code' => 'Voyage Code',
             'start_time' => 'Start Time',
             'end_time' => 'End Time',

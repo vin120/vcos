@@ -64,18 +64,32 @@ td.op_btn  a:first-child {margin-right:5px;}
 .content > div { padding: 1em; }
 .content > div+div { border-top: 1px solid #e0e9f4; }
 
+.content form > div { padding: 1em; }
+.content form > .search { border-top: 1px solid #e0e9f4;border-bottom: 1px solid #e0e9f4; }
+
 .topNav { background: #f7fbff; font-size: 16px; color: #585858; }
-.topNav a { color: #3f7fcf; text-decoration: none; }
+.topNav a { color: #3f7fcf !important; text-decoration: none; }
 .topNav a:hover { text-decoration: underline; }
 
+.search p label { margin-right: 50px; }
 .search label { margin-right: 50px; }
 
+.search p label span { display: inline-block; width: 130px; text-align: right; }
+.search p .btn { display: inline-block; width: 160px; text-align: right; }
+	
+
 .btn { text-align: center; }
-.btn input { width: 90px; height: 28px; color: #fff; border: none; }
+/*.btn input { width: 90px; height: 28px; color: #fff; border: none; }*/
 .btn input:first-child { background-color: #3f7fcf; text-decoration:none;}
 .btn a{text-decoration:none;}
 .btn a input:first-child { background-color: #3f7fcf;}
 .btn input:last-child { background-color: #ffb752; }
+
+.btn input { padding: 10px; color: #fff; border: none; }
+
+.btn1,.btn2 { padding: 6px; color: #fff; border: none; }
+.btn1 { background-color: #3f7fcf; }
+.btn2 { background-color: #ffb752; }
 
 
 .pageNum { margin-top: 1em; text-align: center; }
@@ -101,17 +115,29 @@ td.op_btn  a:first-child {margin-right:5px;}
 .pop-ups h3 { padding: 16px; margin: 0; background: #3f7fcf; text-align: center; color: #fff; }
 .pop-ups h3 a { display: inline-block; width: 28px; height: 28px; margin-top: -4px; background: url(img/lg_close.png) no-repeat; }
 
-/*pop-ups write*/
-.write { width: 500px; }
+/*
+ write*/
+/*.write { width: 500px; }
 .max_write{width:625px; }
-.write  div { padding: 1em; }
-.write  div > p{min-height:50px; position:relative;}
+.write  div { padding: 1em; }*/
+/*.write  div > p{min-height:50px; position:relative;}*/
 .write label span { display: inline-block; width: 100px; text-align: right; }
 .write label span.max_l{width:200px;}
 .write  div > p > span.tips{height:10px;display:block;margin-left:205px;}
-.write input[type='text'] { width: 160px; height: 20px; }
+.write input[type='text'] { width: 160px; height: 20px ; }
+.date_write input[type='text'] { width: 160px; height: 25px !important ; }
 .write select { width: 80px; height: 26px; }
 .write textarea { width: 346px; height: 80px; vertical-align: top;resize:none; }
+/**图片上传按钮**/
+.write .btn_img{position: relative;overflow: hidden;margin-right: 4px;display:inline-block;*display:inline;padding:4px 10px 4px;font-size:14px;line-height:18px;*line-height:20px;color:#fff;text-align:center;vertical-align:middle;cursor:pointer;background-color:#5bb75b;border:1px solid #cccccc;border-color:#e6e6e6 #e6e6e6 #bfbfbf;border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+.write .btn_img input {position: absolute;top: 0; right: 0;margin: 0;border: solid transparent;opacity: 0;filter:alpha(opacity=0); cursor: pointer;}
+
+.write label span.btn_img{width:60px;}
+.write label span.btn_img > span{width:60px;}
+
+.write  div { padding: 20px; }
+.write  div:not(.btn) { border: 1px solid #e0e9f4; }
+.write input[type='text'], .write input[type='password']{ width: 160px; height: 20px; }
 
 
 /*laguage box*/
@@ -149,8 +175,6 @@ td.op_btn  a:first-child {margin-right:5px;}
 
 .pop-ups > span.op {cursor:pointer;position:inherit;top:20px;right:20px;display: inline-block; width: 28px; height: 28px; margin-top: -4px; background: url(img/lg_close.png) no-repeat; }
 .cancel_but{margin-left:10px;}
-
-
 
 
 

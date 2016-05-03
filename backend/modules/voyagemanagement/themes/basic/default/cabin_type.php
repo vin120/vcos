@@ -19,25 +19,35 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Cabin Type</a></div>
+    <?php
+			$form = ActiveForm::begin([
+					'method'=>'post',
+					'enableClientValidation'=>false,
+					'enableClientScript'=>false
+			]); 
+		?>
     <div class="search">
-        <label>
-            <span>User Name:</span>
+    	<label>
+            <span>Cabin Type Code:</span>
             <input type="text"></input>
         </label>
         <label>
-            <span>Role:</span>
-            <select>
-                <option>公司经理</option>
-            </select>
+            <span>Cabin Type Name:</span>
+            <input type="text"></input>
         </label>
         <label>
             <span>Status:</span>
             <select>
                 <option>All</option>
+                <option>Usable</option>
+                <option>Disabled</option>
             </select>
         </label>
         <span class="btn"><input type="button" value="SEARCH"></input></span>
     </div>
+      <?php 
+		ActiveForm::end(); 
+		?>
     <div class="searchResult">
     <?php
 			$form = ActiveForm::begin([
