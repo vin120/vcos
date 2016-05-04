@@ -20,42 +20,43 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <div class="r content" id="user_content">
     <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Cruise</a></div>
     <?php
-		$form = ActiveForm::begin([
-			'method'=>'post',
-			'enableClientValidation'=>false,
-			'enableClientScript'=>false
-		]); 
-	?>
+			$form = ActiveForm::begin([
+					'method'=>'get',
+					'enableClientValidation'=>false,
+					'enableClientScript'=>false
+			]); 
+		?>
     <div class="search" >
     	<label>
             <span>Cruise Code:</span>
-            <input type="text" name="w_code" id="w_code"></input>
+            <input type="text" name="w_code" id="w_code" value="<?php echo $w_code;?>"></input>
         </label>
         <label>
             <span>Cruise Name:</span>
-            <input type="text"></input>
+            <input type="text" name="w_name" id="w_name" value="<?php echo $w_name;?>"></input>
         </label>
         <label>
             <span>Status:</span>
-            <select>
-                <option>All</option>
-                <option>Usable</option>
-                <option>Disabled</option>
+            <select id="w_state" name="w_state">
+                <option value="2" <?php echo $w_state==2?"selected='selected'":'';?>>All</option>
+                <option value="1" <?php echo $w_state==1?"selected='selected'":'';?>>Usable</option>
+                <option value="0" <?php echo $w_state==0?"selected='selected'":'';?>>Disabled</option>
             </select>
         </label>
-        <span class="btn"><input type="submit" name="where_submit" value="SEARCH"></input></span>
+        <span class="btn"><input type="submit" name="w_submit" value="SEARCH"></input></span>
     </div>
     <?php 
 		ActiveForm::end(); 
-	?>
+		?>
     <div class="searchResult">
     <?php
-		$form = ActiveForm::begin([
-			'method'=>'post',
-			'enableClientValidation'=>false,
-			'enableClientScript'=>false
-		]); 
-	?>	
+			$form = ActiveForm::begin([
+					'method'=>'post',
+					'id'=>'cruise_from',
+					'enableClientValidation'=>false,
+					'enableClientScript'=>false
+			]); 
+		?>
         <table id="cruise_table">
         <input type="hidden" id="cruise_page" value="<?php echo $cruise_pag;?>" />
             <thead>
@@ -81,7 +82,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><?php echo $row['deck_number'];?></td>
                 <td><?php echo $row['cruise_desc'];?></td>
                 <td><img style="width:50px;height:50px;" src="<?php echo $baseUrl.'upload/'.$row['cruise_img'];?>" /></td>
-                <td><?php echo $row['status']?yii::t('vcos', 'Usable'):yii::t('vcos', 'Disabled');?></td>
+                <td><?php echo $row['status']?yii::t('app', 'Usable'):yii::t('app', 'Disabled');?></td>
                 <td class="op_btn">
                     <a href="<?php echo Url::toRoute(['cruise_edit','code'=>$row['cruise_code']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
                     <a class="delete" id="<?php echo $row['cruise_code'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
@@ -134,11 +135,17 @@ window.onload = function(){
 		    onPageChange: function (num, type) {
 		    	var this_page = $("input#cruise_page").val();
 		    	if(this_page==num){$("input#cruise_page").val('fail');return false;}
+
+		    	var w_code = "<?php echo $w_code;?>";
+		    	var w_name = "<?php echo $w_name;?>";
+		    	var w_state = "<?php echo $w_state;?>";
+
+		    	var where_data = "&w_code="+w_code+"&w_name="+w_name+"&w_state="+w_state; 
 		    	
 		    	$.ajax({
 	                url:"<?php echo Url::toRoute(['get_cruise_page']);?>",
 	                type:'get',
-	                data:'pag='+num,
+	                data:'pag='+num+where_data,
 	             	dataType:'json',
 	            	success:function(data){
 	                	var str = '';
@@ -182,13 +189,13 @@ window.onload = function(){
 
  //delete删除确定but
    $(document).on('click',"#promptBox > .btn .confirm_but_more",function(){
-	   $("form:first").submit();
+	   $("form#cruise_from").submit();
    });
 
 }
 
 function check_cruise_num(){
-	<?php if($cruise_count>0){?>
+	<?php if($cruise_count>10){?>
 	alert('Cruise ships can only be the only one!');
 	return false;
 	<?php }?>

@@ -1,6 +1,7 @@
 <?php
 $this->title = 'Voyage Management';
 
+
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAsset;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -23,12 +24,12 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['cruise']);?>">Country</a>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['cruise']);?>">Cruise</a>&nbsp;&gt;&gt;&nbsp;
     <a href="#">Cruise_add</a></div>
     
     <div class="searchResult">
         
-        <div id="service_write" class="pop-ups write max_write">
+        <div id="service_write" class="write">
 
 		<?php
 			$form = ActiveForm::begin([
@@ -44,7 +45,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'>Cruise Code:</span>
-					<input type="text" id='code' name='code'></input>
+					<input type="text" required id='code' name='code'></input>
 					
 				</label>
 				
@@ -53,7 +54,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'>Cruise Name:</span>
-					<input type="text" id="name" name="name"></input>
+					<input type="text" required id="name" name="name"></input>
 					
 				</label>
 				<span class='tips'></span>
@@ -61,7 +62,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'>Deck Number:</span>
-					<input type="text" id='number' name='number'></input>
+					<input type="text" required id='number' name='number'  required ></input>
 					
 				</label>
 				
@@ -84,7 +85,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p style="clear: both">
 				<label>
 					<span class='max_l'>Cruise Desc:</span>
-					<textarea id='desc' name='desc' value="">
+					<textarea id='desc' name='desc'>
 					</textarea>
 				</label>
 				<span class='tips'></span>
@@ -98,11 +99,12 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 					</select>
 				</label>
 			</p>
-			<div class="btn">
+			
+		</div>
+		<div class="btn">
 				<input type="submit" value="SAVE"></input>
 				<input class="cancle" type="button" value="CANCLE"></input>
 			</div>
-		</div>
 		<?php 
 		ActiveForm::end(); 
 		?>

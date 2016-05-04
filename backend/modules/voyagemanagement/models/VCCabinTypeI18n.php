@@ -10,7 +10,7 @@ use Yii;
  * @property string $id
  * @property string $type_code
  * @property string $type_name
- * @property string $type_desc
+ * @property string $floor
  * @property string $i18n
  */
 class VCCabinTypeI18n extends \yii\db\ActiveRecord
@@ -29,7 +29,7 @@ class VCCabinTypeI18n extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type_code', 'type_name', 'type_desc'], 'string', 'max' => 255],
+            [['type_code', 'type_name', 'floor'], 'string', 'max' => 255],
             [['i18n'], 'string', 'max' => 12]
         ];
     }
@@ -43,7 +43,7 @@ class VCCabinTypeI18n extends \yii\db\ActiveRecord
             'id' => 'ID',
             'type_code' => 'Type Code',
             'type_name' => 'Type Name',
-            'type_desc' => 'Type Desc',
+            'floor' => 'Floor',
             'i18n' => 'I18n',
         ];
     }

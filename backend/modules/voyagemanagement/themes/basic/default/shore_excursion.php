@@ -50,6 +50,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
     <?php
 			$form = ActiveForm::begin([
 					'method'=>'post',
+					'id'=>'shore_excursion_from',
 					'enableClientValidation'=>false,
 					'enableClientScript'=>false
 			]); 
@@ -174,7 +175,7 @@ window.onload = function(){
 
  //delete删除确定but
    $(document).on('click',"#promptBox > .btn .confirm_but_more",function(){
-	   $("form:first").submit();
+	   $("form#shore_excursion_from").submit();
    });
 
 

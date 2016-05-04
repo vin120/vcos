@@ -26,7 +26,7 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
     
     <div class="searchResult">
         
-        <div id="service_write" class="pop-ups write max_write">
+        <div id="service_write" class="write">
 
 		<?php
 			$form = ActiveForm::begin([
@@ -86,11 +86,12 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 				</label>
 				
 			</p>
-			<div class="btn">
+			
+		</div>
+		<div class="btn">
 				<input type="submit" value="SAVE"></input>
 				<input class='cancle' type="button" value="CANCLE"></input>
 			</div>
-		</div>
 		<?php 
 		ActiveForm::end(); 
 		?>

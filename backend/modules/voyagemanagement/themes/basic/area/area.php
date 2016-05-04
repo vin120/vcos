@@ -22,11 +22,12 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
     
     <div class="searchResult">
     <?php
-		$form = ActiveForm::begin([
-			'method'=>'post',
-			'enableClientValidation'=>false,
-			'enableClientScript'=>false
-		]); 
+			$form = ActiveForm::begin([
+					'method'=>'post',
+					'id'=>'area_from',
+					'enableClientValidation'=>false,
+					'enableClientScript'=>false
+			]); 
 		?>
         <table id="area_table">
         <input type="hidden" id="area_page" value="<?php echo $area_pag;?>" />
@@ -138,7 +139,7 @@ window.onload = function(){
 
  //delete删除确定but
    $(document).on('click',"#promptBox > .btn .confirm_but_more",function(){
-	   $("form:first").submit();
+	   $("form#area_from").submit();
    });
 
 

@@ -19,9 +19,9 @@ class Helper extends Controller
 		// 允许上传的文件类型数组
 		$allow_type=array(
 				'image'=>array(
-					'jpg'=>'image/jpeg',
-					'png'=>'image/png',
-					'gif'=>'image/gif',
+						'jpg'=>'image/jpeg',
+						'png'=>'image/png',
+						'gif'=>'image/gif',
 				),
 				'pdf'=>array(
 					'pdf'=>'application/pdf',
@@ -65,8 +65,8 @@ class Helper extends Controller
 	
 		if($error){
 			return array(
-				'error'=>1,
-				'warning'=>$error,
+					'error'=>1,
+					'warning'=>$error,
 			);
 		}
 	
@@ -75,8 +75,8 @@ class Helper extends Controller
 		// 保存上传文件到本地目录
 		if( move_uploaded_file($file['tmp_name'], $file_path."/".$filename) ){
 			return array(
-				'error'=>0,
-				'filename'=>$filename,
+					'error'=>0,
+					'filename'=>$filename,
 			);
 		}
 	}
@@ -92,5 +92,40 @@ class Helper extends Controller
 			echo "<script>alert('{$info}');history.back();</script>";
 		}
 	}
-
+	
+	
+	/**确认框,确定和取消跳转不同(1次弹出框)**/
+	public static function show_message_query($info, $url='',$url_f=''){
+		header('Content-Type:text/html;charset=utf-8');
+		/*
+		 if($url && $url !='#'){
+			echo "<script>alert('{$info}');location='{$url}';</script>";
+			}else if($url == '#'){
+			echo "<script>alert('{$info}');</script>";
+			}else{
+			echo "<script>alert('{$info}');history.back();</script>";
+			}*/
+		echo "<script>var r = confirm('{$info}');
+		if(r == true){
+		location='{$url}';
+		}else{
+		location='{$url_f}';
+		}
+		</script>";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

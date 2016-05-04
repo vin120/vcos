@@ -12,6 +12,7 @@ class CruiseController extends Controller
 {
 	//cruise
 	public function actionCruise(){
+		
 		if(isset($_GET['code'])){
 			$code = isset($_GET['code'])?$_GET['code']:'';
 			$sql = "DELETE FROM `v_cruise` WHERE cruise_code = '{$code}'";
@@ -24,8 +25,7 @@ class CruiseController extends Controller
 				Helper::show_message('Delete failed ');
 			}
 		}
-		if(isset($_POST['ids'])){
-			
+		if($_POST){
 			$ids = implode('\',\'', $_POST['ids']);
 			$sql = "DELETE FROM `v_cruise` WHERE cruise_code in ('$ids')";
 			$count = Yii::$app->db->createCommand($sql)->execute();
@@ -37,15 +37,39 @@ class CruiseController extends Controller
 				Helper::show_message('Delete failed ');
 			}
 		}
+		//筛选
+		$where = '';
+		$w_code = '';
+		$w_name = '';
+		$w_state = 2;
+		if(isset($_GET['w_submit'])){
+			$w_code = isset($_GET['w_code'])?$_GET['w_code']:'';
+			$w_name = isset($_GET['w_name'])?$_GET['w_name']:'';
+			$w_state = isset($_GET['w_state'])?$_GET['w_state']:2;
+			
+			if($w_code!=''){
+				$where .= "a.cruise_code='{$w_code}' AND ";
+			}
+			if($w_name!=''){
+				$where .= "b.cruise_name='{$w_name}' AND ";
+			}
+			if($w_state!=2){
+				$where .= "a.status=".$w_state." AND ";
+			}
+			$where = trim($where,'AND ');
+		}
+		
+		if($where==''){$where=1;}
+		
 		/*
 		 if(isset($_POST['where_submit'])){
 		 var_dump($_POST);var_dump('bbbbbbbbbb');exit;
 		 }*/
-			
-		$count = VCruise::find()->count();
-		$sql = "SELECT a.*,b.cruise_name,b.cruise_desc,b.cruise_img,b.i18n FROM `v_cruise` a LEFT JOIN `v_cruise_i18n` b ON a.cruise_code=b.cruise_code WHERE b.i18n='en' limit 2";
+		$sql = "SELECT count(*) count FROM `v_cruise` a LEFT JOIN `v_cruise_i18n` b ON a.cruise_code=b.cruise_code WHERE b.i18n='en' AND ".$where;
+		$count = Yii::$app->db->createCommand($sql)->queryOne();
+		$sql = "SELECT a.*,b.cruise_name,b.cruise_desc,b.cruise_img,b.i18n FROM `v_cruise` a LEFT JOIN `v_cruise_i18n` b ON a.cruise_code=b.cruise_code WHERE b.i18n='en' AND ".$where." limit 2";
 		$result = Yii::$app->db->createCommand($sql)->queryAll();
-		return $this->render("cruise",['cruise_result'=>$result,'cruise_count'=>$count,'cruise_pag'=>1]);
+		return $this->render("cruise",['w_code'=>$w_code,'w_name'=>$w_name,'w_state'=>$w_state,'cruise_result'=>$result,'cruise_count'=>$count['count'],'cruise_pag'=>1]);
 		 
 	}
 	
@@ -103,16 +127,18 @@ class CruiseController extends Controller
 			$desc = isset($_POST['desc'])?addslashes(trim($_POST['desc'])):'';
 			$number = isset($_POST['number'])?$_POST['number']:0;
 			$photo = '';
+			$photo_data = '';
 			if($_FILES['photoimg']['error']!=4){
 				$result=Helper::upload_file('photoimg', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'image', 3);
-				$photo=date('Ym',time()).'/'.$result['filename'];
+				$photo_data=$result['filename'];
 			}
+			$photo = date('Ym',time()).'/'.$photo_data;
 			//事务处理
 			$transaction=$db->beginTransaction();
 			try{
 				$sql = "UPDATE `v_cruise` set cruise_code='$code',deck_number='$number',status='$state' WHERE cruise_code='$old_code'";
 				Yii::$app->db->createCommand($sql)->execute();
-				if($photo!=''){
+				if($photo_data!=''){
 					$sql = "UPDATE `v_cruise_i18n` set cruise_code='$code',cruise_name='{$name}',cruise_desc='{$desc}',cruise_img='{$photo}',i18n='en' WHERE cruise_code='$old_code'";
 				}else{
 					$sql = "UPDATE `v_cruise_i18n` set cruise_code='$code',cruise_name='{$name}',cruise_desc='{$desc}',i18n='en' WHERE cruise_code='$old_code'";
@@ -159,7 +185,23 @@ class CruiseController extends Controller
 	//邮轮分页
 	public function actionGet_cruise_page(){
 		$pag = isset($_GET['pag'])?$_GET['pag']==1?0:($_GET['pag']-1)*2:0;
-		$sql = "SELECT a.*,b.cruise_name,b.cruise_desc,b.cruise_img,b.i18n FROM `v_cruise` a LEFT JOIN `v_cruise_i18n` b ON a.cruise_code=b.cruise_code WHERE b.i18n='en' limit $pag,2";
+		$w_code = isset($_GET['w_code'])?$_GET['w_code']:'';
+		$w_name = isset($_GET['w_name'])?$_GET['w_name']:'';
+		$w_state = isset($_GET['w_state'])?$_GET['w_state']:2;
+		$where = '';
+		if($w_code!=''){
+			$where .= "a.cruise_code='{$w_code}' AND ";
+		}
+		if($w_name!=''){
+			$where .= "b.cruise_name='{$w_name}' AND ";
+		}
+		if($w_state!=2){
+			$where .= "a.status=".$w_state." AND ";
+		}
+		$where = trim($where,'AND ');
+		if($where==''){$where = 1;}
+		
+		$sql = "SELECT a.*,b.cruise_name,b.cruise_desc,b.cruise_img,b.i18n FROM `v_cruise` a LEFT JOIN `v_cruise_i18n` b ON a.cruise_code=b.cruise_code WHERE b.i18n='en' AND ".$where." limit $pag,2";
 		$result = Yii::$app->db->createCommand($sql)->queryAll();
 		if($result){
 			echo json_encode($result);

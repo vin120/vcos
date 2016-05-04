@@ -26,7 +26,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
     
     <div class="searchResult">
         
-        <div id="service_write" class="pop-ups write max_write">
+        <div id="service_write" class="write">
 
 		<?php
 			$form = ActiveForm::begin([
@@ -73,11 +73,12 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 					</select>
 				</label>
 			</p>
-			<div class="btn">
+			
+		</div>
+		<div class="btn">
 				<input type="submit" value="SAVE"></input>
 				<input class="cancle" type="button" value="CANCLE"></input>
 			</div>
-		</div>
 		<?php 
 		ActiveForm::end(); 
 		?>

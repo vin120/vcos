@@ -24,5 +24,6 @@ class ThemeAsset extends AssetBundle
         'js/public.js',
     	'js/jqPaginator.js',
     	//'js/jedate.js'
+    		
     ];
 }

@@ -115,7 +115,14 @@ $(document).ready(function(){
 		   $("#promptBox").addClass('hide');
 	   })
 	
-	 
+	   
+	   
+	  
+
+	   
+	  
+	     
+	     
 	
 	//国家数据验证
 	$("#country_val").validate({
@@ -406,6 +413,371 @@ $(document).ready(function(){
            return false;
        }
     });
+	
+	
+	
+	
+	
+	//船舱定价弹出框
+	$(document).on('click',".btn > input#cabin_pricing_add_but,.op_btn >.cabin_pricing_edit",function(){
+		
+		//判断用户点击按钮是添加操作还是编辑操作
+		var act = $(this).attr('value');
+		
+		//定义以下程序所用变量
+		var data_total = '';
+		var pricing_data = '';
+		if(act == 'edit'){
+			var id = $(this).attr('id');
+			
+			//获取编辑记录数据
+			$.ajax({
+		        url:get_cabin_pricing_data_ajax_url,
+		        type:'get',
+		        data:'id='+id,
+		        async:false,
+		     	dataType:'json',
+		    	success:function(data){
+		    		pricing_data = data;
+		    	}      
+		    });
+			
+		}
+		//获取船舱类型
+		$.ajax({
+	        url:get_cabin_type_ajax_url,
+	        type:'get',
+	        async:false,
+	     	dataType:'json',
+	    	success:function(data){
+	    		data_total = data;
+	    	}      
+	    });
+		
+		 $voyage = $("select#cabin_pricing_vayage").val();
+		 $(".ui-widget-overlay").remove();
+		 $("#promptBox").remove();
+		 var str = "<div class='ui-widget-overlay ui-front'></div>";
+		 var str_con = '<div id="promptBox" class="pop-ups write ui-dialog" style="width:450px;" >';
+			str_con += '<h3>Cabin Pricing</h3>';
+			str_con += '<span class="op"><a class="close r"></a></span>';
+			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">Cabin Type Name:</span>';
+			
+			str_con += '<select style="width:126px" id="cabin_type_id" name="cabin_type_id">';
+			if(data_total!=0){
+				$.each(data_total,function(key){
+					var type_id = act == 'edit'?(data_total[key]['id']==pricing_data['cabin_type_id']?"selected='selected'":''):'';
+					str_con += '<option '+type_id+' value="'+data_total[key]['id']+'">'+data_total[key]['type_name']+'</option>';
+				});
+			}
+			str_con += '</select></label></p>';
+			
+			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">Check Num:</span>';
+			
+			str_con += '<select style="width:126px" id="check_num" name="check_num">';
+			for(var i=1;i<5;i++){
+				var check_num = act == 'edit'?(i==pricing_data['check_num']?"selected='selected'":''):'';
+				str_con += '<option '+check_num+' value="'+i+'">'+i+'</option>';
+			}
+			str_con += '</select></label></p>';
+			
+			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">Bed Price:</span>';
+			var bed_price = act=='edit'?pricing_data['bed_price']:'';
+			str_con += '<input style="width:120px" type="text" value="'+bed_price+'" id="bed_price" name="bed_price" /></label></p>';
+			
+			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">2th-Bed Sates(%):</span>';
+			var t_2_sates = act=='edit'?pricing_data['2_empty_bed_preferential']:'';
+			str_con += '<input style="width:120px" type="text" value="'+t_2_sates+'" id="t_2_sates" name="t_2_sates" /></label></p>';
+			
+			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">3/4th-Bed Sates(%):</span>';
+			var t_3_sates = act=='edit'?(pricing_data['3_4_empty_bed_preferential']==0?'':pricing_data['3_4_empty_bed_preferential']):'';
+			str_con += '<input style="width:120px" type="text" value="'+t_3_sates+'" disabled="disabled" id="t_3_sates" name="t_3_sates" /></label></p>';
+			
+			str_con += '<p class="btn">';
+			var sub_id = act=='edit'?id:0;
+			str_con += '<input type="button" id="'+sub_id+'" class="cabin_pricing_confirm_but" value="submit"></input>';
+			str_con += '<input type="button" style="margin-left:10px;" class="cancel_but" value="cancel"></input>';
+			str_con += '</p></div>';
+			
+		 //$("#promptBox").before(str); 
+		 $(document.body).append(str);
+		 $(document.body).append(str_con);
+		 //$("#promptBox").removeClass('hide');
+		 $(".btn > .cabin_pricing_confirm_but").attr('voyage_code',$voyage);
+	 }); 
+	
+	
+	//船舱定价弹出框提交按钮
+	$(document).on('click',"#promptBox > .btn .cabin_pricing_confirm_but",function(){
+		
+		
+		var cabin_type_id = $("select[name='cabin_type_id']").val();
+		var check_num = $("select[name='check_num']").val();
+		var bed_price = $("input[name='bed_price']").val();
+		var t_2_sates = $("input[name='t_2_sates']").val();
+		var t_3_sates = $("input[name='t_3_sates']").val();
+		if(t_3_sates==''){t_3_sates='0';}
+		var voyage_code = $(this).attr('voyage_code');
+		var sub_id = $(this).attr('id');
+		
+		$.ajax({
+	        url:cabin_pricing_submit_ajax_url,
+	        type:'get',
+	        async:false,
+	        data:'sub_id='+sub_id+'&voyage_code='+voyage_code+'&cabin_type_id='+cabin_type_id+'&check_num='+check_num+'&bed_price='+bed_price+'&t_2_sates='+t_2_sates+'&t_3_sates='+t_3_sates,
+	     	dataType:'json',
+	    	success:function(data){
+	    		$(".ui-widget-overlay").remove();
+	    		$("#promptBox").remove();
+	    		if(data!=0){
+	    			alert('Save success');
+	    			location.reload();
+	    		}else{
+	    			alert('Save failed');
+	    		}
+	    	}      
+	    });
+		
+	});
+	
+	
+	
+	//船舱定价弹出框入住人数选择判断：
+	//大于2人禁用3/4号优惠
+	$(document).on('change',"#promptBox select[name='check_num']",function(){
+		var this_val = $(this).val();
+		if(this_val<=2){
+			$("#promptBox input[name='t_3_sates']").val('');
+			$("#promptBox input[name='t_3_sates']").attr("disabled","disabled");
+		}else{
+			$("#promptBox input[name='t_3_sates']").removeAttr("disabled");
+		}
+	});
+	
+	
+	
+	//船舱定价-》优惠政策弹框
+	$(document).on('click',".btn > input#preferential_policies_add,.preferential_policies_edit",function(){
+		
+		//判断用户点击按钮是添加操作还是编辑操作
+		var act = $(this).attr('value');
+		
+		//定义变量
+		var strategy_data = '';
+		var policies_data = '';
+		
+		if(act == 'edit'){
+			var id = $(this).attr('id');
+			
+			//获取编辑记录数据
+			$.ajax({
+		        url:get_preferential_policies_data_ajax_url,
+		        type:'get',
+		        data:'id='+id,
+		        async:false,
+		     	dataType:'json',
+		    	success:function(data){
+		    		policies_data = data;
+		    	}      
+		    });
+		}
+		
+		//获取政策
+		$.ajax({
+	        url:get_strategy_data_ajax_url,
+	        type:'get',
+	        async:false,
+	     	dataType:'json',
+	    	success:function(data){
+	    		strategy_data = data;
+	    	}      
+	    });
+		
+		 $voyage = $("select#policies_vayage").val();
+		 $(".ui-widget-overlay").remove();
+		 $("#promptBox").remove();
+		 var str = "<div class='ui-widget-overlay ui-front'></div>";
+		 var str_con = '<div id="promptBox" class="pop-ups write ui-dialog" style="width:450px;" >';
+			str_con += '<h3>Cabin Pricing</h3>';
+			str_con += '<span class="op"><a class="close r"></a></span>';
+			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">Strategy:</span>';
+			
+			str_con += '<select style="width:200px" id="strategy" name="strategy">';
+			if(strategy_data!=0){
+				$.each(strategy_data,function(key){
+					var strategy_id = act == 'edit'?(strategy_data[key]['id']==policies_data['p_w_id']?"selected='selected'":''):'';
+					str_con += '<option '+strategy_id+'  value="'+strategy_data[key]['id']+'">'+strategy_data[key]['strategy_name']+'</option>';
+				});
+			}
+			str_con += '</select></label></p>';
+			
+			str_con += '<p><label><span style="width:128px;margin-left:-100px;display:inline-block;text-align:right;">Preferential(%):</span>';
+			var price = act=='edit'?policies_data['p_price']:'';
+			str_con += '<input style="width:120px" type="text" value="'+price+'" id="price" name="price" /></label></p>';
+			
+			str_con += '<p class="btn">';
+			var sub_id = act=='edit'?id:0;
+			str_con += '<input type="button" id="'+sub_id+'" class="preferential_policies_confirm_but" value="submit"></input>';
+			str_con += '<input type="button" style="margin-left:10px;" class="cancel_but" value="cancel"></input>';
+			str_con += '</p></div>';
+			
+		 //$("#promptBox").before(str); 
+		 $(document.body).append(str);
+		 $(document.body).append(str_con);
+		 //$("#promptBox").removeClass('hide');
+		 $(".btn > .preferential_policies_confirm_but").attr('voyage_code',$voyage);
+	})
+	
+	
+	//船舱定价->优惠政策弹出框提交按钮
+	$(document).on('click',"#promptBox > .btn .preferential_policies_confirm_but",function(){
+		
+		
+		var strategy = $("select[name='strategy']").val();
+		var price = $("input[name='price']").val();
+		var voyage_code = $(this).attr('voyage_code');
+		var sub_id = $(this).attr('id');
+		
+		$.ajax({
+	        url:preferential_policies_submit_ajax_url,
+	        type:'get',
+	        async:false,
+	        data:'sub_id='+sub_id+'&voyage_code='+voyage_code+'&strategy='+strategy+'&price='+price,
+	     	dataType:'json',
+	    	success:function(data){
+	    		$(".ui-widget-overlay").remove();
+	    		$("#promptBox").remove();
+	    		if(data!=0){
+	    			alert('Save success');
+	    			location.reload();
+	    		}else{
+	    			alert('Save failed');
+	    		}
+	    	}      
+	    });
+		
+	});
+	
+	
+	
+	//船舱定价-》观光路线添加页面航线改变
+	$(document).on('change',"#tour_add_voyage  #vayage",function(){
+		var voyage = $(this).val();
+		$.ajax({
+	        url:get_tour_data_ajax_url,
+	        type:'get',
+	        async:false,
+	        data:'voyage='+voyage,
+	     	dataType:'json',
+	    	success:function(data){
+	    		if(data!=0){
+	    			var reallt_result = data['really'];
+	    			var tour_result = data['result'];
+	    			var really_arr = new Array();
+	    			$.each(reallt_result,function(key){
+	    				really_arr.push(reallt_result[key]['sh_id']);
+	    			});
+	    			var str = '';
+	    			$.each(tour_result,function(k){
+	    				if($.inArray(tour_result[k]['id'], really_arr)==-1){
+		    				str += '<span style="display: block;height:30px;text-align:left;width:200px;">';
+		    				str += '<input style="margin-right:10px;" type="checkbox" name="su[]" value="'+tour_result[k]['id']+'" />';
+		    				str += tour_result[k]['se_name'];
+		    				str += '</span>';
+	    				}
+	    			});
+	    			$("#tour_add_voyage #tour_data_list").html(str);
+	    			
+	    		}else{
+	    			$("#tour_add_voyage #tour_data_list").html('');
+	    		}
+	    	}      
+	    });
+	});
+	
+	
+	
+
+	
+	//船舱定价-》附加费添加页面航线改变
+	$(document).on('change',"#surcharge_add_voyage  #vayage",function(){
+		var voyage = $(this).val();
+		$.ajax({
+	        url:get_surcharge_data_ajax_url,
+	        type:'get',
+	        async:false,
+	        data:'voyage='+voyage,
+	     	dataType:'json',
+	    	success:function(data){
+	    		if(data!=0){
+	    			var reallt_result = data['really'];
+	    			var surcharge_result = data['result'];
+	    			var really_arr = new Array();
+	    			$.each(reallt_result,function(key){
+	    				really_arr.push(reallt_result[key]['cost_id']);
+	    			});
+	    			var str = '';
+	    			$.each(surcharge_result,function(k){
+	    				if($.inArray(surcharge_result[k]['id'], really_arr)==-1){
+		    				str += '<span style="display: block;height:30px;text-align:left;width:200px;">';
+		    				str += '<input style="margin-right:10px;" type="checkbox" name="su[]" value="'+surcharge_result[k]['id']+'" />';
+		    				str += surcharge_result[k]['cost_name'];
+		    				str += '</span>';
+	    				}
+	    			});
+	    			$("#surcharge_add_voyage #surcharge_data_list").html(str);
+	    			
+	    		}else{
+	    			$("#surcharge_add_voyage #surcharge_data_list").html('');
+	    		}
+	    	}      
+	    });
+	});
+	
+	
+	
+	//航线-》船舱
+	$(document).on('click','#cabin_right_but',function(){
+		var str = '';
+		//alert('right');
+		//获取左边选中值
+		$("#cabin_left_ul li").find("input[type='checkbox']:checked").each(function(e){
+			var id = $(this).val();
+			var text = $(this).parent().parent().find("span.text").text();
+			
+			str += '<li><span><input value="'+id+'" name="cabin_right_ids[]" type="checkbox"></span><span class="text">'+text+'</span></li>';
+			$(this).parent().parent().remove();
+		});
+		
+		$("#cabin_right_ul").append(str);
+	});
+
+	$(document).on('click','#cabin_left_but',function(){
+
+		//alert('left');
+
+		var str = '';
+		//获取左边选中值
+		$("#cabin_right_ul li").find("input[type='checkbox']:checked").each(function(e){
+			var id = $(this).val();
+			var text = $(this).parent().parent().find("span.text").text();
+			
+			str += '<li><span><input value="'+id+'" type="checkbox"></span><span class="text">'+text+'</span></li>';
+			$(this).parent().parent().remove();
+		});
+		
+		$("#cabin_left_ul").append(str);
+
+			
+	});
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	//表格全选反选功能

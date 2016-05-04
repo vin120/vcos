@@ -7,7 +7,7 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use app\modules\voyagemanagement\components\Helper;
 
-class VoyageSetController extends Controller
+class VoyagesetController extends Controller
 {
 	public function actionIndex()
 	{
@@ -78,12 +78,11 @@ class VoyageSetController extends Controller
 
 		if($result){
 			echo json_encode($result);
-		}else{
+		}  else {
 			echo 0;
 		}
 	}
 
-	//添加航线
 	public function actionVoyage_add()
 	{
 		if($_POST){
@@ -113,7 +112,7 @@ class VoyageSetController extends Controller
 				}
 			}
 			$voyage_code = time();
-			
+
 			if($voyage_name != '' && $voyage_num != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != ''){
 				//事务处理
 				$transaction=Yii::$app->db->beginTransaction();
@@ -145,7 +144,7 @@ class VoyageSetController extends Controller
 		return $this->render('voyage_add',['area'=>$area,'cruise'=>$cruise]);
 	}
 	
-	//修改航线
+	
 	public function actionVoyage_edit()
 	{
 		if($_POST){
@@ -180,7 +179,7 @@ class VoyageSetController extends Controller
 					
 				}
 			}
-			if($voyage_name != '' && $voyage_num != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != ''){  //modify
+			if($voyage_name != '' && $voyage_num != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != '' ){
 				//事务
 				$transaction=Yii::$app->db->beginTransaction();
 				try{
@@ -221,10 +220,45 @@ class VoyageSetController extends Controller
 
 		$sql = " SELECT COUNT(*) count FROM `v_c_voyage_port` WHERE voyage_id='$voyage_id'";
 		$count = Yii::$app->db->createCommand($sql)->queryOne()['count'];
+		
+		
 
-		return $this->render('voyage_edit',['voyage'=>$voyage,'area'=>$area,'cruise'=>$cruise,'voyage_port'=>$voyage_port,'port'=>$port,'count'=>$count,'voyage_port_page'=>1]);
+		//start
+		
+		$sql = "SELECT a.id,b.type_name FROM `v_c_cabin_type` a LEFT JOIN `v_c_cabin_type_i18n` b ON a.type_code=b.type_code WHERE a.type_status=1 AND b.i18n='en'";
+		$cabin_type_result = Yii::$app->db->createCommand($sql)->queryAll();
+		
+		$cruise_code = Yii::$app->params['cruise_code'];
+		$sql = "SELECT deck_number FROM `v_cruise` WHERE cruise_code='{$cruise_code}'";
+		$cruise_result = Yii::$app->db->createCommand($sql)->queryOne();
+		
+		$sql = "SELECT id,cabin_name FROM `v_c_cabin_lib` WHERE status=1 AND cabin_type_id=".$cabin_type_result[0]['id']." AND deck_num=1";
+		$cabin_result = Yii::$app->db->createCommand($sql)->queryAll();
+		
+		$sql = "SELECT a.cabin_lib_id,b.cabin_name FROM `v_c_cabin` a LEFT JOIN `v_c_cabin_lib` b ON a.cabin_lib_id=b.id WHERE a.cabin_type_id=".$cabin_type_result[0]['id']." AND a.deck=1";
+		$really_cabin_result = Yii::$app->db->createCommand($sql)->queryAll();
+		
+		
+		$sql = "SELECT * FROM `v_c_voyage_map` a LEFT JOIN `v_c_voyage_map_i18n` b ON a.id=b.map_id WHERE a.voyage_id='$voyage_id' limit 1";
+		$map_result = Yii::$app->db->createCommand($sql)->queryOne();
+		
+		$sql = "select a.active_id,b.name from `v_c_active` a LEFT JOIN `v_c_active_i18n` b ON a.active_id=b.active_id WHERE a.status=1 AND b.i18n ='en'";
+		$active_result = Yii::$app->db->createCommand($sql)->queryAll();
+		$sql = "SELECT a.id,c.name FROM `v_c_voyage_active` a LEFT JOIN `v_c_active` b ON a.curr_active_id=b.active_id LEFT JOIN `v_c_active_i18n` c ON b.active_id=c.active_id  WHERE b.status=1 AND c.i18n='en' AND  a.voyage_id='$voyage_id' limit 1";
+		$curr_active_result = Yii::$app->db->createCommand($sql)->queryOne();
+		
+		$sql = " SELECT a.id,b.voyage_name FROM `v_c_voyage` a LEFT JOIN `v_c_voyage_i18n` b ON a.voyage_code=b.voyage_code WHERE  a.status=1 AND b.i18n='en' ";
+		$voyage_return = Yii::$app->db->createCommand($sql)->queryAll();
+		
+		$sql = "SELECT a.id,c.voyage_name FROM `v_c_return_voyage` a LEFT JOIN `v_c_voyage` b ON a.return_voyage_id=b.id LEFT JOIN `v_c_voyage_i18n` c ON b.voyage_code=c.voyage_code  WHERE b.status=1 AND c.i18n='en' AND  a.voyage_id='$voyage_id' limit 1";
+		$curr_return_voyage_result = Yii::$app->db->createCommand($sql)->queryOne();
+		
+
+		return $this->render('voyage_edit',['curr_return_voyage_result'=>$curr_return_voyage_result,'voyage_return'=>$voyage_return,'curr_active_result'=>$curr_active_result,'active_result'=>$active_result,'map_result'=>$map_result,'really_cabin_result'=>$really_cabin_result,'cruise_result'=>$cruise_result,'cabin_result'=>$cabin_result,'cabin_type_result'=>$cabin_type_result,'voyage'=>$voyage,'area'=>$area,'cruise'=>$cruise,'voyage_port'=>$voyage_port,'port'=>$port,'count'=>$count,'voyage_port_page'=>1]);
 	}
 	
+	//-----
+
 	//港口分页
 	public function actionGet_voyage_port_page()
 	{
@@ -284,7 +318,6 @@ class VoyageSetController extends Controller
 	}
 
 
-	// 航线--港口添加
 	public function actionVoyage_port_add()
 	{
 		$voyage_id = isset($_GET['voyage_id']) ? $_GET['voyage_id'] : '';
@@ -304,6 +337,9 @@ class VoyageSetController extends Controller
 				$count = Yii::$app->db->createCommand($sql)->queryOne()['count'];
 
 				if($count <= 0){
+					if($EIA != '' && $ETD != ''){
+						$sql = " INSERT INTO `v_c_voyage_port` (`voyage_id`,`port_code`,`order_no`,`ETD`,`EIA`) VALUES ('$voyage_id_post','$port_code','$order_no','$ETD','$EIA')";
+					}
 					if($EIA ==''){
 						$sql = " INSERT INTO `v_c_voyage_port` (`voyage_id`,`port_code`,`order_no`,`ETD`) VALUES ('$voyage_id_post','$port_code','$order_no','$ETD')";
 					}
@@ -311,14 +347,10 @@ class VoyageSetController extends Controller
 						$sql = " INSERT INTO `v_c_voyage_port` (`voyage_id`,`port_code`,`order_no`,`EIA`) VALUES ('$voyage_id_post','$port_code','$order_no','$EIA')";
 					}
 					
-					$count = Yii::$app->db->createCommand($sql)->execute();
-					if($count){
-						Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post);
-					}else{
-						Helper::show_message('Save failed  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post);
-					}
+					Yii::$app->db->createCommand($sql)->execute();
+					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post);
 				}else{
-					Helper::show_message('Save failed , Num '.$voyage_id_post .' Exists ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post);	//modify
+					Helper::show_message('Save failed , Num '.$order_no .' Exists ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post);
 				}
 			}
 		}
@@ -351,26 +383,25 @@ class VoyageSetController extends Controller
 			$port_id = isset($_POST['port_id']) ? $_POST['port_id'] : '';
 			if($order_no != '' && $port_code != '' ){
 
-				$sql = "SELECT * FROM `v_c_voyage_port` WHERE order_no='$order_no' AND voyage_id !='$voyage_id_post'";
+				$sql = "SELECT * FROM `v_c_voyage_port` WHERE order_no ='$order_no'AND id!='$port_id' AND voyage_id ='$voyage_id_post'";
 				$exist = Yii::$app->db->createCommand($sql)->queryOne();
 
-				if($exist){
+				if(!$exist){
+					if($EIA != '' && $ETD != ''){
+						$sql = " UPDATE `v_c_voyage_port` SET `order_no`='$order_no',`port_code`='$port_code',`ETD`='$ETD',`EIA`='$EIA' WHERE `voyage_id`='$voyage_id_post' AND `id`='$port_id'";
+					}
 					if($EIA ==''){
-						$sql = " INSERT INTO `v_c_voyage_port` (`voyage_id`,`port_code`,`order_no`,`ETD`) VALUES ('$voyage_id_post','$port_code','$order_no','$ETD')";
+						$sql = " UPDATE `v_c_voyage_port` SET `order_no`='$order_no',`port_code`='$port_code',`ETD`='$ETD' WHERE `voyage_id`='$voyage_id_post' AND `id`='$port_id'";
 					}
 					if($ETD == ''){
-						$sql = " INSERT INTO `v_c_voyage_port` (`voyage_id`,`port_code`,`order_no`,`EIA`) VALUES ('$voyage_id_post','$port_code','$order_no','$EIA')";
+						$sql = " UPDATE `v_c_voyage_port` SET `order_no`='$order_no',`port_code`='$port_code',`EIA`='$EIA' WHERE `voyage_id`='$voyage_id_post' AND `id`='$port_id'";
 					}
 					
-					$count = Yii::$app->db->createCommand($sql)->execute();
-					if($count){
-						Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);
-					}else{
-						Helper::show_message('Save failed  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);
-					}
+					Yii::$app->db->createCommand($sql)->execute();
+					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);
+					
 				}else{
-					//modify
-					Helper::show_message('Save failed , Num '.$voyage_id_post .' Exists ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);
+					Helper::show_message('Save failed , Num '.$order_no .' Exists ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);
 				}
 			}
 		}
@@ -381,5 +412,153 @@ class VoyageSetController extends Controller
 
 		return $this->render('voyage_port_edit',['port'=>$port,'voyage'=>$voyage,'voyage_port'=>$voyage_port]);
 	}
+	
+	
+
+	//航线-》船舱保存
+	public function actionVoyage_cabin_save(){
+		$db = Yii::$app->db;
+		$res = 0;
+		$cabin_type_id = isset($_GET['cabin_type_id'])?$_GET['cabin_type_id']:'0';
+		$cabin_deck = isset($_GET['cabin_deck'])?$_GET['cabin_deck']:'0';
+		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id']:'0';
+		$cabin_lib_id = isset($_GET['cabin_lib_id'])?$_GET['cabin_lib_id']:'';
+	
+		$cabin_lib_id = explode(',', $cabin_lib_id);
+		$data = '';
+		foreach ($cabin_lib_id as $v){
+			if($v!=''){
+				$data .= "(".$voyage_id.",".$cabin_type_id.",".$cabin_deck.",".$v."),";
+			}
+		}
+		$data = trim($data,',');
+	
+		//事务处理
+		$transaction=$db->beginTransaction();
+		try{
+			$sql = "DELETE FROM `v_c_cabin` WHERE voyage_id='{$voyage_id}' AND cabin_type_id='{$cabin_type_id}' AND deck='{$cabin_deck}'";
+			Yii::$app->db->createCommand($sql)->execute();
+				
+			$sql = "INSERT INTO `v_c_cabin` (voyage_id,cabin_type_id,deck,cabin_lib_id) VALUES ".$data;
+			Yii::$app->db->createCommand($sql)->execute();
+			$transaction->commit();
+			$res = 1;
+		}catch(Exception $e){
+			$transaction->rollBack();
+			$res = 0;
+		}
+		echo $res;
+	}
+	
+	
+	
+	//航线-》船舱改变类型
+	public function actionVoyage_cabin_change_type_get_cabin_lib(){
+		$type_id = isset($_GET['type_id'])?$_GET['type_id']:'';
+		$deck = isset($_GET['deck'])?$_GET['deck']:'';
+		$sql = "SELECT id,cabin_name FROM `v_c_cabin_lib` WHERE status=1 AND cabin_type_id=".$type_id." AND deck_num='{$deck}'";
+		$cabin_result = Yii::$app->db->createCommand($sql)->queryAll();
+	
+		$sql = "SELECT a.cabin_lib_id,b.cabin_name FROM `v_c_cabin` a LEFT JOIN `v_c_cabin_lib` b ON a.cabin_lib_id=b.id WHERE a.cabin_type_id=".$type_id." AND a.deck='{$deck}'";
+		$really_cabin_result = Yii::$app->db->createCommand($sql)->queryAll();
+	
+		$result_arr = array();
+		$result_arr['cabin_lib'] = $cabin_result;
+		$result_arr['really'] = $really_cabin_result;
+		if($result_arr){
+			echo json_encode($result_arr);
+		}  else {
+			echo 0;
+		}
+	}
+	
+	
+	//航线-》航线图上传
+	public function actionVoyage_map(){
+		$db = Yii::$app->db;
+		if($_POST){
+			$map_id = isset($_POST['map_id'])?$_POST['map_id']:'';
+			$voyage_map_id = isset($_POST['voyage_map_id'])?$_POST['voyage_map_id']:'0';
+				
+			$photo = '';
+			$photo_data = '';
+			if($_FILES['photoimg']['error']!=4){
+				$result=Helper::upload_file('photoimg', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'image', 3);
+				$photo_data=$result['filename'];
+			}
+			$photo=date('Ym',time()).'/'.$photo_data;
+			//事务处理
+			$transaction=$db->beginTransaction();
+			try{
+				if($map_id!=''){
+					if($photo_data!=''){
+						$sql = "UPDATE `v_c_voyage_map_i18n` set map_img='$photo' WHERE map_id='{$map_id}'";
+						Yii::$app->db->createCommand($sql)->execute();
+					}
+				}else{
+					$sql = "insert into `v_c_voyage_map` (voyage_id) values ('$voyage_map_id')";
+					Yii::$app->db->createCommand($sql)->execute();
+					$last_id = Yii::$app->db->getLastInsertID();
+					$sql = "insert into `v_c_voyage_map_i18n` (map_id,map_img,i18n) values ($last_id,'$photo','en')";
+					Yii::$app->db->createCommand($sql)->execute();
+				}
+				$transaction->commit();
+				Helper::show_message('Save success  ', Url::toRoute(['voyage_edit','voyage_id'=>$voyage_map_id]));
+			}catch(Exception $e){
+				$transaction->rollBack();
+				Helper::show_message('Save failed  ','#');
+			}
+		}
+	}
+	
+	
+	public function actionVoyage_active(){
+		$db = Yii::$app->db;
+	
+		if($_GET){
+			$voyage_active_id = isset($_GET['voyage_active_id'])?$_GET['voyage_active_id']:'0';
+			$voyage_active = isset($_GET['voyage_active'])?$_GET['voyage_active']:'';
+			//事务处理
+			$transaction=$db->beginTransaction();
+			try{
+				$sql = "DELETE FROM `v_c_voyage_active` WHERE voyage_id=".$voyage_active_id;
+				Yii::$app->db->createCommand($sql)->execute();
+				$sql = "INSERT INTO `v_c_voyage_active` (voyage_id,curr_active_id) values ('$voyage_active_id','$voyage_active')";
+				Yii::$app->db->createCommand($sql)->execute();
+				$transaction->commit();
+				Helper::show_message('Save success  ', Url::toRoute(['voyage_edit','voyage_id'=>$voyage_active_id]));
+			}catch(Exception $e){
+				$transaction->rollBack();
+				Helper::show_message('Save failed  ','#');
+			}
+		}
+	}
+	
+	public function actionReturn_voyage(){
+		$db = Yii::$app->db;
+	
+		if($_GET){
+			$return_voyage_id = isset($_GET['return_voyage_id'])?$_GET['return_voyage_id']:'0';
+			$return_voyage = isset($_GET['return_voyage'])?$_GET['return_voyage']:'';
+			//事务处理
+			$transaction=$db->beginTransaction();
+			try{
+				$sql = "DELETE FROM `v_c_return_voyage` WHERE voyage_id=".$return_voyage_id;
+				Yii::$app->db->createCommand($sql)->execute();
+				$sql = "INSERT INTO `v_c_return_voyage` (voyage_id,return_voyage_id) values ('$return_voyage_id','$return_voyage')";
+				Yii::$app->db->createCommand($sql)->execute();
+				$transaction->commit();
+				Helper::show_message('Save success  ', Url::toRoute(['voyage_edit','voyage_id'=>$return_voyage_id]));
+			}catch(Exception $e){
+				$transaction->rollBack();
+				Helper::show_message('Save failed  ','#');
+			}
+		}
+	}
+	
+	
+
+	
+
 
 }

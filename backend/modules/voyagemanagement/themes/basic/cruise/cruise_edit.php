@@ -29,7 +29,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
     
     <div class="searchResult">
         
-        <div id="service_write" class="pop-ups write max_write">
+        <div id="service_write" class="write">
 
 		<?php
 			$form = ActiveForm::begin([
@@ -47,7 +47,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'>Cruise Code:</span>
-					<input type="text" id='code' name='code' value="<?php echo $cruise_result['cruise_code']?>"></input>
+					<input type="text" id='code' required name='code' value="<?php echo $cruise_result['cruise_code']?>"></input>
 					
 				</label>
 				
@@ -56,7 +56,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'>Cruise Name:</span>
-					<input type="text" id="name" name="name" value="<?php echo $cruise_result['cruise_name']?>"></input>
+					<input type="text" id="name" required name="name" value="<?php echo $cruise_result['cruise_name']?>"></input>
 					
 				</label>
 				<span class='tips'></span>
@@ -64,7 +64,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'>Deck Number:</span>
-					<input type="text" id='number' name='number' value="<?php echo $cruise_result['deck_number']?>"></input>
+					<input type="text" id='number' required  name='number' value="<?php echo $cruise_result['deck_number']?>"></input>
 					
 				</label>
 				
@@ -86,7 +86,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'>Cruise Desc:</span>
-					<textarea id='desc' name='desc'>
+					<textarea id='desc' name='desc' required>
 					<?php echo $cruise_result['cruise_desc']?>
 					</textarea>
 				</label>
@@ -101,11 +101,12 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 					</select>
 				</label>
 			</p>
-			<div class="btn">
+			
+		</div>
+		<div class="btn">
 				<input type="submit" value="SAVE"></input>
 				<input class='cancle' type="button" value="CANCLE"></input>
 			</div>
-		</div>
 		<?php 
 		ActiveForm::end(); 
 		?>

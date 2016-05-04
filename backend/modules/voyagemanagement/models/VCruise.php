@@ -7,8 +7,9 @@ use Yii;
 /**
  * This is the model class for table "v_cruise".
  *
- * @property string $id
+ * @property integer $id
  * @property string $cruise_code
+ * @property integer $deck_number
  * @property integer $status
  */
 class VCruise extends \yii\db\ActiveRecord
@@ -27,7 +28,7 @@ class VCruise extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status'], 'integer'],
+            [['deck_number', 'status'], 'integer'],
             [['cruise_code'], 'string', 'max' => 255]
         ];
     }
@@ -38,9 +39,10 @@ class VCruise extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'cruise_code' => 'Cruise Code',
-            'status' => 'Status',
+            'id' => Yii::t('app', 'ID'),
+            'cruise_code' => Yii::t('app', 'Cruise Code'),
+            'deck_number' => Yii::t('app', 'Deck Number'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 }

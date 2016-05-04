@@ -62,6 +62,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
     <?php
 			$form = ActiveForm::begin([
 					'method'=>'post',
+					'id'=>'country_from',
 					'enableClientValidation'=>false,
 					'enableClientScript'=>false
 			]); 
@@ -186,7 +187,7 @@ window.onload = function(){
 
  //delete删除确定but
    $(document).on('click',"#promptBox > .btn .confirm_but_more",function(){
-	   $("form:first").submit();
+	   $("form#country_from").submit();
    });
 
 

@@ -27,7 +27,7 @@ var voyage_set_ajax_url = "<?php echo Url::toRoute(['voyage_set_code_check']);?>
     <a href="#">Voyage_set_add</a></div>
     <div class="searchResult">
         
-        <div id="service_write" class="pop-ups write max_write date_write">
+        <div id="service_write" class="write date_write">
 
 		<?php
 			$form = ActiveForm::begin([
@@ -99,11 +99,12 @@ var voyage_set_ajax_url = "<?php echo Url::toRoute(['voyage_set_code_check']);?>
 				<span class='tips'></span>
 			</p>
 			
-			<div class="btn">
+			
+		</div>
+		<div class="btn">
 				<input type="submit" value="SAVE"></input>
 				<input class="cancle" type="button" value="CANCLE"></input>
 			</div>
-		</div>
 		<?php 
 		ActiveForm::end(); 
 		?>
