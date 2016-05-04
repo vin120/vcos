@@ -46,4 +46,9 @@ class VCActiveI18n extends \yii\db\ActiveRecord
             'i18n' => Yii::t('app', 'I18n'),
         ];
     }
+    
+    public function getActive()
+    {
+    	return $this->hasOne(VCActive::className(),['active_id'=>'active_id']);
+    }
 }

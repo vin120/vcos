@@ -111,8 +111,6 @@ window.onload = function(){
 	});
 
 
-	
-
 
    	$("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
 }

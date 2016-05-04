@@ -35,7 +35,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($active as $key=>$row){?>
+				<?php foreach($actives as $key=>$row){?>
 				<tr>
                 	<td><input type="checkbox" name="ids[]" value="<?php echo $row['active_id']?>"></input></td>
 					<td><?php echo $key+1; ?></td>

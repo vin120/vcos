@@ -40,4 +40,12 @@ class VCActive extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Status'),
         ];
     }
+    
+    public function getActivei18n()
+    {
+    	return $this->hasOne(VCActiveI18n::className(),['active_id'=>'active_id'])->onCondition(['v_c_active_i18n.i18n'=>'en']);
+    }
+    
+    
+
 }
