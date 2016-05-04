@@ -100,14 +100,20 @@ class VoyageSetController extends Controller
 			$ticket_taxes = isset($_POST['ticket_taxes']) ? $_POST['ticket_taxes'] : 0;
 			$harbour_taxes = isset($_POST['harbour_taxes']) ? $_POST['harbour_taxes'] : 0;
 			$deposit_ratio = isset($_POST['deposit_ratio']) ? $_POST['deposit_ratio'] : 0;
+			$pdf_path = '';
 			if(isset($_FILES['pdf'])){
 				if($_FILES['pdf']['error'] != 4){
-					$result=Helper::upload_file('pdf', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'pdf', 3);
-					$pdf_path=date('Ym',time()).'/'.$result['filename'];
+					if($_FILES['pdf']['type'] == 'application/pdf'){
+						$result=Helper::upload_file('pdf', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'pdf', 3);
+						$pdf_path=date('Ym',time()).'/'.$result['filename'];
+					}else {
+						Helper::show_message('Wrong Format','#');
+						die;
+					}
 				}
 			}
 			$voyage_code = time();
-
+			
 			if($voyage_name != '' && $voyage_num != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != ''){
 				//事务处理
 				$transaction=Yii::$app->db->beginTransaction();
@@ -122,8 +128,10 @@ class VoyageSetController extends Controller
 					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$last_active_id);
 				}catch(Exception $e){
 					$transaction->rollBack();
-					Helper::show_message('Save failed  ','#');
+					Helper::show_message('Save failed  ',Url::toRoute(['voyage_add']));
 				}
+			}else{
+				Helper::show_message('Save failed  ','#');
 			}
 		}
 
@@ -137,7 +145,7 @@ class VoyageSetController extends Controller
 		return $this->render('voyage_add',['area'=>$area,'cruise'=>$cruise]);
 	}
 	
-	
+	//修改航线
 	public function actionVoyage_edit()
 	{
 		if($_POST){
@@ -162,24 +170,34 @@ class VoyageSetController extends Controller
 			
 			if(isset($_FILES['pdf'])){
 				if($_FILES['pdf']['error'] != 4){
-					$result=Helper::upload_file('pdf', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'pdf', 3);
-					$pdf_path=date('Ym',time()).'/'.$result['filename'];
+					if($_FILES['pdf']['type'] == 'application/pdf'){
+						$result=Helper::upload_file('pdf', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'pdf', 3);
+						$pdf_path=date('Ym',time()).'/'.$result['filename'];
+					}else{
+						Helper::show_message('Wrong Format',Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
+						die;
+					}
+					
 				}
 			}
-			
-			$transaction=Yii::$app->db->beginTransaction();
-			try{
-				$sql = " UPDATE `v_c_voyage` SET `voyage_code`='$voyage_code',`cruise_code`='$cruise_code',`start_time`='$s_time',`end_time`='$e_time',`area_code`='$area_code',`voyage_num`='$voyage_num',`pdf_path`='$pdf_path',`start_book_time`='$s_book_time',`stop_book_time`='$e_book_time',`ticket_price`='$ticket_price',`ticket_taxes`='$ticket_taxes',`harbour_taxes`='$harbour_taxes',`deposit_ratio`='$deposit_ratio' WHERE id='$voyage_id' ";
-				Yii::$app->db->createCommand($sql)->execute();
-
-				$sql = " UPDATE `v_c_voyage_i18n` SET `voyage_name`='$voyage_name',`voyage_desc`='$desc' WHERE voyage_code ='$voyage_code'";
-				Yii::$app->db->createCommand($sql)->execute();
-
-				$transaction->commit();
-				Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
-			}catch(Exception $e){
-				$transaction->rollBack();
-				Helper::show_message('Save failed  ','#');
+			if($voyage_name != '' && $voyage_num != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != ''){  //modify
+				//事务
+				$transaction=Yii::$app->db->beginTransaction();
+				try{
+					$sql = " UPDATE `v_c_voyage` SET `voyage_code`='$voyage_code',`cruise_code`='$cruise_code',`start_time`='$s_time',`end_time`='$e_time',`area_code`='$area_code',`voyage_num`='$voyage_num',`pdf_path`='$pdf_path',`start_book_time`='$s_book_time',`stop_book_time`='$e_book_time',`ticket_price`='$ticket_price',`ticket_taxes`='$ticket_taxes',`harbour_taxes`='$harbour_taxes',`deposit_ratio`='$deposit_ratio' WHERE id='$voyage_id' ";
+					Yii::$app->db->createCommand($sql)->execute();
+	
+					$sql = " UPDATE `v_c_voyage_i18n` SET `voyage_name`='$voyage_name',`voyage_desc`='$desc' WHERE voyage_code ='$voyage_code'";
+					Yii::$app->db->createCommand($sql)->execute();
+	
+					$transaction->commit();
+					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
+				}catch(Exception $e){
+					$transaction->rollBack();
+					Helper::show_message('Save failed  ',Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
+				}
+			}else{
+				Helper::show_message('Save failed  ',Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
 			}
 		}
 
@@ -207,8 +225,6 @@ class VoyageSetController extends Controller
 		return $this->render('voyage_edit',['voyage'=>$voyage,'area'=>$area,'cruise'=>$cruise,'voyage_port'=>$voyage_port,'port'=>$port,'count'=>$count,'voyage_port_page'=>1]);
 	}
 	
-	//-----
-
 	//港口分页
 	public function actionGet_voyage_port_page()
 	{
@@ -268,6 +284,7 @@ class VoyageSetController extends Controller
 	}
 
 
+	// 航线--港口添加
 	public function actionVoyage_port_add()
 	{
 		$voyage_id = isset($_GET['voyage_id']) ? $_GET['voyage_id'] : '';
@@ -301,7 +318,7 @@ class VoyageSetController extends Controller
 						Helper::show_message('Save failed  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post);
 					}
 				}else{
-					Helper::show_message('Num Exists ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post);
+					Helper::show_message('Save failed , Num '.$voyage_id_post .' Exists ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post);	//modify
 				}
 			}
 		}
@@ -320,8 +337,6 @@ class VoyageSetController extends Controller
 		$voyage_id = isset($_GET['voyage_id']) ? $_GET['voyage_id'] : '';
 		$sql = "SELECT id FROM `v_c_voyage` WHERE id='$voyage_id' ";
 		$voyage = Yii::$app->db->createCommand($sql)->queryOne();
-
-
 
 		$port_id = isset($_GET['port_id']) ? $_GET['port_id'] : '';
 		$sql = "SELECT * FROM `v_c_voyage_port` WHERE voyage_id='$voyage_id' AND id='$port_id' ";
@@ -354,7 +369,8 @@ class VoyageSetController extends Controller
 						Helper::show_message('Save failed  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);
 					}
 				}else{
-					Helper::show_message('Num Exists ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);
+					//modify
+					Helper::show_message('Save failed , Num '.$voyage_id_post .' Exists ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);
 				}
 			}
 		}
@@ -365,8 +381,5 @@ class VoyageSetController extends Controller
 
 		return $this->render('voyage_port_edit',['port'=>$port,'voyage'=>$voyage,'voyage_port'=>$voyage_port]);
 	}
-
-	
-
 
 }

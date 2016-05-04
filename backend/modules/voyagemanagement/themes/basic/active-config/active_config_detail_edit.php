@@ -60,7 +60,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 			<p>
 				<label>
 					<span class='max_l'>Title:</span>
-					<input type="text" id='detail_title' name='detail_title' value="<?php echo $active_detail['detail_title'];?>"></input>
+					<input type="text" id='detail_title' name='detail_title' value="<?php echo $active_detail['detail_title'];?>" required></input><!-- modify required -->
 				</label>
 				
 				<span class='tips'></span>

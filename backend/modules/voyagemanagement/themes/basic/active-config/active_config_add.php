@@ -29,7 +29,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						'action' => ['active_config_add'],
 						'method'=>'post',
 						'id'=>'active_config_add',
-						'options' => ['class' => 'active_config_add'],
+						'options' => ['class' => 'active_config_add','enctype'=>'multipart/form-data'],
 						'enableClientValidation'=>false,
 						'enableClientScript'=>false
 					]); 

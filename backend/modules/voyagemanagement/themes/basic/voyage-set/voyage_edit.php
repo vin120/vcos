@@ -75,7 +75,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						'action' => ['voyage_edit'],
 						'method'=>'post',
 						'id'=>'voyage_edit',
-						'options' => ['class' => 'voyage_edit'],
+						'options' => ['class' => 'voyage_edit','enctype'=>'multipart/form-data'],
 						'enableClientValidation'=>false,
 						'enableClientScript'=>false
 					]); 
@@ -123,11 +123,11 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						<p>
 							<label>
 								<span>Start Time:</span>
-								<input type="text" id="s_time" name="s_time" placeholder="please choose" value="<?php echo $voyage['start_time']?>" readonly></input>
+								<input type="text" id="s_time" name="s_time" placeholder="please choose" value="<?php echo $voyage['start_time']?>" readonly ></input>
 							</label>
 							<label>
 								<span>End Time:</span>
-								<input type="text" id="e_time" name="e_time" placeholder="please choose" value="<?php echo $voyage['end_time']?>" readonly></input>
+								<input type="text" id="e_time" name="e_time" placeholder="please choose" value="<?php echo $voyage['end_time']?>" readonly ></input>
 							</label>
 						</p>
 						<p>

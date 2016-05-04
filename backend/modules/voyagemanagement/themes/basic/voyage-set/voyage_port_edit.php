@@ -117,49 +117,52 @@ window.onload = function(){
 	         start.maxDate = datas; //将结束日的初始值设定为开始日的最大日期
 	    }
 	};
-		jeDate(start);
-		jeDate(end);
+	jeDate(start);
+	jeDate(end);
 
-		var order_no = $("#order_no").val();
+	//modify
+	var order_no = $("#order_no").val();
+	if(order_no == 1){
+		$("#terminal").attr("disabled",'disabled');
+		$("#s_time").attr("disabled",'disabled');
+		$("#e_time").removeAttr('disabled');
+		$("#e_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
+	}else{
+		$("#terminal").removeAttr('disabled');
+		$("#s_time").removeAttr('disabled');
+	}
+
+	$("#order_no").on('change',function(){
+		order_no = $(this).val();
 		if(order_no == 1){
+			$("#terminal").removeAttr('checked');
 			$("#terminal").attr("disabled",'disabled');
 			$("#s_time").attr("disabled",'disabled');
+			$("#s_time").val('');
+			$("#e_time").removeAttr('disabled');
+			$("#e_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
 		}else{
 			$("#terminal").removeAttr('disabled');
 			$("#s_time").removeAttr('disabled');
+			$("#s_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
 		}
+	});
 
-		$("#order_no").on('change',function(){
-			order_no = $(this).val();
-			if(order_no == 1){
-				$("#terminal").removeAttr('checked');
-				$("#terminal").attr("disabled",'disabled');
-				$("#s_time").attr("disabled",'disabled');
-				$("#s_time").val('');
-				$("#e_time").removeAttr('disabled');
-				$("#e_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
-			}else{
-				$("#terminal").removeAttr('disabled');
-				$("#s_time").removeAttr('disabled');
-				$("#s_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
-			}
-		});
-
-		$("input#terminal").on('click',function(){
-			if($(this).is(":checked")){
-				$("#e_time").attr("disabled",'disabled');
-				$("#s_time").removeAttr('disabled');
-				$("#e_time").val('');
-			}else{
-				$("#e_time").removeAttr('disabled');
-				$("#e_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
-			}
-		});
-		
-		var e_time = $('#e_time').val();
-		if(e_time ==''){
-			$("#terminal").attr("checked",'checked');
+	$("input#terminal").on('click',function(){
+		if($(this).is(":checked")){
 			$("#e_time").attr("disabled",'disabled');
+			$("#s_time").removeAttr('disabled');
+			$("#e_time").val('');
+		}else{
+			$("#e_time").removeAttr('disabled');
+			$("#e_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
 		}
+	});
+	
+	var e_time = $('#e_time').val();
+	if(e_time ==''){
+		$("#terminal").attr("checked",'checked');
+		$("#e_time").attr("disabled",'disabled');
+	}
 }
 </script>

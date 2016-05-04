@@ -11,7 +11,6 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 ?>
 
-
 <!-- content start -->
 <div class="r content" id="refundReason_content">
 	<div class="topNav">Route Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Active Config </a></div>
@@ -105,13 +104,11 @@ window.onload = function(){
 	                            str += "<a class='delete' id='"+data[key]['active_id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 		                        str += "</td>";
 	                            str += "</tr>";
-	                          });
+	                         });
 	    	                $("table#active_table > tbody").html(str);
 	    	            }
 	            	}      
 	            });
-	    	
-	       	// $('#text').html('当前第' + num + '页');
 	    	}
 		});
 	<?php }?>
@@ -127,7 +124,6 @@ window.onload = function(){
    $(document).on('click',"#promptBox > .btn .confirm_but_more",function(){
 	   $("form:first").submit();
    });
-
 
 }
 </script>

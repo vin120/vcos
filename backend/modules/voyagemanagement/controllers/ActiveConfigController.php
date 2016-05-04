@@ -43,7 +43,6 @@ class ActiveConfigController extends Controller
 				Helper::show_message('Delete failed ');
 			}
 		}
-
 		
 		
 		$sql = " SELECT a.*,b.active_id,b.name,b.i18n FROM `v_c_active` a LEFT JOIN `v_c_active_i18n` b ON a.active_id=b.active_id WHERE b.i18n='en' limit 2";
@@ -146,6 +145,7 @@ class ActiveConfigController extends Controller
 
 			if($name != '' && $active_select != '' && $active_id_post){
 				$transaction = Yii::$app->db->beginTransaction();
+
 				try{
 					$sql = "UPDATE `v_c_active` SET `status`='{$active_select}' WHERE `active_id`='{$active_id_post}'";
 					Yii::$app->db->createCommand($sql)->execute();
@@ -161,15 +161,13 @@ class ActiveConfigController extends Controller
 				}
 			}
 		}
-		
-		
 		return $this->render("active_config_edit",['active'=>$active,'active_detail'=>$active_detail,'count'=>$count,'active_config_page'=>1]);
 	}
 
 	public function actionActive_config_detail_add()
 	{
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
-		$sql = "SELECT active_id FROM v_c_active WHERE active_id='$active_id'";
+		$sql = "SELECT active_id FROM v_c_active WHERE active_id='$active_id' ";
 		$active = Yii::$app->db->createCommand($sql)->queryOne();
 		
 		if($_POST){
@@ -186,43 +184,44 @@ class ActiveConfigController extends Controller
 			if(!isset($photo)){
 				$photo="";
 			}
-			//事务
-			$transaction=Yii::$app->db->beginTransaction();
-			try{
-				if($day_to ==''){
-					$sql = "INSERT INTO `v_c_active_detail` (`active_id`,`day_from`,`day_to`,`detail_img`) VALUES ('$active_id_post','$day_from',null,'$photo')";
-				}else{
-					$sql = "INSERT INTO `v_c_active_detail` (`active_id`,`day_from`,`day_to`,`detail_img`) VALUES ('$active_id_post','$day_from','$day_to','$photo')";
+			if($day_from != '' && $detail_title != ''  && $active_detail_id !=''){	//modify
+				//事务
+				$transaction=Yii::$app->db->beginTransaction();
+				try{
+					if($day_to ==''){
+						$sql = "INSERT INTO `v_c_active_detail` (`active_id`,`day_from`,`day_to`,`detail_img`) VALUES ('$active_id_post','$day_from',null,'$photo')";
+					}else{
+						$sql = "INSERT INTO `v_c_active_detail` (`active_id`,`day_from`,`day_to`,`detail_img`) VALUES ('$active_id_post','$day_from','$day_to','$photo')";
+					}
+					Yii::$app->db->createCommand($sql)->execute();
+					$last_active_detail_id = Yii::$app->db->getLastInsertID();
+					
+					$sql = "INSERT INTO `v_c_active_detail_i18n` (`active_detail_id`,`detail_title`,`detail_desc`,`i18n`) VALUES ('$last_active_detail_id','$detail_title','$detail_desc','en')";
+					Yii::$app->db->createCommand($sql)->execute();
+					$transaction->commit();
+					Helper::show_message('Save success  ', Url::toRoute(['active_config_edit'])."&active_id=".$active_id_post);
+				}catch(Exception $e){
+					$transaction->rollBack();
+					Helper::show_message('Save failed  ','#');
 				}
-				Yii::$app->db->createCommand($sql)->execute();
-				$last_active_detail_id = Yii::$app->db->getLastInsertID();
-				
-				$sql = "INSERT INTO `v_c_active_detail_i18n` (`active_detail_id`,`detail_title`,`detail_desc`,`i18n`) VALUES ('$last_active_detail_id','$detail_title','$detail_desc','en')";
-				Yii::$app->db->createCommand($sql)->execute();
-				$transaction->commit();
-				Helper::show_message('Save success  ', Url::toRoute(['active_config_edit'])."&active_id=".$active_id_post);
-			}catch(Exception $e){
-				$transaction->rollBack();
-				Helper::show_message('Save failed  ','#');
+			}else{
+				Helper::show_message('Save failed  ','#'); //modify
 			}
-			
 		}
 		
 		return $this->render("active_config_detail_add",['active'=>$active]);
 	}
 	
+
 	public function actionActive_config_detail_edit()
 	{
-		
 		$id = isset($_GET['id']) ? $_GET['id'] : '';
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
 	
 		$sql = "SELECT a.id,a.active_id, a.day_from,a.day_to,a.detail_img,b.detail_title,b.detail_desc FROM `v_c_active_detail` a LEFT JOIN `v_c_active_detail_i18n` b ON a.id=b.active_detail_id WHERE a.id='$id' AND a.active_id='$active_id' AND b.i18n='en' ";
 		$active_detail = Yii::$app->db->createCommand($sql)->queryOne();
-		
 	
 		if(isset($_POST)){
-			
 			$day_from = isset($_POST['day_from']) ? $_POST['day_from'] : '';
 			$day_to = isset($_POST['day_to']) ? $_POST['day_to'] : '';
 			$detail_title = isset($_POST['detail_title']) ? $_POST['detail_title'] : '';
@@ -262,8 +261,6 @@ class ActiveConfigController extends Controller
 				}
 			}
 		}
-		
-		
 		return $this->render("active_config_detail_edit",['active_detail'=>$active_detail]);
 	}
 	
@@ -304,6 +301,5 @@ class ActiveConfigController extends Controller
 			}
 		}
 	}
-	
 
 }

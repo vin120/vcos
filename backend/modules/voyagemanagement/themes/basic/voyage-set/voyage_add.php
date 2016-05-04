@@ -73,7 +73,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						'action' => ['voyage_add'],
 						'method'=>'post',
 						'id'=>'voyage_add',
-						'options' => ['class' => 'voyage_add'],
+						'options' => ['class' => 'voyage_add','enctype'=>'multipart/form-data'],
 						'enableClientValidation'=>false,
 						'enableClientScript'=>false
 					]); 
@@ -119,11 +119,11 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						<p>
 							<label>
 								<span>Start Time:</span>
-								<input type="text" id="s_time" name="s_time" placeholder="please choose"  readonly></input>
+								<input type="text" id="s_time" name="s_time" placeholder="please choose"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>"></input><!-- modify -->
 							</label>
 							<label>
 								<span>End Time:</span>
-								<input type="text" id="e_time" name="e_time" placeholder="please choose"  readonly></input>
+								<input type="text" id="e_time" name="e_time" placeholder="please choose"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>"></input><!-- modify -->
 							</label>
 						</p>
 						<p>
@@ -137,11 +137,11 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 							<p>
 								<label>
 									<span>Start booking time:</span>
-									<input type="text" id="s_book_time" name="s_book_time" placeholder="please choose"  readonly></input>
+									<input type="text" id="s_book_time" name="s_book_time" placeholder="please choose"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>"></input><!-- modify -->
 								</label>
 								<label>
 									<span>Stop booking time:</span>
-									<input type="text" id="e_book_time" name="e_book_time" placeholder="please choose"  readonly></input>
+									<input type="text" id="e_book_time" name="e_book_time" placeholder="please choose"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>"></input><!-- modify -->
 								</label>
 							</p>
 							<p>

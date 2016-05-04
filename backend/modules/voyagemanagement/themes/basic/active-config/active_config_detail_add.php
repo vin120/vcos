@@ -58,7 +58,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 			<p>
 				<label>
 					<span class='max_l'>Title:</span>
-					<input type="text" id='detail_title' name='detail_title'></input>
+					<input type="text" id='detail_title' name='detail_title' required ></input> <!-- modify  require-->
 				</label>
 				
 				<span class='tips'></span>
