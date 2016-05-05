@@ -13,9 +13,9 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content">
-	<div class="topNav">Route Manage&nbsp;&gt;&gt;&nbsp;
-	<a href="<?php echo Url::toRoute(['active_config']);?>">Active Config</a>&nbsp;&gt;&gt;&nbsp;
-	<a href="#">Active Config Add</a></div>
+	<div class="topNav"><?php echo yii::t('app','Route Manage') ?>&nbsp;&gt;&gt;&nbsp;
+	<a href="<?php echo Url::toRoute(['active_config']);?>"><?php echo yii::t('app','Active Config') ?></a>&nbsp;&gt;&gt;&nbsp;
+	<a href="#"><?php echo yii::t('app','Active Config Add')?></a></div>
 	<div class="tab">
 		<ul class="tab_title">
 			<li class="active">Active</li>
@@ -37,25 +37,25 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					<div>
 						<p>
 							<label>
-								<span>Name:</span>
+								<span> <?php echo yii::t('app','Name')?>:</span>
 								<input type="text" id="name"  name="name" required></input>
 							</label>
 							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
-								<span>Status:</span>
+								<span><?php echo yii::t('app','Status')?>:</span>
 								<select id="active_select" name="active_select">
-									<option value="1">Usable</option>
-									<option value="0">Disabled</option>
+									<option value="1"><?php echo yii::t('app','Usable') ?></option>
+									<option value="0"><?php echo yii::t('app','Disabled') ?></option>
 								</select>
 							</label>
 							<span class='tips'></span>
 						</p>
 					</div>
 					<div class="btn">
-						<input type="submit" value="SAVE" ></input>
-						<input type="button" class="cancle" value="CLEAN" ></input>
+						<input type="submit" value="<?php echo yii::t('app','SAVE')?>" ></input>
+						<input type="button" class="<?php echo yii::t('app','CANCLE') ?>" value="CLEAN" ></input>
 					</div>
 				<?php 
 					ActiveForm::end(); 
@@ -68,17 +68,17 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						<thead>
 							<tr>
 								<th><input type="checkbox"></input></th>
-								<th>Day</th>
-								<th>Title</th>
-								<th>Desc</th>
-								<th>Operate</th>
+								<th><?php echo yii::t('app','Day')?></th>
+								<th><?php echo yii::t('app','Title')?></th>
+								<th><?php echo yii::t('app','Desc')?></th>
+								<th><?php echo yii::t('app','Operate')?></th>
 							</tr>
 						</thead>
 					</table>
-					<p class="records">Records:<span>0</span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span>0</span></p>
 					<div class="btn">
-						<input type="button" value="Add" style="background: #ccc;cursor:not-allowed" ></input>
-						<input type="button" value="Del Selected" style="background: #ccc;cursor:not-allowed" ></input>
+						<input type="button" value="<?php echo yii::t('app','Add')?>" style="background: #ccc;cursor:not-allowed" ></input>
+						<input type="button" value="<?php echo yii::t('app','Del Selected')?>" style="background: #ccc;cursor:not-allowed" ></input>
 					</div>
 				</div>
 			</div>

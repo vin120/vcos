@@ -52,17 +52,17 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 
 <!-- content start -->
 <div class="r content">
-<div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['index']);?>">Voyage Set</a>&nbsp;&gt;&gt;&nbsp;
-    <a href="#">Voyage_set_add</a></div>
+<div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['index']);?>"><?php echo yii::t('app','Voyage Set')?></a>&nbsp;&gt;&gt;&nbsp;
+    <a href="#"><?php echo yii::t('app','Voyage_set_add')?></a></div>
 	<div class="tab">
 		<ul class="tab_title">
-			<li class="active">Voyage</li>
-			<li>Voyage Port</li>
-			<li>Active</li>
-			<li>Voyage Map</li>
-			<li>Cabin</li>
-			<li>Return route</li>
+			<li class="active"><?php echo yii::t('app','Voyage')?></li>
+			<li><?php echo yii::t('app','Voyage Port')?></li>
+			<li><?php echo yii::t('app','Active')?></li>
+			<li><?php echo yii::t('app','Voyage Map')?></li>
+			<li><?php echo yii::t('app','Cabin')?></li>
+			<li><?php echo yii::t('app','Return route')?></li>
 		</ul>
 		<div class="tab_content">
 			<div class="active">
@@ -81,17 +81,17 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					<div>
 						<p>
 							<label>
-								<span>Voyage Name:</span>
+								<span><?php echo yii::t('app','Voyage Name')?>:</span>
 								<input type="text" id="voyage_name" name="voyage_name" required ></input>
 							</label>
 							<label>
-								<span>Voyage Num:</span>
+								<span><?php echo yii::t('app','Voyage Num')?>:</span>
 								<input type="text" id="voyage_num" name="voyage_num" required ></input>
 							</label>
 						</p>
 						<p>
 							<label >
-								<span>Area:</span>
+								<span><?php echo yii::t('app','Area')?>:</span>
 								<select name="area" id="area">
 									<?php foreach ($area as $row ){?>
 									<option value="<?php echo $row['area_code'];?>"><?php echo $row['area_name']?></option>
@@ -99,7 +99,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 								</select>
 							</label>
 							<label>
-								<span>Cruise:</span>
+								<span><?php echo yii::t('app','Cruise')?>:</span>
 								<select id="cruise" name="cruise">
 								<?php foreach($cruise as $row) {?>
 									<option value="<?php echo $row['cruise_code']?>"><?php echo $row['cruise_name']?></option>
@@ -109,26 +109,26 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						</p>
 						<p>
 							<label >
-								<span>Scheduling :</span>
+								<span><?php echo yii::t('app','Scheduling')?>:</span>
 							</label>
 							<label class="uploadFileBox">
-								<span class="fileName">Pick Up PDF...</span>
+								<span class="fileName"><?php echo yii::t('app','Pick Up PDF')?>...</span>
 								<a href="#" class="uploadFile">choose<input type="file" name="pdf" id="pdf"></input></a>
 							</label>
 						</p>
 						<p>
 							<label>
-								<span>Start Time:</span>
-								<input type="text" id="s_time" name="s_time" placeholder="please choose"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+								<span><?php echo yii::t('app','Start Time')?>:</span>
+								<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
 							</label>
 							<label>
-								<span>End Time:</span>
-								<input type="text" id="e_time" name="e_time" placeholder="please choose"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+								<span><?php echo yii::t('app','End Time')?>:</span>
+								<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
 							</label>
 						</p>
 						<p>
 							<label >
-								<span>Desc:</span>
+								<span><?php echo yii::t('app','Desc')?>:</span>
 								<textarea id="desc" name="desc"></textarea>
 							</label>
 						</p>
@@ -136,39 +136,39 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						<div class="price">
 							<p>
 								<label>
-									<span>Start booking time:</span>
-									<input type="text" id="s_book_time" name="s_book_time" placeholder="please choose"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+									<span><?php echo yii::t('app','Start booking time')?>:</span>
+									<input type="text" id="s_book_time" name="s_book_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
 								</label>
 								<label>
-									<span>Stop booking time:</span>
-									<input type="text" id="e_book_time" name="e_book_time" placeholder="please choose"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+									<span><?php echo yii::t('app','Stop booking time')?>:</span>
+									<input type="text" id="e_book_time" name="e_book_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
 								</label>
 							</p>
 							<p>
 								<label>
-									<span>Ticket Price:</span>
+									<span><?php echo yii::t('app','Ticket Price')?>:</span>
 									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="ticket_price" name="ticket_price" required></input>
 								</label>
 								<label>
-									<span>Ticket Taxes:</span>
+									<span><?php echo yii::t('app','Ticket Taxes')?>:</span>
 									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="ticket_taxes" name="ticket_taxes" min="0" max="100" required></input>
 								</label>
 							</p>
 							<p>
 								<label>
-									<span>Harbour Taxes:</span>
+									<span><?php echo yii::t('app','Harbour Taxes')?>:</span>
 									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="harbour_taxes" name="harbour_taxes" min="0" max="100" required></input>
 								</label>
 								<label>
-									<span>Deposit ratio:</span>
+									<span><?php echo yii::t('app','Deposit ratio')?>:</span>
 									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="deposit_ratio" name="deposit_ratio" min="0" max="100" required></input>
 								</label>
 							</p>
 						</div>
 					</div>
 					<div class="btn">
-						<input type="submit" value="SAVE"></input>
-						<input class="cancle" type="button" value="CANCLE" ></input>
+						<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+						<input class="cancle" type="button" value="<?php echo yii::t('app','CANCLE')?>" ></input>
 					</div>
 				</div>
 				<?php 
@@ -182,20 +182,20 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					<thead>
 						<tr>
 							<th><input type="checkbox"></input></th>
-							<th>No.</th>
-							<th>Port Name</th>
-							<th>Arrival Time</th>
-							<th>Departure Time</th>
-							<th>Operation</th>
+							<th><?php echo yii::t('app','No.')?></th>
+							<th><?php echo yii::t('app','Port Name')?></th>
+							<th><?php echo yii::t('app','Arrival Time')?></th>
+							<th><?php echo yii::t('app','Departure Time')?></th>
+							<th><?php echo yii::t('app','Operation')?></th>
 						</tr>
 					</thead>
 					<tbody>
 					</tbody>
 				</table>
-				<p class="records">Records:<span>0</span></p>
+				<p class="records"><?php echo yii::t('app','Records')?>:<span>0</span></p>
 		        <div class="btn">
-		            <a href="#"><input type="button" value="Add"  style="background: #ccc;cursor:not-allowed"></input></a>
-		            <input type="button" value="Del Selected"  style="background: #ccc;cursor:not-allowed"></input>
+		            <a href="#"><input type="button" value="<?php echo yii::t('app','Add')?>"  style="background: #ccc;cursor:not-allowed"></input></a>
+		            <input type="button" value="<?php echo yii::t('app','Del Selected')?>"  style="background: #ccc;cursor:not-allowed"></input>
 		        </div>
 				<!-- voyage port end -->
 			</div>
@@ -203,18 +203,18 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				<!-- active start -->
 				<p>
 					<label>
-						<span>Curr Active:</span>
+						<span><?php echo yii::t('app','Curr Active')?>:</span>
 						<span style="color:red">null</span>
 					</label>
 				</p>
 				<p>
 					<label>
-						<span>Active Type:</span>
+						<span><?php echo yii::t('app','Active Type')?>:</span>
 						<select disabled="disabled"></select>
 					</label>
 				</p>
 				<div class="btn">
-					<input type="button" value="Save"   style="background: #ccc;cursor:not-allowed" ></input>
+					<input type="button" value="<?php echo yii::t('app','Save')?>"   style="background: #ccc;cursor:not-allowed" ></input>
 				</div>
 				<!-- active end -->
 			</div>
@@ -233,13 +233,13 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				<!-- cabin start -->
 				<div class="search">
 					<label>
-						<span>Type:</span>
+						<span><?php echo yii::t('app','Type')?>:</span>
 						<select disabled="disabled">
-							<option>All</option>
+							<option><?php echo yii::t('app','All')?></option>
 						</select>
 					</label>
 					<label>
-						<span>Desk:</span>
+						<span><?php echo yii::t('app','Desk')?>:</span>
 						<select disabled="disabled">
 							<option>1</option>
 							<option>2</option>
@@ -249,7 +249,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				<div class="searchResult selectBox">
 					<div class="l selectList">
 						<ul>
-							<li><span><input type="checkbox" disabled="disabled"></span></input><span>No Selected</span></li>
+							<li><span><input type="checkbox" disabled="disabled"></span></input><span><?php echo yii::t('app','No Selected')?></span></li>
 						</ul>
 						<ul>
 							<li><span><input type="checkbox" disabled="disabled"></span><span></span></li>
@@ -263,7 +263,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					</div>
 					<div class="l selectList">
 						<ul>
-							<li><span><input type="checkbox" disabled="disabled"></span></input><span>Selected</span></li>
+							<li><span><input type="checkbox" disabled="disabled"></span></input><span><?php echo yii::t('app','Selected')?></span></li>
 						</ul>
 						<ul>
 							<li><span><input type="checkbox" disabled="disabled"></span><span></span></li>
@@ -273,7 +273,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					</div>
 				</div>
 				<div class="btn">
-					<input type="button" value="Save"  style="background: #ccc;cursor:not-allowed"></input>
+					<input type="button" value="<?php echo yii::t('app','Save')?>"  style="background: #ccc;cursor:not-allowed"></input>
 				</div>
 				<!-- cabin end -->
 			</div>
@@ -281,20 +281,20 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				<!-- Return route start -->
 				<p>
 					<label>
-						<span>Return Route:</span>
+						<span><?php echo yii::t('app','Return Route')?>:</span>
 						<select disabled="disabled">
-							<option>All</option>
+							<option><?php echo yii::t('app','All')?></option>
 						</select>
 					</label>
 				</p>
 				<p>
 					<label>
-						<span>Route Name:</span>
+						<span><?php echo yii::t('app','Route Name')?>:</span>
 						<input type="text" disabled="disabled"></input>
 					</label>
 				</p>
 				<div class="btn">
-					<input type="button" value="Save" style="background: #ccc;cursor:not-allowed"></input>
+					<input type="button" value="<?php echo yii::t('app','Save')?>" style="background: #ccc;cursor:not-allowed"></input>
 				</div>
 				<!-- Return route end -->
 			</div>

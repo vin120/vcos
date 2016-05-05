@@ -8,10 +8,9 @@ use yii\web\Controller;
 use app\modules\voyagemanagement\components\Helper;
 use app\modules\voyagemanagement\models\VCActive;
 use app\modules\voyagemanagement\models\VCActiveI18n;
-use yii\db\Query;
 use app\modules\voyagemanagement\models\VCActiveDetail;
 use app\modules\voyagemanagement\models\VCActiveDetailI18n;
-
+use yii\db\Query;
 
 class ActiveconfigController extends Controller
 {
@@ -392,6 +391,11 @@ class ActiveconfigController extends Controller
 		
 			VCActiveDetail::deleteAll("id in ($ids)");
 			VCActiveDetailI18n::deleteAll("active_detail_id in ($ids)");
+			
+			
+				
+			VCActive::deleteAll("active_id in ($ids)");
+			VCActiveI18n::deleteAll("active_id in ($ids)");
 			
 			
 // 			$sql = "DELETE FROM `v_c_active_detail` WHERE id in ('{$ids}')";

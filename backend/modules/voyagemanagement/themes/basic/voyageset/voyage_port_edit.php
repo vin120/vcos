@@ -26,9 +26,9 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content">
-<div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="#">Voyage Set</a>&nbsp;&gt;&gt;&nbsp;
-    <a href="#">Voyage_set_add</a></div>
+<div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
+    <a href="#"><?php echo yii::t('app','Voyage Set')?></a>&nbsp;&gt;&gt;&nbsp;
+    <a href="#"><?php echo yii::t('app','Voyage_set_add')?></a></div>
 	<div class="write">
 	<?php
 		$form = ActiveForm::begin([
@@ -45,7 +45,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		<div>
 			<p>
 				<label class="shortLabel">
-					<span>Num:</span>
+					<span><?php echo yii::t('app','Num')?>:</span>
 					<select id="order_no" name="order_no">
 						<?php for($i=1;$i<=100;$i++){ ?>
                        		<option value="<?php echo $i;?>" <?php if($voyage_port['order_no'] == $i){echo "selected='selected'";} ?> ><?php echo $i?></option>
@@ -55,7 +55,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			</p>
 			<p>
 				<label class="shortLabel">
-					<span>Port:</span>
+					<span><?php echo yii::t('app','Port')?>:</span>
 					<select id="port_code" name="port_code">
 						<?php foreach($port as $row){?>
 						<option id="<?php echo $row['port_code']?>" value="<?php echo $row['port_code'] ?>" <?php if($voyage_port['port_code'] == $row['port_code']){echo "selected='selected'";}?> ><?php echo $row['port_name'] ;?> </option>
@@ -63,25 +63,25 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					</select>
 				</label>
 				<label>
-					<input type="checkbox" id="terminal" name="terminal" >Terminal</input> 
+					<input type="checkbox" id="terminal" name="terminal" ><?php echo yii::t('app','Terminal')?></input> 
 				</label>
 			</p>
 			<p>
 				<label>
-					<span>Arrival Time:</span>
-					<input type="text" id="s_time" name="s_time" placeholder="please choose"  value="<?php echo $voyage_port['EIA']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"></input>
+					<span><?php echo yii::t('app','Arrival Time')?>:</span>
+					<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>"  value="<?php echo $voyage_port['EIA']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"></input>
 				</label>
 			</p>
 			<p>
 				<label>
-					<span>Departure Time:</span>
-					<input type="text" id="e_time" name="e_time" placeholder="please choose"  value="<?php echo $voyage_port['ETD']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"></input>
+					<span><?php echo yii::t('app','Departure Time')?>:</span>
+					<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>"  value="<?php echo $voyage_port['ETD']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"></input>
 				</label>
 			</p>
 		</div>
 		<div class="btn">
-			<input type="submit" value="SAVE"></input>
-			<input type="button" value="CANCLE"></input>
+			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+			<input type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
 		</div>
 		<?php 
 			ActiveForm::end(); 

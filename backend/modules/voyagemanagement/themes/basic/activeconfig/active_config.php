@@ -14,7 +14,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content" id="refundReason_content">
-	<div class="topNav">Route Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Active Config </a></div>
+	<div class="topNav"><?php echo yii::t('app','Route Manage')?>&nbsp;&gt;&gt;&nbsp;<a href="#"><?php echo yii::t('app','Active Config')?> </a></div>
 	<div class="searchResult">
 	<?php
 		$form = ActiveForm::begin([
@@ -28,10 +28,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			<thead>
 				<tr>
 					<th><input type="checkbox"></input></th>
-					<th>No.</th>
-					<th>Name</th>
-					<th>Status</th>
-					<th>Operate</th>
+					<th><?php echo yii::t('app','No.')?></th>
+					<th><?php echo yii::t('app','Name')?></th>
+					<th><?php echo yii::t('app','Status')?></th>
+					<th><?php echo yii::t('app','Operate')?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -52,10 +52,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		<?php 
 			ActiveForm::end(); 
 		?>
-		<p class="records">Records:<span><?php echo $count?></span></p>
+		<p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $count?></span></p>
 		<div class="btn">
-			<a href="<?php echo Url::toRoute(['active_config_add']);?>" ><input type="button" value="Add"></input></a>
-			<input id="del_submit" type="button" value="Del Selected"></input>
+			<a href="<?php echo Url::toRoute(['active_config_add']);?>" ><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
+			<input id="del_submit" type="button" value="<?php echo yii::t('app','Del Selected')?>"></input>
 		</div>
 		 <!-- 分页 -->
         <div class="center" id="active_page_div"> </div>
@@ -73,10 +73,10 @@ window.onload = function(){
 		    visiblePages: 5,
 		    currentPage: 1,
 		    wrapper:'<ul class="pagination"></ul>',
-		    first: '<li class="first"><a href="javascript:void(0);">First</a></li>',
+		    first: '<li class="first"><a href="javascript:void(0);"><?php echo yii::t('app','First')?></a></li>',
 		    prev: '<li class="prev"><a href="javascript:void(0);">«</a></li>',
 		    next: '<li class="next"><a href="javascript:void(0);">»</a></li>',
-		    last: '<li class="last"><a href="javascript:void(0);">Last</a></li>',
+		    last: '<li class="last"><a href="javascript:void(0);"><?php echo yii::t('app','Last')?></a></li>',
 		    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
 		    onPageChange: function (num, type) {
 		    	var this_page = $("input#active_page").val();

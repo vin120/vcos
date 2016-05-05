@@ -216,7 +216,7 @@ $(document).ready(function(){
 	
 	//cruise 
 	//邮轮数据验证
-	$("#cruise_val").validate({
+	/*$("#cruise_val").validate({
         rules: {
             code:{required:true,isEnglish:true},
             desc:{required:true,isEnglish:true},
@@ -226,39 +226,9 @@ $(document).ready(function(){
         errorPlacement: function(error, element) { //错误信息位置设置方法
         	error.appendTo( element.parent().parent().find("span.tips") ); //这里的element是录入数据的对象
     	},
-    });
+    });*/
 	
-	//邮轮添加编辑页面判断邮轮code是否唯一
-	$('form#cruise_val').submit(function(){
-        var a=1;
-        var op = $(this).attr('class');
-        var code = $("input#code").val();
-        var name = $("input#name").val();
-        var desc = $("textarea#desc").val();
-        if(code!='' && name!='' && desc!=''){
-        	
-        	var act = (op == 'cruise_edit')?1:2;
-        	if(op == "cruise_edit")
-        		var id = $("input#id").val();
-        	else 
-        		var id = '';
-        	
-        	 $.ajax({
-			        url:cruise_ajax_url,
-			        type:'get',
-			        data:'code='+code+'&act='+act+'&id='+id,
-			        async:false,
-			     	dataType:'json',
-			    	success:function(data){
-			    		if(data==0) a=0;
-			    		else{alert("Code can't repeat!");}
-			    	}      
-			    });
-        }
-       if(a == 1){
-           return false;
-       }
-    });
+	
 	
 	
 	$("#photoimg").on('change',function(){

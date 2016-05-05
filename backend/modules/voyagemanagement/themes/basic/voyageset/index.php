@@ -19,8 +19,8 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content">
-<div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['index']);?>">Voyage Set</a></div>
+<div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['index']);?>"><?php echo yii::t('app','Voyage Set')?></a></div>
     <?php
 		$form = ActiveForm::begin([
 			'method'=>'post',
@@ -30,18 +30,18 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 	?>
 	<div class="search">
 		<label>
-			<span>Voyage Name:</span>
+			<span><?php echo yii::t('app','Voyage Name')?>:</span>
 			<input type="text" id="voyage_name" name="voyage_name" value="<?php echo $voyage_name ?>"></input>
 		</label>
 		<label>
-			<span>Start Time:</span>
-			<input type="text" id="s_time" name="s_time" placeholder="please choose" value="<?php echo $s_time?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate" ></input>
+			<span><?php echo yii::t('app','Start Time')?>:</span>
+			<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo $s_time?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate" ></input>
 		</label>
 		<label>
-		<span>End Time:</span>
-			<input type="text" id="e_time" name="e_time" placeholder="please choose" value="<?php echo $e_time?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate" ></input>
+		<span><?php echo yii::t('app','End Time')?>:</span>
+			<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo $e_time?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate" ></input>
 		</label>
-		<span class="btn"><input type="submit" value="SEARCH"></input></span>
+		<span class="btn"><input type="submit" value="<?php echo yii::t('app','SEARCH')?>"></input></span>
 	</div>
 	<?php
 		ActiveForm::end();
@@ -50,11 +50,11 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		<table id="voyage_table">
 			<thead>
 				<tr>
-					<th>Voyage Name</th>
-					<th>Voyage Num</th>
-					<th>Start Time</th>
-					<th>End Time</th>
-					<th>Operate</th>
+					<th><?php echo yii::t('app','Voyage Name')?></th>
+					<th><?php echo yii::t('app','Voyage Num')?></th>
+					<th><?php echo yii::t('app','Start Time')?></th>
+					<th><?php echo yii::t('app','End Time')?></th>
+					<th><?php echo yii::t('app','Operate')?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -71,9 +71,9 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 				<?php } ?>
 			</tbody>
 		</table>
-		<p class="records">Records:<span><?php echo $count ?></span></p>
+		<p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $count ?></span></p>
 		<div class="btn">
-			<a href="<?php echo Url::toRoute(['voyage_add']);?>"><input type="button" value="Add"></input></a>
+			<a href="<?php echo Url::toRoute(['voyage_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
 		</div>
 		<!--分页-->
 		 <div class="center" id="voyage_page_div"> </div>

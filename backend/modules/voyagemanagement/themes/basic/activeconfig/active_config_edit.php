@@ -17,9 +17,9 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content">
-	<div class="topNav">Route Manage&nbsp;&gt;&gt;&nbsp;
-	<a href="<?php echo Url::toRoute(['active_config']);?>">Active Config</a>&nbsp;&gt;&gt;&nbsp;
-	<a href="#">Active Config Edit</a></div>
+	<div class="topNav"><?php echo yii::t('app','Route Manage')?>&nbsp;&gt;&gt;&nbsp;
+	<a href="<?php echo Url::toRoute(['active_config']);?>"><?php echo yii::t('app','Active Config')?></a>&nbsp;&gt;&gt;&nbsp;
+	<a href="#"><?php echo yii::t('app','Active Config Edit')?></a></div>
 	<div class="tab">
 		<ul class="tab_title">
 			<li class="active">Active</li>
@@ -41,7 +41,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					<div>
 						<p>
 							<label>
-								<span>Name:</span>
+								<span><?php echo yii::t('app','Name')?>:</span>
 								<input type="text" id="name" name="name" value="<?php echo $active['name'] ?>" required></input>
 								<input type="hidden" id="active_id" name="active_id" value="<?php echo $active['active_id']?>" ></input>
 							</label>
@@ -49,7 +49,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						</p>
 						<p>
 							<label>
-								<span>Status:</span>
+								<span><?php echo yii::t('app','Status')?>:</span>
 								<select id="active_select" name="active_select">
 									<option value="1" <?php if($active['status']=='1'){?>selected="selected"<?php }?>>Usable</option>
 									<option value="0" <?php if($active['status']=='0'){?>selected="selected"<?php }?>>Disabled</option>
@@ -59,8 +59,8 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						</p>
 					</div>
 					<div class="btn">
-						<input type="submit" value="SAVE"></input>
-						<input type="button" class="cancle" value="CLEAN" ></input>
+						<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+						<input type="button" class="cancle" value="<?php echo yii::t('app','CLEAN')?>" ></input>
 					</div>
 					<?php 
 						ActiveForm::end(); 
@@ -84,10 +84,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						<thead>
 							<tr>
 								<th><input type="checkbox"></input></th>
-								<th>Day</th>
-								<th>Title</th>
-								<th>Desc</th>
-								<th>Operate</th>
+								<th><?php echo yii::t('app','Day')?></th>
+								<th><?php echo yii::t('app','Title')?></th>
+								<th><?php echo yii::t('app','Desc')?></th>
+								<th><?php echo yii::t('app','Operate')?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -109,7 +109,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					<?php 
 						ActiveForm::end(); 
 					?>
-					<p class="records">Records:<span><?php echo $count;?></span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $count;?></span></p>
 					<div class="btn">
 						<a href="<?php echo Url::toRoute(['active_config_detail_add']).'&active_id='.$active['active_id'];?>" ><input type="button" value="Add"></input></a>
 						<input id="del_submit" type="button" value="Del Selected"></input>

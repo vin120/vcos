@@ -20,7 +20,13 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 <script type="text/javascript">
 var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 </script>
-
+<style>
+	#cruise_val span.point {margin-left:5px; width: auto; position: absolute; background: #fe5d5d; padding: 4px 10px; color: #fff; font-weight: bolder; }
+    #cruise_val span.point:before { content: ""; position: absolute; left: -10px; top: 4px; width: 0; height: 0; border-style: solid; border-width: 5px 10px 5px 0; border-color: transparent #fe5d5d transparent transparent; }
+	#cruise_val label.error { width: auto; position: absolute; background: #fe5d5d; padding: 4px 10px; color: #fff; font-weight: bolder; }
+    #cruise_val label.error:before { content: ""; position: absolute; left: -10px; top: 4px; width: 0; height: 0; border-style: solid; border-width: 5px 10px 5px 0; border-color: transparent #fe5d5d transparent transparent; }
+    #cruise_val input.point { outline-color: #fe5d5d; border: 2px solid #fe5d5d; }
+</style>
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
@@ -45,24 +51,22 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'>Cruise Code:</span>
-					<input type="text" required id='code' name='code'></input>
-					
-				</label>
+					<input type="text" id='code' name='code' />
+					</label>
 				
 				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'>Cruise Name:</span>
-					<input type="text" required id="name" name="name"></input>
+					<input type="text" id="name" name="name" />
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'>Deck Number:</span>
-					<input type="text" required id='number' name='number'  required ></input>
+					<input type="text"  id='number' name='number'  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
 					
 				</label>
 				
@@ -118,5 +122,63 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 <script>
 window.onload = function(){
 $("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
+
+$("input[type=text]").each(function(){//聚焦是清除
+	$(this).focus(function(){
+		 $(this).parent().find("span.point").remove();
+		 $(this).removeClass("point");
+	});
+ });
+ $("textarea").focus(function(){
+	 $(this).parent().find("span.point").remove();
+	 $(this).removeClass("point");
+});
+
+//邮轮添加编辑页面判断邮轮code是否唯一
+$('form#cruise_val').submit(function(){
+    var a=1;
+    var op = $(this).attr('class');
+    var code = $("input#code").val();
+    var name = $("input#name").val();
+    var desc = $("textarea#desc").val();
+    var data = "<span class='point' ><?php echo yii::t('app','Required fields cannot be empty ')?></span>";
+    $("input[type=text]").each(function(e){	//如果文本框为空值			
+		if($(this).val()==''){
+			$(this).parent().append(data);
+			$(this).addClass("point");
+			return false;
+		}
+   	}); 
+   	if($desc == ''){
+   		$(this).parent().append(data);
+		$(this).addClass("point");
+		return false;
+   	}
+		
+    if(code!='' && name!='' && desc!=''){
+    	var act = (op == 'cruise_edit')?1:2;
+    	if(op == "cruise_edit")
+    		var id = $("input#id").val();
+    	else 
+    		var id = '';
+    	
+    	 $.ajax({
+		        url:cruise_ajax_url,
+		        type:'get',
+		        data:'code='+code+'&act='+act+'&id='+id,
+		        async:false,
+		     	dataType:'json',
+		    	success:function(data){
+		    		if(data==0) a=0;
+		    		else{alert("Code can't repeat!");}
+		    	}      
+		    });
+    }
+    return false;
+   if(a == 1){
+       return false;
+   }
+});
+
 }
 </script>

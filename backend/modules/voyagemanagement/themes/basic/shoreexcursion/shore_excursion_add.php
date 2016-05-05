@@ -17,7 +17,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <script type="text/javascript">
 var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_check']);?>";
 </script>
-
+<script type="text/javascript" src="<?php echo $baseUrl;?>js/My97DatePicker/WdatePicker.js"></script>
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
@@ -69,6 +69,14 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 					<span class='max_l'>Describe:</span>
 					<textarea id="desc" required name="desc">
 					</textarea>
+				</label>
+				<span class='tips'></span>
+			</p>
+			<p>
+				<label>
+					<span class='max_l'>Date:</span>
+					<input type="text" name="date_of_entry" value="" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"   id="date_of_entry"></input>
+					
 				</label>
 				<span class='tips'></span>
 			</p>
