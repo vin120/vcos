@@ -29,9 +29,9 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 </style>
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['cruise']);?>">Cruise</a>&nbsp;&gt;&gt;&nbsp;
-    <a href="#">Cruise_add</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['cruise']);?>"><?php echo yii::t('app','Cruise')?></a>&nbsp;&gt;&gt;&nbsp;
+    <a href="#"><?php echo yii::t('app','Cruise_add')?></a></div>
     
     <div class="searchResult">
         
@@ -50,7 +50,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 		<div>
 			<p>
 				<label>
-					<span class='max_l'>Cruise Code:</span>
+					<span class='max_l'><?php echo yii::t('app','Cruise Code')?>:</span>
 					<input type="text" id='code' name='code' />
 					</label>
 				
@@ -58,14 +58,14 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Cruise Name:</span>
+					<span class='max_l'><?php echo yii::t('app','Cruise Name')?>:</span>
 					<input type="text" id="name" name="name" />
 					
 				</label>
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Deck Number:</span>
+					<span class='max_l'><?php echo yii::t('app','Deck Number')?>:</span>
 					<input type="text"  id='number' name='number'  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
 					
 				</label>
@@ -74,12 +74,12 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			</p>
 			<p>
 				<label>
-					<span class='max_l' style="float: left;">Cruise Img:</span>
+					<span class='max_l' style="float: left;"><?php echo yii::t('app','Cruise Img')?>:</span>
 					<span id="img_back" style="width:120px;height:120px;float:left;margin-left:5px;margin-bottom:30px;display:none">
 					<img id="ImgPr" width="120" height="120" src=""/>
 					</span>
 					<span id="up_btn" class="btn_img" style="display:inline-block;margin-left:5px;">
-						<span>选择图片</span>
+						<span><?php echo yii::t('app','choose image')?></span>
 						<input id="photoimg" type="file" name="photoimg" style="width:60px;">
 					</span>
 					
@@ -88,7 +88,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			</p>
 			<p style="clear: both">
 				<label>
-					<span class='max_l'>Cruise Desc:</span>
+					<span class='max_l'><?php echo yii::t('app','Cruise Desc')?>:</span>
 					<textarea id='desc' name='desc'>
 					</textarea>
 				</label>
@@ -96,18 +96,18 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Status:</span>
+					<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
 					<select name="state" id="state">
-						<option value='1'>Usable</option>
-						<option value='0'>Disabled</option>
+						<option value='1'><?php echo yii::t('app','Avaliable')?></option>
+						<option value='0'><?php echo yii::t('app','Unavaliable')?></option>
 					</select>
 				</label>
 			</p>
 			
 		</div>
 		<div class="btn">
-				<input type="submit" value="SAVE"></input>
-				<input class="cancle" type="button" value="CANCLE"></input>
+				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+				<input class="cancle" type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
 			</div>
 		<?php 
 		ActiveForm::end(); 

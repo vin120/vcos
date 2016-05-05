@@ -23,14 +23,14 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['cabin_type']);?>">Cabin Type</a>&nbsp;&gt;&gt;&nbsp;
-    <a href="#">Cabin_type_edit</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['cabin_type']);?>"><?php echo yii::t('app','Cabin Type')?></a>&nbsp;&gt;&gt;&nbsp;
+    <a href="#"><?php echo yii::t('app','Cabin_type_edit')?></a></div>
     
     <div class="tab">
 		<ul class="tab_title">
-			<li class="active">Basic</li>
-			<li>Graphic</li>
+			<li class="active"><?php echo yii::t('app','Basic')?></li>
+			<li><?php echo yii::t('app','Graphic')?></li>
 		</ul>
 		<div class="tab_content">
 			<div class="active">
@@ -51,7 +51,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 					<input type="hidden" id="id" name="id" value="<?php echo $cabin_type_result['id']?>" />
 						<p>
 							<label>
-								<span class='max_l'>Cabin Type Code:</span>
+								<span class='max_l'><?php echo yii::t('app','Cabin Type Code')?>:</span>
 								<input type="text" required id='code' name='code' value="<?php echo $cabin_type_result['type_code']?>"></input>
 								
 							</label>
@@ -60,7 +60,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						</p>
 						<p>
 							<label>
-								<span class='max_l'>Cabin Type Name:</span>
+								<span class='max_l'><?php echo yii::t('app','Cabin Type Name')?>:</span>
 								<input type="text" required id="name" name="name" value="<?php echo $cabin_type_result['type_name']?>"></input>
 								
 							</label>
@@ -68,7 +68,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						</p>
 						<p>
 							<label>
-								<span class='max_l'>Live Number:</span>
+								<span class='max_l'><?php echo yii::t('app','Live Number')?>:</span>
 								<select name='live_number' id="live_number">
 									<option value='1' <?php echo $cabin_type_result['live_number']==1?"selected='selected'":'';?>>1</option>
 									<option value='2' <?php echo $cabin_type_result['live_number']==2?"selected='selected'":'';?>>2</option>
@@ -81,7 +81,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						</p>
 						<p>
 							<label>
-								<span class='max_l'>Beds:</span>
+								<span class='max_l'><?php echo yii::t('app','Beds')?>:</span>
 								<select name='beds' id="beds">
 									<option value='1' <?php echo $cabin_type_result['beds']==1?"selected='selected'":'';?>>1</option>
 									<option value='2' <?php echo $cabin_type_result['beds']==2?"selected='selected'":'';?>>2</option>
@@ -95,16 +95,16 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						
 						<p>
 							<label>
-								<span class='max_l'>Room Area:</span>
+								<span class='max_l'><?php echo yii::t('app','Room Area')?>:</span>
 								<?php $room = explode('-', $cabin_type_result['room_area']);?>
 								<input type="text" required id="room_min" name="room_min" style="width:35px" value="<?php echo $room[0];?>" /> -
-								<input type="text" required id="room_max" name="room_max" style="width:35px" value="<?php echo $room[1];?>" />平方米
+								<input type="text" required id="room_max" name="room_max" style="width:35px" value="<?php echo $room[1];?>" /><?php echo yii::t('app','㎡')?>
 							</label>
 							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
-								<span class='max_l'>Floor:</span>
+								<span class='max_l'><?php echo yii::t('app','Floor')?>:</span>
 								<input type="text" required id='floor' name='floor' value="<?php echo $cabin_type_result['floor']?>" ></input>
 								
 							</label>
@@ -113,20 +113,20 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						</p>
 						<p>
 							<label>
-								<span class='max_l'>location:</span>
+								<span class='max_l'><?php echo yii::t('app','location')?>:</span>
 								<select name="location" id="location">
-									<option value="0" <?php echo $cabin_type_result['location']==0?"selected='selected'":'';?>>左弦</option>
-									<option value="1" <?php echo $cabin_type_result['location']==1?"selected='selected'":'';?>>右弦</option>
+									<option value="0" <?php echo $cabin_type_result['location']==0?"selected='selected'":'';?>><?php echo yii::t('app','Port Side')?></option>
+									<option value="1" <?php echo $cabin_type_result['location']==1?"selected='selected'":'';?>><?php echo yii::t('app','Starboard Side')?></option>
 								</select>
 							</label>
 							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
-								<span class='max_l'>Status:</span>
+								<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
 								<select name="state" id="state">
-									<option value='1' <?php echo $cabin_type_result['type_status']==1?"selected='selected'":'';?>>Usable</option>
-									<option value='0' <?php echo $cabin_type_result['type_status']==0?"selected='selected'":'';?>>Disabled</option>
+									<option value='1' <?php echo $cabin_type_result['type_status']==1?"selected='selected'":'';?>><?php echo yii::t('app','Avaliable')?></option>
+									<option value='0' <?php echo $cabin_type_result['type_status']==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
 								</select>
 							</label>
 						</p>
@@ -138,15 +138,15 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo $val['att_name']?>:</span>
-								<input type="radio" name="att[<?php echo $k;?>]" id="att[<?php echo $k;?>]" value="<?php echo $val['id']?>" <?php echo in_array($val['id'], $arr)?"checked='checked'":'';?>/> 有
-								<input <?php echo in_array($val['id'], $arr)?'':"checked='checked'";?> type="radio" name="att[<?php echo $k;?>]" id="att[<?php echo $k;?>]" value="0" /> 无
+								<input type="radio" name="att[<?php echo $k;?>]" id="att[<?php echo $k;?>]" value="<?php echo $val['id']?>" <?php echo in_array($val['id'], $arr)?"checked='checked'":'';?>/> <?php echo yii::t('app','Y')?>
+								<input <?php echo in_array($val['id'], $arr)?'':"checked='checked'";?> type="radio" name="att[<?php echo $k;?>]" id="att[<?php echo $k;?>]" value="0" /> <?php echo yii::t('app','N')?>
 							</label>
 						</p>
 						<?php }?>
 					</div>
 					<div class="btn">
-							<input type="submit" value="SAVE"></input>
-							<input class="cancle" type="button" value="CANCLE"></input>
+							<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+							<input class="cancle" type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
 						</div>
 					<?php 
 					ActiveForm::end(); 
@@ -161,11 +161,11 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 					<input type="hidden" id="cabin_type_graphic_page" value="<?php echo $graphic_pag;?>" />
 						<thead>
 							<tr>
-								<th>No.</th>
-								<th>Cabin Type Desc</th>
-								<th>Cabin Type Img</th>
-								<th>Status</th>
-								<th>Operate</th>
+								<th><?php echo yii::t('app','No.')?></th>
+								<th><?php echo yii::t('app','Cabin Type Desc')?></th>
+								<th><?php echo yii::t('app','Cabin Type Img')?></th>
+								<th><?php echo yii::t('app','Status')?></th>
+								<th><?php echo yii::t('app','Operate')?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -174,7 +174,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 				                <td><?php echo ($key+1);?></td>
 				                <td><?php echo $row['graphic_desc'];?></td>
 				                <td><img style="width:50px;height:50px;" src="<?php echo $baseUrl.'upload/'.$row['graphic_img'];?>" /></td>
-				                <td><?php echo $row['status']?yii::t('vcos', 'Usable'):yii::t('vcos', 'Disabled');?></td>
+				                <td><?php echo $row['status']?yii::t('vcos', 'Avaliable'):yii::t('vcos', 'Unavaliable');?></td>
 				                <td class="op_btn">
 				                    <a href="<?php echo Url::toRoute(['cabin_type_graphic_edit','id'=>$row['id']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
 				                    <a class="delete" id="<?php echo $row['id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
@@ -183,9 +183,9 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 				            <?php }?>
 						</tbody>
 					</table>
-					<p class="records">Records:<span><?php echo $cabin_type_graphic_count;?></span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $cabin_type_graphic_count;?></span></p>
 					<div class="btn">
-						<a href="<?php echo Url::toRoute(['cabin_type_graphic_add','id'=>$cabin_type_result['id']]);?>"><input type="button" value="Add"></input></a>
+						<a href="<?php echo Url::toRoute(['cabin_type_graphic_add','id'=>$cabin_type_result['id']]);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
 					</div>
 					<div class="center" id="cabin_type_graphic_page_div"> </div>
 				</div>

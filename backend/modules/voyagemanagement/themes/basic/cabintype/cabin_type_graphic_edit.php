@@ -20,9 +20,9 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['cabin_type']);?>">Cabin Type</a>&nbsp;&gt;&gt;&nbsp;
-    <a href="#">Graphic_edit</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['cabin_type']);?>"><?php echo yii::t('app','Cabin Type')?></a>&nbsp;&gt;&gt;&nbsp;
+    <a href="#"><?php echo yii::t('app','Graphic_edit')?></a></div>
     
     <div class="searchResult">
         
@@ -44,7 +44,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 		<div>
 		<p>
 				<label>
-					<span class='max_l'>Describe:</span>
+					<span class='max_l'><?php echo yii::t('app','Describe')?>:</span>
 					<textarea id='desc' name='desc' required>
 					<?php echo $graphic_result['graphic_desc']?>
 					</textarea>
@@ -53,12 +53,12 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 			</p>
 			<p style="min-height:130px; ">
 				<label>
-					<span class='max_l' style="float: left;">Images:</span>
+					<span class='max_l' style="float: left;"><?php echo yii::t('app','Images')?>:</span>
 					<span style="width:120px;height:120px;float:left;margin-left:5px;">
 					<img id="ImgPr" width="120" height="120" src="<?php echo $baseUrl.'upload/'.$graphic_result['graphic_img'] ?>"/>
 					</span>
 					<span id="up_btn" class="btn_img" style="position:relative;left:5px;display:block">
-						<span>选择图片</span>
+						<span><?php echo yii::t('app','choose image')?></span>
 						<input id="photoimg" type="file" name="photoimg">
 					</span>
 				 </label>
@@ -66,8 +66,8 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 			</p>
 		</div>
 		<div class="btn">
-			<input type="submit" value="SAVE"></input>
-			<input class='cancle' type="button" value="CANCLE"></input>
+			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+			<input class='cancle' type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
 		</div>
 		<?php 
 		ActiveForm::end(); 

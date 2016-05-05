@@ -51,8 +51,8 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 							<label>
 								<span><?php echo yii::t('app','Status')?>:</span>
 								<select id="active_select" name="active_select">
-									<option value="1" <?php if($active['status']=='1'){?>selected="selected"<?php }?>>Usable</option>
-									<option value="0" <?php if($active['status']=='0'){?>selected="selected"<?php }?>>Disabled</option>
+									<option value="1" <?php if($active['status']=='1'){?>selected="selected"<?php }?>>Avaliable</option>
+									<option value="0" <?php if($active['status']=='0'){?>selected="selected"<?php }?>>Unavaliable</option>
 								</select>
 							</label>
 							<span class='tips'></span>

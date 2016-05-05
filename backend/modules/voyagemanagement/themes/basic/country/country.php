@@ -18,7 +18,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Country</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;<a href="#"><?php echo yii::t('app','Country')?></a></div>
     <?php
 			$form = ActiveForm::begin([
 					'method'=>'get',
@@ -29,32 +29,32 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
     <div class="search">
 				<p>
 					<label>
-						<span>Country Name:</span>
+						<span><?php echo yii::t('app','Country Name')?>:</span>
 						<input type="text" name="w_c_name" value="<?php echo $w_c_name;?>"></input>
 					</label>
 					<label>
-						<span>area Name:</span>
+						<span><?php echo yii::t('app','Area Name')?>:</span>
 						<input type="text" name="w_a_name" value="<?php echo $w_a_name;?>"></input>
 					</label>
 					<label>
-						<span>Status:</span>
+						<span><?php echo yii::t('app','Status')?>:</span>
 						<select name="w_state">
-							<option value="2" <?php echo $w_state==2?"selected='selected'":'';?>>All</option>
-							<option value="1" <?php echo $w_state==1?"selected='selected'":'';?>>Usable</option>
-                			<option value="0" <?php echo $w_state==0?"selected='selected'":'';?>>Disabled</option>
+							<option value="2" <?php echo $w_state==2?"selected='selected'":'';?>><?php echo yii::t('app','All')?></option>
+							<option value="1" <?php echo $w_state==1?"selected='selected'":'';?>><?php echo yii::t('app','Avaliable')?></option>
+                			<option value="0" <?php echo $w_state==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
 						</select>
 					</label>
 				</p>
 				<p>
 					<label>
-						<span>Code(2 characters):</span>
+						<span><?php echo yii::t('app','Code(2 characters)')?>:</span>
 						<input type="text" name="w_2_code" value="<?php echo $w_2_code;?>"></input>
 					</label>
 					<label>
-						<span>Code(3 characters):</span>
+						<span><?php echo yii::t('app','Code(3 characters)')?>:</span>
 						<input type="text" name="w_3_code" value="<?php echo $w_3_code;?>"></input>
 					</label>
-					<span class="btn"><input type="submit" name="w_submit" value="SEARCH"></input></span>
+					<span class="btn"><input type="submit" name="w_submit" value="<?php echo yii::t('app','SEARCH')?>"></input></span>
 				</p>
 			</div>
     <?php 
@@ -74,12 +74,12 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <thead>
             <tr>
                 <th><input type="checkbox"></input></th>
-                <th>Country Name</th>
-                <th>Code(2 characters)</th>
-                <th>Code(3 characters)</th>
-                <th>area Name</th>
-                <th>Status</th>
-                <th>Operate</th>
+                <th><?php echo yii::t('app','Country Name')?></th>
+                <th><?php echo yii::t('app','Code(2 characters)')?></th>
+                <th><?php echo yii::t('app','Code(3 characters)')?></th>
+                <th><?php echo yii::t('app','Area Name')?></th>
+                <th><?php echo yii::t('app','Status')?></th>
+                <th><?php echo yii::t('app','Operate')?></th>
             </tr>
             </thead>
             <tbody>
@@ -90,7 +90,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><?php echo $row['country_code'];?></td>
                 <td><?php echo $row['counry_short_code'];?></td>
                 <td><?php echo $row['area_name'];?></td>
-                <td><?php echo $row['status']?yii::t('vcos', 'Usable'):yii::t('vcos', 'Disabled');?></td>
+                <td><?php echo $row['status']?yii::t('vcos', 'Avaliable'):yii::t('vcos', 'Unavaliable');?></td>
                 <td class="op_btn">
                     <a href="<?php echo Url::toRoute(['country_edit','code'=>$row['country_code']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
                     <a class="delete" id="<?php echo $row['country_code'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
@@ -102,9 +102,9 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
        <?php 
 		ActiveForm::end(); 
 		?>
-        <p class="records">Records:<span><?php echo $country_count;?></span></p>
+        <p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $country_count;?></span></p>
         <div class="btn">
-            <a href="<?php echo Url::toRoute(['country_add']);?>"><input type="button" value="Add"></input></a>
+            <a href="<?php echo Url::toRoute(['country_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
             <input id="del_submit" type="button" value="Del Selected"></input>
         </div>
         
@@ -136,10 +136,10 @@ window.onload = function(){
 		    visiblePages: 5,
 		    currentPage: 1,
 		    wrapper:'<ul class="pagination"></ul>',
-		    first: '<li class="first"><a href="javascript:void(0);">First</a></li>',
+		    first: '<li class="first"><a href="javascript:void(0);"><?php echo yii::t('app','First')?></a></li>',
 		    prev: '<li class="prev"><a href="javascript:void(0);">«</a></li>',
 		    next: '<li class="next"><a href="javascript:void(0);">»</a></li>',
-		    last: '<li class="last"><a href="javascript:void(0);">Last</a></li>',
+		    last: '<li class="last"><a href="javascript:void(0);"><?php echo yii::t('app','Last')?></a></li>',
 		    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
 		    onPageChange: function (num, type) {
 		    	var this_page = $("input#country_page").val();

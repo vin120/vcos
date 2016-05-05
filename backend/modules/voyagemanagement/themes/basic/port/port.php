@@ -17,56 +17,56 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Port</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;<a href="#"><?php echo yii::t('app','Port')?></a></div>
     <?php
-			$form = ActiveForm::begin([
-					'method'=>'get',
-					'enableClientValidation'=>false,
-					'enableClientScript'=>false
-			]); 
-		?>
+		$form = ActiveForm::begin([
+			'method'=>'get',
+			'enableClientValidation'=>false,
+			'enableClientScript'=>false
+		]); 
+	?>
     <div class="search">
 	    <label>
-			<span>Port Name:</span>
+			<span><?php echo yii::t('app','Port Name')?>:</span>
 			<input type="text" name="w_name" value="<?php echo $w_name;?>"></input>
 		</label>
 		<label>
-			<span>Country Code</span>
+			<span><?php echo yii::t('app','Country Code')?></span>
 			<input type="text" name="w_code" value="<?php echo $w_code;?>"></input>
 		</label>
 		<label>
-			<span>Status:</span>
+			<span><?php echo yii::t('app','Status')?>:</span>
 			<select name="w_state">
-				<option value="2" <?php echo $w_state==2?"selected='selected'":'';?>>All</option>
-                <option value="1" <?php echo $w_state==1?"selected='selected'":'';?>>Usable</option>
-                <option value="0" <?php echo $w_state==0?"selected='selected'":'';?>>Disabled</option>
+				<option value="2" <?php echo $w_state==2?"selected='selected'":'';?>><?php echo yii::t('app','All')?></option>
+                <option value="1" <?php echo $w_state==1?"selected='selected'":'';?>><?php echo yii::t('app','Avaliable')?></option>
+                <option value="0" <?php echo $w_state==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
 			</select>
 		</label>
-		<span class="btn"><input type="submit" name="w_submit" value="SEARCH"></input></span>
+		<span class="btn"><input type="submit" name="w_submit" value="<?php echo yii::t('app','SEARCH')?>"></input></span>
     </div>
     <?php 
 		ActiveForm::end(); 
-		?>
+	?>
     <div class="searchResult">
     <?php
-			$form = ActiveForm::begin([
-					'method'=>'post',
-					'id'=>'port_from',
-					'enableClientValidation'=>false,
-					'enableClientScript'=>false
-			]); 
-		?>
+		$form = ActiveForm::begin([
+			'method'=>'post',
+			'id'=>'port_from',
+			'enableClientValidation'=>false,
+			'enableClientScript'=>false
+		]); 
+	?>
         <table id="port_table">
         <input type="hidden" id="port_page" value="<?php echo $port_pag;?>" />
             <thead>
             <tr>
                 <th><input type="checkbox"></input></th>
-                <th>Port Code</th>
-                <th>Port Short Code</th>
-                <th>Country Code</th>
-                <th>Port Name</th>
-                <th>Status</th>
-                <th>Operate</th>
+                <th><?php echo yii::t('app','Port Code')?></th>
+                <th><?php echo yii::t('app','Port Short Code')?></th>
+                <th><?php echo yii::t('app','Country Code')?></th>
+                <th><?php echo yii::t('app','Port Name')?></th>
+                <th><?php echo yii::t('app','Status')?></th>
+                <th><?php echo yii::t('app','Operate')?></th>
             </tr>
             </thead>
             <tbody>
@@ -77,7 +77,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><?php echo $row['port_short_code'];?></td>
                 <td><?php echo $row['country_code'];?></td>
                 <td><?php echo $row['port_name'];?></td>
-                <td><?php echo $row['status']?yii::t('vcos', 'Usable'):yii::t('vcos', 'Disabled');?></td>
+                <td><?php echo $row['status']?yii::t('vcos', 'Avaliable'):yii::t('vcos', 'Unavaliable');?></td>
                 <td class="op_btn">
                     <a href="<?php echo Url::toRoute(['port_edit','code'=>$row['port_code']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
                     <a class="delete" id="<?php echo $row['port_code'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
@@ -89,10 +89,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
         <?php 
 		ActiveForm::end(); 
 		?>
-        <p class="records">Records:<span><?php echo $port_count;?></span></p>
+        <p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $port_count;?></span></p>
         <div class="btn">
-            <a href="<?php echo Url::toRoute(['port_add']);?>"><input type="button" value="Add"></input></a>
-            <input id="del_submit" type="button" value="Del Selected"></input>
+            <a href="<?php echo Url::toRoute(['port_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
+            <input id="del_submit" type="button" value="<?php echo yii::t('app','Del Selected')?>"></input>
         </div>
 <!--         <div class="pageNum"> -->
 <!-- 					<span> -->

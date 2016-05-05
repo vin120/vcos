@@ -53,8 +53,8 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					</ul>
 				</div>
 				<div class="btn l">
-					<input id="right_but" type="button" value=">>"></input>
-					<input id="left_but" type="button" value="<<"></input>
+					<input id="right_but" type="button" value=" >> "></input>
+					<input id="left_but" type="button" value=" << "></input>
 				</div>
 				<div class="l selectList">
 					<ul>

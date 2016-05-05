@@ -18,7 +18,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Cabin</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;<a href="#"><?php echo yii::t('app','Cabin')?></a></div>
     <?php
 			$form = ActiveForm::begin([
 					'method'=>'get',
@@ -28,22 +28,22 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		?>
     	<div class="search">
 			 <label>
-			<span>Cabin Name:</span>
+			<span><?php echo yii::t('app','Cabin Name')?>:</span>
 			<input type="text" name="w_name" value="<?php echo $w_name;?>"></input>
 			</label>
 			<label>
-				<span>Cabin Type Name</span>
+				<span><?php echo yii::t('app','Cabin Type Name')?></span>
 				<input type="text" name="w_p_name" value="<?php echo $w_p_name;?>"></input>
 			</label>
 			<label>
-				<span>Status:</span>
+				<span><?php echo yii::t('app','Status')?>:</span>
 				<select name="w_state">
-					<option value="2" <?php echo $w_state==2?"selected='selected'":'';?>>All</option>
-	                <option value="1" <?php echo $w_state==1?"selected='selected'":'';?>>Usable</option>
-	                <option value="0" <?php echo $w_state==0?"selected='selected'":'';?>>Disabled</option>
+					<option value="2" <?php echo $w_state==2?"selected='selected'":'';?>><?php echo yii::t('app','All')?></option>
+	                <option value="1" <?php echo $w_state==1?"selected='selected'":'';?>><?php echo yii::t('app','Avaliable')?></option>
+	                <option value="0" <?php echo $w_state==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
             </select>
 			</label>
-			<span class="btn"><input type="submit" name="w_submit" value="SEARCH"></input></span>
+			<span class="btn"><input type="submit" name="w_submit" value="<?php echo yii::t('app','SEARCH')?>"></input></span>
 		</div>
     <?php 
 		ActiveForm::end(); 
@@ -63,13 +63,13 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <thead>
             <tr>
                 <th><input type="checkbox"></input></th>
-                <th>Cabin Type Name</th>
-                <th>Cabin Name</th>
-                <th>Deck Num</th>
-                <th>Max Check In</th>
-                <th>Ieast Aduits Num</th>
-                <th>Status</th>
-                <th>Operate</th>
+                <th><?php echo yii::t('app','Cabin Type Name')?></th>
+                <th><?php echo yii::t('app','Cabin Name')?></th>
+                <th><?php echo yii::t('app','Deck Num')?></th>
+                <th><?php echo yii::t('app','Max Check In')?></th>
+                <th><?php echo yii::t('app','Ieast Aduits Num')?></th>
+                <th><?php echo yii::t('app','Status')?></th>
+                <th><?php echo yii::t('app','Operate')?></th>
             </tr>
             </thead>
             <tbody>
@@ -81,7 +81,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><?php echo $row['deck_num'];?></td>
                 <td><?php echo $row['max_check_in'];?></td>
                 <td><?php echo $row['ieast_aduits_num'];?></td>
-                <td><?php echo $row['status']?yii::t('vcos', 'Usable'):yii::t('vcos', 'Disabled');?></td>
+                <td><?php echo $row['status']?yii::t('vcos', 'Avaliable'):yii::t('vcos', 'Unavaliable');?></td>
                 <td class="op_btn">
                     <a href="<?php echo Url::toRoute(['cabin_edit','id'=>$row['id']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
                     <a class="delete" id="<?php echo $row['id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
@@ -93,10 +93,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
        <?php 
 		ActiveForm::end(); 
 		?>
-        <p class="records">Records:<span><?php echo $cabin_count;?></span></p>
+        <p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $cabin_count;?></span></p>
         <div class="btn">
-            <a href="<?php echo Url::toRoute(['cabin_add']);?>"><input type="button" value="Add"></input></a>
-            <input id="del_submit" type="button" value="Del Selected"></input>
+            <a href="<?php echo Url::toRoute(['cabin_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
+            <input id="del_submit" type="button" value="<?php echo yii::t('app','Del Selected')?>"></input>
         </div>
         
 <!--         <div class="pageNum"> -->

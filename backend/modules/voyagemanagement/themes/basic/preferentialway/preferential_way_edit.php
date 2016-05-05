@@ -17,9 +17,9 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['preferential_way']);?>">Preferential Way</a>&nbsp;&gt;&gt;&nbsp;
-    <a href="#">Preferential_way_edit</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['preferential_way']);?>"><?php echo yii::t('app','Preferential Way')?></a>&nbsp;&gt;&gt;&nbsp;
+    <a href="#"><?php echo yii::t('app','Preferential_way_edit')?></a></div>
     
     <div class="searchResult">
         
@@ -27,19 +27,19 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 		<?php
 			$form = ActiveForm::begin([
-					'action' => ['preferential_way_edit','id'=>$way_result['id']],
-					'method'=>'post',
-					'id'=>'way_val',
-					'options' => ['class' => 'way_edit'],
-					'enableClientValidation'=>false,
-					'enableClientScript'=>false
+				'action' => ['preferential_way_edit','id'=>$way_result['id']],
+				'method'=>'post',
+				'id'=>'way_val',
+				'options' => ['class' => 'way_edit'],
+				'enableClientValidation'=>false,
+				'enableClientScript'=>false
 			]); 
 		?>
 		
 		<div>
 			<p>
 				<label>
-					<span class='max_l'>Strategy Name:</span>
+					<span class='max_l'><?php echo yii::t('app','Strategy Name')?>:</span>
 					<input type="text" required id='name' name='name' value="<?php echo $way_result['strategy_name']?>"></input>
 					
 				</label>
@@ -48,8 +48,8 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			
 		</div>
 		<div class="btn">
-				<input type="submit" value="SAVE"></input>
-				<input class='cancle' type="button" value="CANCLE"></input>
+				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+				<input class='cancle' type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
 			</div>
 		<?php 
 		ActiveForm::end(); 

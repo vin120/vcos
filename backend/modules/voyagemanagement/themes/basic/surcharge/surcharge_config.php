@@ -26,12 +26,12 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
    
     <div class="searchResult">
     <?php
-			$form = ActiveForm::begin([
-					'method'=>'post',
-					'enableClientValidation'=>false,
-					'enableClientScript'=>false
-			]); 
-		?>
+		$form = ActiveForm::begin([
+			'method'=>'post',
+			'enableClientValidation'=>false,
+			'enableClientScript'=>false
+		]); 
+	?>
         <table>
       
             <thead>

@@ -18,58 +18,58 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Cruise</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;<a href="#"><?php echo yii::t('app','Cruise')?></a></div>
     <?php
-			$form = ActiveForm::begin([
-					'method'=>'get',
-					'enableClientValidation'=>false,
-					'enableClientScript'=>false
-			]); 
+		$form = ActiveForm::begin([
+				'method'=>'get',
+				'enableClientValidation'=>false,
+				'enableClientScript'=>false
+		]); 
 		?>
     <div class="search" >
     	<label>
-            <span>Cruise Code:</span>
+            <span><?php echo yii::t('app','Cruise Code')?>:</span>
             <input type="text" name="w_code" id="w_code" value="<?php echo $w_code;?>"></input>
         </label>
         <label>
-            <span>Cruise Name:</span>
+            <span><?php echo yii::t('app','Cruise Name')?>:</span>
             <input type="text" name="w_name" id="w_name" value="<?php echo $w_name;?>"></input>
         </label>
         <label>
-            <span>Status:</span>
+            <span><?php echo yii::t('app','Status')?>:</span>
             <select id="w_state" name="w_state">
-                <option value="2" <?php echo $w_state==2?"selected='selected'":'';?>>All</option>
-                <option value="1" <?php echo $w_state==1?"selected='selected'":'';?>>Usable</option>
-                <option value="0" <?php echo $w_state==0?"selected='selected'":'';?>>Disabled</option>
+                <option value="2" <?php echo $w_state==2?"selected='selected'":'';?>><?php echo yii::t('app','All')?></option>
+                <option value="1" <?php echo $w_state==1?"selected='selected'":'';?>><?php echo yii::t('app','Avaliable')?></option>
+                <option value="0" <?php echo $w_state==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
             </select>
         </label>
-        <span class="btn"><input type="submit" name="w_submit" value="SEARCH"></input></span>
+        <span class="btn"><input type="submit" name="w_submit" value="<?php echo yii::t('app','SEARCH')?>"></input></span>
     </div>
     <?php 
 		ActiveForm::end(); 
 		?>
     <div class="searchResult">
     <?php
-			$form = ActiveForm::begin([
-					'method'=>'post',
-					'id'=>'cruise_from',
-					'enableClientValidation'=>false,
-					'enableClientScript'=>false
-			]); 
-		?>
+		$form = ActiveForm::begin([
+			'method'=>'post',
+			'id'=>'cruise_from',
+			'enableClientValidation'=>false,
+			'enableClientScript'=>false
+		]); 
+	?>
         <table id="cruise_table">
         <input type="hidden" id="cruise_page" value="<?php echo $cruise_pag;?>" />
             <thead>
             <tr>
                 <th><input type="checkbox"></input></th>
-                <th>No.</th>
-                <th>Cruise Code</th>
-                <th>Cruise Name</th>
-                <th>Deck Number</th>
-                <th>Cruise Desc</th>
-                <th>Cruise Img</th>
-                <th>Status</th>
-                <th>Operate</th>
+                <th><?php echo yii::t('app','No.')?></th>
+                <th><?php echo yii::t('app','Cruise Code')?></th>
+                <th><?php echo yii::t('app','Cruise Name')?></th>
+                <th><?php echo yii::t('app','Deck Number')?></th>
+                <th><?php echo yii::t('app','Cruise Desc')?></th>
+                <th><?php echo yii::t('app','Cruise Img')?></th>
+                <th><?php echo yii::t('app','Status')?></th>
+                <th><?php echo yii::t('app','Operate')?></th>
             </tr>
             </thead>
             <tbody>
@@ -82,7 +82,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><?php echo $row['deck_number'];?></td>
                 <td><?php echo $row['cruise_desc'];?></td>
                 <td><img style="width:50px;height:50px;" src="<?php echo $baseUrl.'upload/'.$row['cruise_img'];?>" /></td>
-                <td><?php echo $row['status']?yii::t('app', 'Usable'):yii::t('app', 'Disabled');?></td>
+                <td><?php echo $row['status']?yii::t('app', 'Avaliable'):yii::t('app', 'Unavaliable');?></td>
                 <td class="op_btn">
                     <a href="<?php echo Url::toRoute(['cruise_edit','code'=>$row['cruise_code']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
                     <a class="delete" id="<?php echo $row['cruise_code'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
@@ -96,8 +96,8 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		?>
         <p class="records">Records:<span><?php echo $cruise_count;?></span></p>
         <div class="btn">
-            <a href="<?php echo Url::toRoute(['cruise_add']);?>" onclick="return check_cruise_num()"><input type="button" value="Add"></input></a>
-            <input id="del_submit" type="button" value="Del Selected"></input>
+            <a href="<?php echo Url::toRoute(['cruise_add']);?>" onclick="return check_cruise_num()"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
+            <input id="del_submit" type="button" value="<?php echo yii::t('app','Del Selected')?>"></input>
         </div>
         
 <!--         <div class="pageNum"> -->

@@ -74,15 +74,15 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 $(function(){
 	var sur=$("input#cost_desc_text").val();
 	$("textarea#cost_desc").html(sur);
-	 $("input[type=text]").each(function(){//聚焦是清除
-			$(this).focus(function(){
-				 $(this).next().css("display","none");
-				 $(this).removeClass("point");
-				});
-			 });
-	  $("span[class=point]").each(function (index){
-			$(this).css("display","none");
-			 }); 
+	$("input[type=text]").each(function(){//聚焦是清除
+		$(this).focus(function(){
+			$(this).next().css("display","none");
+			$(this).removeClass("point");
+		});
+	});
+	 $("span[class=point]").each(function (index){
+		$(this).css("display","none");
+	}); 
 	  $("input[type=submit]").click(function(){
 		  var t=0;
 		  $("input[type=text]").each(function(){	//如果文本框为空值			
@@ -95,7 +95,7 @@ $(function(){
 			$("input[type=text]").each(function (index){
 				if($(this).prop("class")=="point"){
 					t=1;
-					}
+				}
 	    		}); 
 			if(t==1){
     			return false;

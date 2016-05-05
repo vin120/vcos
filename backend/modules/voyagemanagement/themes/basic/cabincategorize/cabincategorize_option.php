@@ -57,8 +57,8 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 				<?php $data[0]['status']=isset($data[0]['status'])?$data[0]['status']:'2'?>
 					<span class='max_l'><?php echo \Yii::t('app','Status:')?></span>
 					<select name="status">
-					<option value="1" <?php echo $data[0]['status']==1?"selected='selected'":''?>><?php echo \Yii::t('app','Usable')?></option>
-					<option value="0" <?php echo $data[0]['status']==0?"selected='selected'":''?>><?php echo \Yii::t('app','Disabled')?></option>
+					<option value="1" <?php echo $data[0]['status']==1?"selected='selected'":''?>><?php echo \Yii::t('app','Avaliable')?></option>
+					<option value="0" <?php echo $data[0]['status']==0?"selected='selected'":''?>><?php echo \Yii::t('app','Unavaliable')?></option>
 					</select>
 				</label>
 				<span class='tips'></span>

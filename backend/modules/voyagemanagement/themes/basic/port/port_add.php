@@ -20,9 +20,9 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['port']);?>">Port</a>&nbsp;&gt;&gt;&nbsp;
-    <a href="#">Port_add</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['port']);?>"><?php echo yii::t('app','Port')?></a>&nbsp;&gt;&gt;&nbsp;
+    <a href="#"><?php echo yii::t('app','Port_add')?></a></div>
     
     <div class="searchResult">
         
@@ -30,18 +30,18 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 
 		<?php
 			$form = ActiveForm::begin([
-					'action' => ['port_add'],
-					'method'=>'post',
-					'id'=>'port_val',
-					'options' => ['class' => 'port_add'],
-					'enableClientValidation'=>false,
-					'enableClientScript'=>false
+				'action' => ['port_add'],
+				'method'=>'post',
+				'id'=>'port_val',
+				'options' => ['class' => 'port_add'],
+				'enableClientValidation'=>false,
+				'enableClientScript'=>false
 			]); 
 		?>
 		<div>
 			<p>
 				<label>
-					<span class='max_l'>Port Code:</span>
+					<span class='max_l'><?php echo yii::t('app','Port Code')?>:</span>
 					<input type="text" required id='code' name='code'></input>
 					
 				</label>
@@ -49,7 +49,7 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Port Code(2 character):</span>
+					<span class='max_l'><?php echo yii::t('app','Port Code(2 character)')?>:</span>
 					<input type="text" required id="code_chara" name="code_chara"></input>
 					
 				</label>
@@ -57,7 +57,7 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Country Code:</span>
+					<span class='max_l'><?php echo yii::t('app','Country Code')?>:</span>
 					
 					<select name="country_code" id="country_code">
 						<?php foreach ($country_result as $k=>$val){?>
@@ -69,7 +69,7 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 			</p>
 			<p>
 				<label>
-					<span class='max_l'>Port Name:</span>
+					<span class='max_l'><?php echo yii::t('app','Port Name')?>:</span>
 					<input type="text" required id="name" name="name"></input>
 					
 				</label>
@@ -77,10 +77,10 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 			</p>
 			<p>
 			<label>
-					<span class='max_l'>Status:</span>
+					<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
 					<select name="state" id="state">
-						<option value='1'>Usable</option>
-						<option value='0'>Disabled</option>
+						<option value='1'><?php echo yii::t('app','Avaliable')?></option>
+						<option value='0'><?php echo yii::t('app','Unavaliable')?></option>
 					</select>
 				</label>
 				
@@ -88,8 +88,8 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 			
 		</div>
 		<div class="btn">
-				<input type="submit" value="SAVE"></input>
-				<input class="cancle" type="button" value="CANCLE"></input>
+				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+				<input class="cancle" type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
 			</div>
 		<?php 
 		ActiveForm::end(); 

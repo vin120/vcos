@@ -18,7 +18,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Area</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;<a href="#"><?php echo yii::t('app','Area')?></a></div>
     
     <div class="searchResult">
     <?php
@@ -34,9 +34,9 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <thead>
             <tr>
                 <th><input type="checkbox"></input></th>
-                <th>No.</th>
-                <th>Area Name</th>
-                <th>Status</th>
+                <th><?php echo yii::t('app','No.')?></th>
+                <th><?php echo yii::t('app','Area Name')?></th>
+                <th><?php echo yii::t('app','Status')?></th>
                 <!-- <th>Operate</th> -->
             </tr>
             </thead>
@@ -46,7 +46,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><input type="checkbox" name="ids[]" value="<?php echo $row['area_code'];?>"></input></td>
                 <td><?php echo ($key+1);?></td>
                 <td><?php echo $row['area_name'];?></td>
-                <td><?php echo $row['status']?yii::t('vcos', 'Usable'):yii::t('vcos', 'Disabled');?></td>
+                <td><?php echo $row['status']?yii::t('vcos', 'Avaliable'):yii::t('vcos', 'Unavaliable');?></td>
                 <!--<td class="op_btn">
                      <a class="delete" id="<?php // echo $row['area_code'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a> 
                 </td>-->
@@ -57,7 +57,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
        <?php 
 		ActiveForm::end(); 
 		?>
-        <p class="records">Records:<span><?php echo $area_count;?></span></p>
+        <p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $area_count;?></span></p>
        <!--  <div class="btn">
            <input id="del_submit" type="button" value="Del Selected"></input>
         </div> -->
@@ -90,10 +90,10 @@ window.onload = function(){
 		    visiblePages: 5,
 		    currentPage: 1,
 		    wrapper:'<ul class="pagination"></ul>',
-		    first: '<li class="first"><a href="javascript:void(0);">First</a></li>',
+		    first: '<li class="first"><a href="javascript:void(0);"><?php echo yii::t('app','First')?></a></li>',
 		    prev: '<li class="prev"><a href="javascript:void(0);">«</a></li>',
 		    next: '<li class="next"><a href="javascript:void(0);">»</a></li>',
-		    last: '<li class="last"><a href="javascript:void(0);">Last</a></li>',
+		    last: '<li class="last"><a href="javascript:void(0);"><?php echo yii::t('app','Last')?></a></li>',
 		    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
 		    onPageChange: function (num, type) {
 		    	var this_page = $("input#area_page").val();

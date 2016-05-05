@@ -56,7 +56,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 										<td><?php echo $k+1?></td>
 										<td><?php echo \Yii::t('app',$v['class_name'])?></td>
 										<td><?php echo \Yii::t('app',$v['price'])?></td>
-										<td><?php echo \Yii::t('app',$v['status']==1?'Usabled':'DisUable')?></td>
+										<td><?php echo \Yii::t('app',$v['status']==1?'Avaliable':'Unavaliable')?></td>
 										<td>
 											<a href="<?php echo Url::toRoute(['cabincategorize_option','class_id'=>$v['class_id']]);?>"><img src="<?=$baseUrl ?>images/write.png" class="btn1"></a>
 											<a class="delete" id="<?php echo $v['class_id'];?>"><img src="<?=$baseUrl ?>images/delete.png" class="btn2"></a>

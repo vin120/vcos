@@ -40,7 +40,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 	<td><input type="checkbox" name="ids[]" value="<?php echo $row['active_id']?>"></input></td>
 					<td><?php echo $key+1; ?></td>
 					<td><?php echo $row['name'];?></td>
-					<td><?php echo $row['status']?yii::t('vcos', 'Usable'):yii::t('vcos', 'Disabled');?></td>
+					<td><?php echo $row['status']?yii::t('vcos', 'Avaliable'):yii::t('vcos', 'Unavaliable');?></td>
 					<td class='op_btn'>
                     	<a href="<?php echo Url::toRoute(['active_config_edit']);?>&active_id=<?php echo $row['active_id']?>"><img src="<?=$baseUrl ?>images/write.png"></a>
 						<a class="delete" id="<?php echo $row['active_id'];?>" ><img src="<?=$baseUrl ?>images/delete.png"></a>

@@ -30,20 +30,20 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Cabin Pricing</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;<a href="#"><?php echo yii::t('app','Cabin Pricing')?></a></div>
    <div class="tab">
 		<ul class="tab_title">
-			<li class="active" act="pricing">Cabin Pricing</li>
-			<li act="policies">Preferential Policies</li>
-			<li act="surcharge">Surcharge</li>
-			<li act="tour">Tour Route</li>
+			<li class="active" act="pricing"><?php echo yii::t('app','Cabin Pricing')?></li>
+			<li act="policies"><?php echo yii::t('app','Preferential Policies')?></li>
+			<li act="surcharge"><?php echo yii::t('app','Surcharge')?></li>
+			<li act="tour"><?php echo yii::t('app','Tour Route')?></li>
 		</ul>
 		<div class="tab_content">
 		<!-- one -->
 			<div class="active">
 				<div class="search" style="margin-bottom: 10px;">
 					<label>
-						<span>Route No.:</span>
+						<span><?php echo yii::t('app','Route No.')?>:</span>
 						<select id="cabin_pricing_vayage">
 						<?php foreach ($voyage_result as $k=>$v){?>
 							<option value="<?php echo $v['voyage_code']?>"><?php echo $v['voyage_name']?></option>
@@ -58,12 +58,12 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 					<table id="cabin_pricing_table">
 						<thead>
 							<tr>
-								<th>Cabin Type Name</th>
-								<th>Check Num</th>
-								<th>Bed Price</th>
-								<th>2th-Bed Sates(%)</th>
-								<th>3/4th-Bed Sates(%)</th>
-								<th>Operation</th>
+								<th><?php echo yii::t('app','Cabin Type Name')?></th>
+								<th><?php echo yii::t('app','Check Num')?></th>
+								<th><?php echo yii::t('app','Bed Price')?></th>
+								<th><?php echo yii::t('app','2th-Bed Sates(%)')?></th>
+								<th><?php echo yii::t('app','3/4th-Bed Sates(%)')?></th>
+								<th><?php echo yii::t('app','Operation')?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -82,9 +82,9 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 						<?php }?>
 						</tbody>
 					</table>
-					<p class="records">Records:<span id="cabin_pricing_total"><?php echo count($cabin_pricing_result);?></span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span id="cabin_pricing_total"><?php echo count($cabin_pricing_result);?></span></p>
 			        <div class="btn">
-			            <input id="cabin_pricing_add_but" type="button" value="Add"></input>
+			            <input id="cabin_pricing_add_but" type="button" value="<?php echo yii::t('app','Add')?>"></input>
 			        </div>
 				</div>
 			</div>
@@ -92,7 +92,7 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 			<div>
 				<div class="search" style="margin-bottom: 10px;">
 					<label>
-						<span>Route No.:</span>
+						<span><?php echo yii::t('app','Route No.')?>:</span>
 						<select id="policies_vayage">
 						<?php foreach ($voyage_result as $k=>$v){?>
 							<option value="<?php echo $v['voyage_code']?>"><?php echo $v['voyage_name']?></option>
@@ -107,9 +107,9 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 					<table id="preferential_policies_table">
 						<thead>
 							<tr>
-								<th>Strategy</th>
-								<th>Preferential(%)</th>
-								<th>Operate</th>
+								<th><?php echo yii::t('app','Strategy')?></th>
+								<th><?php echo yii::t('app','Preferential(%)')?></th>
+								<th><?php echo yii::t('app','Operate')?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -126,9 +126,9 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 						<?php }?>
 						</tbody>
 					</table>
-					<p class="records">Records:<span id="preferential_policies_total"><?php echo count($policies_result);?></span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span id="preferential_policies_total"><?php echo count($policies_result);?></span></p>
 					<div class="btn">
-						<input type="button" id="preferential_policies_add" value="Add"></input>
+						<input type="button" id="preferential_policies_add" value="<?php echo yii::t('app','Add')?>"></input>
 					</div>
 				</div>
 			</div>
@@ -136,7 +136,7 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 			<div>
 				<div class="search" style="margin-bottom: 10px;">
 						<label>
-							<span>Route No.:</span>
+							<span><?php echo yii::t('app','Route No.')?>:</span>
 							<select id="surcharge_vayage">
 							<?php foreach ($voyage_result as $k=>$v){?>
 								<option value="<?php echo $v['voyage_code']?>"><?php echo $v['voyage_name']?></option>
@@ -151,8 +151,8 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 					<table id="surcharge_table">
 						<thead>
 							<tr>
-								<th>Cost Name</th>
-								<th>Operate</th>
+								<th><?php echo yii::t('app','Cost Name')?></th>
+								<th><?php echo yii::t('app','Operate')?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -166,9 +166,9 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 						<?php }?>
 						</tbody>
 					</table>
-					<p class="records">Records:<span id="surcharge_total"><?php echo count($surcharge_result)?></span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span id="surcharge_total"><?php echo count($surcharge_result)?></span></p>
 					<div class="btn">
-						<a href="<?php echo Url::toRoute(['surcharge_add']);?>"><input type="button" value="Add"></input></a>
+						<a href="<?php echo Url::toRoute(['surcharge_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
 					</div>
 				</div>
 			</div>
@@ -176,7 +176,7 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 			<div>
 				<div class="search" style="margin-bottom: 10px;">
 						<label>
-							<span>Route No.:</span>
+							<span><?php echo yii::t('app','Route No.')?>:</span>
 							<select id="tour_vayage">
 							<?php foreach ($voyage_result as $k=>$v){?>
 								<option value="<?php echo $v['voyage_code']?>"><?php echo $v['voyage_name']?></option>
@@ -191,8 +191,8 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 					<table id="tour_table">
 						<thead>
 							<tr>
-								<th>Title</th>
-								<th>Operate</th>
+								<th><?php echo yii::t('app','Title')?></th>
+								<th><?php echo yii::t('app','Operate')?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -206,9 +206,9 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 						<?php }?>
 						</tbody>
 					</table>
-					<p class="records">Records:<span id="tour_total"><?php echo count($tour_result)?></span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span id="tour_total"><?php echo count($tour_result)?></span></p>
 					<div class="btn">
-						<a href="<?php echo Url::toRoute(['tour_add']);?>"><input type="button" value="Add"></input></a>
+						<a href="<?php echo Url::toRoute(['tour_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
 					</div>
 				</div>
 			</div>
@@ -364,7 +364,6 @@ window.onload = function(){
 		   location.href="<?php echo Url::toRoute(['tour_delete']);?>"+"&id="+val;
 	   }
    });
-
 
 }
 

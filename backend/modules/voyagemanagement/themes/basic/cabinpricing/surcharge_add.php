@@ -24,9 +24,9 @@ var get_surcharge_data_ajax_url = "<?php echo Url::toRoute(['get_surcharge_data'
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['cabin_pricing']);?>">Cabin Pricing</a>&nbsp;&gt;&gt;&nbsp;
-    <a href="#">Surcharge_add</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['cabin_pricing']);?>"><?php echo yii::t('app','Cabin Pricing')?></a>&nbsp;&gt;&gt;&nbsp;
+    <a href="#"><?php echo yii::t('app','Surcharge_add')?></a></div>
     
     <div class="searchResult">
         
@@ -47,7 +47,7 @@ var get_surcharge_data_ajax_url = "<?php echo Url::toRoute(['get_surcharge_data'
 				<div id="surcharge_add_voyage">
 					<p>
 						<label>
-							<span class='max_l'>Route No.:</span>
+							<span class='max_l'><?php echo yii::t('app','Route No.')?>:</span>
 							<select id="vayage" name="voyage" class="input_select">
 							<?php foreach ($voyage_result as $k=>$v){?>
 								<option value="<?php echo $v['voyage_code']?>"><?php echo $v['voyage_name']?></option>
@@ -64,7 +64,7 @@ var get_surcharge_data_ajax_url = "<?php echo Url::toRoute(['get_surcharge_data'
  						}?>
 					<p>
 						<label>
-							<span class='max_l' style="height:30px;position: absolute;">Surcharge:</span>
+							<span class='max_l' style="height:30px;position: absolute;"><?php echo yii::t('app','Surcharge')?>:</span>
 							<span id="surcharge_data_list" style="max-height: 500px;position: relative;left:200px;">
 							<?php foreach ($surcharge_result as $k=>$v){?>
 							<?php if(!in_array($v['id'], $really_arr)){?>
@@ -75,8 +75,8 @@ var get_surcharge_data_ajax_url = "<?php echo Url::toRoute(['get_surcharge_data'
 					</p>
 			</div>
 		<div class="btn">
-			<input type="submit" value="SAVE"></input>
-			<input class="cancle" type="button" value="CANCLE"></input>
+			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+			<input class="cancle" type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
 		</div>
 		<?php 
 		ActiveForm::end(); 

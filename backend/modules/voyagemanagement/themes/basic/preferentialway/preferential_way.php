@@ -18,16 +18,16 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content" id="user_content">
-    <div class="topNav">Voyage Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Preferential Way</a></div>
+    <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;<a href="#"><?php echo yii::t('app','Preferential Way')?></a></div>
  
     <div class="searchResult">
         <table id="way_table">
         <input type="hidden" id="way_page" value="<?php echo $way_pag;?>" />
             <thead>
             <tr>
-                <th>No.</th>
-                <th>Strategy</th>
-                <th>Operate</th>
+                <th><?php echo yii::t('app','No.')?></th>
+                <th><?php echo yii::t('app','Strategy')?></th>
+                <th><?php echo yii::t('app','Operate')?></th>
             </tr>
             </thead>
             <tbody>
@@ -43,10 +43,9 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <?php }?>
             </tbody>
         </table>
-        <p class="records">Records:<span><?php echo $way_count;?></span></p>
+        <p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $way_count;?></span></p>
         <div class="btn">
-            <a href="<?php echo Url::toRoute(['preferential_way_add']);?>"><input type="button" value="Add"></input></a>
-            
+            <a href="<?php echo Url::toRoute(['preferential_way_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
         </div>
         
 <!--         <div class="pageNum"> -->
