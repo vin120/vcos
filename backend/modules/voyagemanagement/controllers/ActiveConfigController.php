@@ -25,23 +25,13 @@ class ActiveconfigController extends Controller
 		}
 
 		if(isset($_POST['ids'])){
-// 			$ids = implode('\',\'', $_POST['ids']);
 			$ids = implode(',', $_POST['ids']);
 			
 			VCActive::deleteAll("active_id in ($ids)");
 			VCActiveI18n::deleteAll("active_id in ($ids)");
 			
-// 			VCActive::deleteAll('active_id in(:ids)',[':ids'=>$ids]);
-// 			VCActiveI18n::deleteAll('active_id in(:ids)',['ids'=>$ids]);
 			Helper::show_message('Delete successful ', Url::toRoute(['active_config']));
 		}
-		
-// 		$actives = VCActive::find()->joinWith('activei18n')->limit(2)->all();
-		
-// 		foreach($actives as $active){
-// 			$activei18n = $active->activei18n;
-// 		}
-		
 		
 		$query  = new Query();
 		$query->select(['v_c_active.*','v_c_active_i18n.name','v_c_active_i18n.i18n'])
@@ -72,9 +62,6 @@ class ActiveconfigController extends Controller
 		->all();
 		
 		$result = $query->createCommand()->queryAll();
-		
-// 		$sql = "SELECT a.*,b.name FROM `v_c_active` a LEFT JOIN `v_c_active_i18n` b ON a.active_id=b.active_id WHERE b.i18n='en' limit $pag,2";
-// 		$result = Yii::$app->db->createCommand($sql)->queryAll();
 
 		if($result){
 			echo json_encode($result);
@@ -87,20 +74,17 @@ class ActiveconfigController extends Controller
 	public function actionGet_active_config_page()
 	{
 		$pag = isset($_GET['pag']) ? $_GET['pag']==1 ? 0 :($_GET['pag']-1) * 2 : 0;
-
+		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
 		$query  = new Query();
 		$query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
 		->from('v_c_active_detail a')
 		->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
-		->where(['b.i18n'=>'en'])
+		->where(['b.i18n'=>'en','a.active_id'=>$active_id])
 		->offset($pag)
 		->limit(2)
 		->all();
 		
 		$result = $query->createCommand()->queryAll();
-		
-// 		$sql = "SELECT a.id,a.day_from,a.day_to,b.detail_title,b.detail_desc FROM `v_c_active_detail` a LEFT JOIN `v_c_active_detail_i18n` b ON a.id=b.active_detail_id WHERE b.i18n='en' limit $pag,2";
-// 		$result = Yii::$app->db->createCommand($sql)->queryAll();
 
 		if($result){
 			echo json_encode($result);
@@ -149,8 +133,6 @@ class ActiveconfigController extends Controller
 	{
 		//获取编辑页面的信息
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
-// 		$sql = " SELECT a.active_id,a.status,b.name FROM `v_c_active` a LEFT JOIN `v_c_active_i18n` b ON a.active_id=b.active_id WHERE a.active_id='{$active_id}' AND b.i18n='en'";
-// 		$active = Yii::$app->db->createCommand($sql)->queryOne();
 		
 		$query  = new Query();
 		$query->select(['a.active_id','a.status','b.name'])
@@ -159,25 +141,7 @@ class ActiveconfigController extends Controller
 		->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
 		->one();
 		$active = $query->createCommand()->queryOne();
-		
-		
-		//获取编辑页面的详细信息
-// 		$sql = "SELECT a.id,a.day_from,a.day_to,b.detail_title,b.detail_desc FROM `v_c_active_detail` a LEFT JOIN `v_c_active_detail_i18n` b ON a.id=b.active_detail_id WHERE a.active_id='{$active_id}' AND b.i18n='en' limit 2";
-// 		$active_detail = Yii::$app->db->createCommand($sql)->queryAll();
-// 		$sql = "SELECT count(*) count FROM `v_c_active_detail` WHERE active_id='{$active_id}'";
-// 		$count = Yii::$app->db->createCommand($sql)->queryOne()['count'];
-
-// 		$query  = new Query();
-// 		$query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
-// 		->from('v_c_active_detail a')
-// 		->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
-// 		->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
-// 		->limit(2)
-// 		->all();
-		
-// 		$active_detail = $query->createCommand()->queryAll();
-		
-// 		$count = VCActiveDetail::find()->where(['active_id'=>$active_id])->count();
+		$count = VCActiveDetail::find()->where(['active_id'=>$active_id])->count();
 		
 		
 		//更新编辑页面的信息
@@ -193,10 +157,6 @@ class ActiveconfigController extends Controller
 				try{
 					VCActive::updateAll(['status'=>$active_select],['active_id'=>$active_id_post]);
 					VCActiveI18n::updateAll(['name'=>$name],['active_id'=>$active_id_post,'i18n'=>'en']);
-// 					$sql = "UPDATE `v_c_active` SET `status`='{$active_select}' WHERE `active_id`='{$active_id_post}'";
-// 					Yii::$app->db->createCommand($sql)->execute();
-// 					$sql = "UPDATE `v_c_active_i18n` SET `name`='{$name}' WHERE `active_id`='{$active_id_post}' AND `i18n`='en'";
-// 					Yii::$app->db->createCommand($sql)->execute();
 					
 					Helper::show_message('Save successful', Url::toRoute(['active_config_edit'])."&active_id=".$active_id_post);
 					$transaction->commit();
@@ -207,12 +167,10 @@ class ActiveconfigController extends Controller
 			}
 		}
 		
-// 		return $this->render("active_config_edit",['active'=>$active,'active_detail'=>$active_detail,'count'=>$count,'active_config_page'=>1]);
-
-		return $this->render("active_config_edit",['active'=>$active,'active_config_page'=>1]);
+		return $this->render("active_config_edit",['active'=>$active,'count'=>$count,'active_config_page'=>1]);
 	}
 
-	//ajax获取
+	//ajax获取active_config_edit页面的active_detail内容
 	public  function actionGet_active_config_detail_ajax()
 	{
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
@@ -226,8 +184,7 @@ class ActiveconfigController extends Controller
 		->all();
 		
 		$active_detail = $query->createCommand()->queryAll();
-		
-		$count = VCActiveDetail::find()->where(['active_id'=>$active_id])->count();
+		echo json_encode($active_detail);
 		
 	}
 	
@@ -235,9 +192,6 @@ class ActiveconfigController extends Controller
 	public function actionActive_config_detail_add()
 	{
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
-		
-// 		$sql = "SELECT active_id FROM v_c_active WHERE active_id='$active_id' ";
-// 		$active = Yii::$app->db->createCommand($sql)->queryOne();
 		$active = VCActive::find()->select(['active_id'])->where(['active_id'=>$active_id])->one();
 		
 		
@@ -247,9 +201,6 @@ class ActiveconfigController extends Controller
 			$active_id_post = isset($_POST['active_id']) ? $_POST['active_id'] : '';
 			$detail_title = isset($_POST['detail_title']) ? $_POST['detail_title'] : '';
 			$detail_desc = isset($_POST['detail_desc']) ? $_POST['detail_desc'] : '';
-			
-// 			var_dump($_POST['active_id']);
-// 			echo "<br>".$active_id_post;exit;
 			
 			if($_FILES['photoimg']['error']!=4){
 				$result=Helper::upload_file('photoimg', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'image', 3);
@@ -267,18 +218,10 @@ class ActiveconfigController extends Controller
 					$vcactivedetail_obj->day_from = $day_from;
 					if($day_to !=''){
 						$vcactivedetail_obj->day_to = $day_to;
-// 						
-// 						$sql = "INSERT INTO `v_c_active_detail` (`active_id`,`day_from`,`day_to`,`detail_img`) VALUES ('$active_id_post','$day_from',null,'$photo')";
 					}
-// 					else{
-// 						$vcactivedetail_obj->day_to = 'null';
-//  					$sql = "INSERT INTO `v_c_active_detail` (`active_id`,`day_from`,`day_to`,`detail_img`) VALUES ('$active_id_post','$day_from','$day_to','$photo')";
-// 					}
 					$vcactivedetail_obj->detail_img = $photo;
 					$vcactivedetail_obj->save();
 					
-					
-// 					Yii::$app->db->createCommand($sql)->execute();
 
 					$last_active_detail_id = Yii::$app->db->getLastInsertID();
 					
@@ -289,10 +232,8 @@ class ActiveconfigController extends Controller
 					$vcactivedetaili18n_obj->i18n = 'en';
 					$vcactivedetaili18n_obj->save();
 					
-// 					$sql = "INSERT INTO `v_c_active_detail_i18n` (`active_detail_id`,`detail_title`,`detail_desc`,`i18n`) VALUES ('$last_active_detail_id','$detail_title','$detail_desc','en')";
-// 					Yii::$app->db->createCommand($sql)->execute();
 					$transaction->commit();
-					Helper::show_message('Save success  ', Url::toRoute(['active_config_edit'])."&active_id=".$active_id_post);
+					Helper::show_message('Save success ', Url::toRoute(['active_config_edit'])."&active_id=".$active_id_post);
 				}catch(Exception $e){
 					$transaction->rollBack();
 					Helper::show_message('Save failed  ','#');
@@ -304,10 +245,6 @@ class ActiveconfigController extends Controller
 		
 		return $this->render("active_config_detail_add",['active'=>$active]);
 	}
-	
-	
-	
-	
 	
 	public function actionActive_config_detail_edit()
 	{
@@ -323,11 +260,7 @@ class ActiveconfigController extends Controller
 		->one();
 		
 		$active_detail = $query->createCommand()->queryOne();
-		
-// 		$sql = "SELECT a.id,a.active_id, a.day_from,a.day_to,a.detail_img,b.detail_title,b.detail_desc FROM `v_c_active_detail` a LEFT JOIN `v_c_active_detail_i18n` b ON a.id=b.active_detail_id WHERE a.id='$id' AND a.active_id='$active_id' AND b.i18n='en' ";
-// 		$active_detail = Yii::$app->db->createCommand($sql)->queryOne();
-		
-	
+
 		if(isset($_POST)){
 			
 			$day_from = isset($_POST['day_from']) ? $_POST['day_from'] : '';
@@ -357,14 +290,6 @@ class ActiveconfigController extends Controller
 						$vcactivedetail_obj->day_to = $day_to;
 					}
 					$vcactivedetail_obj->save();
-					
-// 						$sql = "UPDATE `v_c_active_detail` SET `day_from`='{$day_from}',`day_to`='{$day_to}',`detail_img`='$photo' WHERE `id`='{$active_detail_id}'";
-// 					else{
-// 						$sql = "UPDATE `v_c_active_detail` SET `day_from`='{$day_from}',`day_to`= null,`detail_img`='$photo' WHERE `id`='{$active_detail_id}'";
-// 					}
-// 					Yii::$app->db->createCommand($sql)->execute();
-// 					$sql = "UPDATE `v_c_active_detail_i18n` SET `detail_title`='{$detail_title}',`detail_desc`='{$detail_desc}' WHERE `active_detail_id`='{$active_detail_id}' AND `i18n`='en'";
-// 					Yii::$app->db->createCommand($sql)->execute();
 
 					$vcactivedetaili18n_obj = VCActiveDetailI18n::find()->where(['active_detail_id'=>$active_detail_id,'i18n'=>'en'])->one();
 					$vcactivedetaili18n_obj->detail_title = $detail_title;
@@ -395,38 +320,21 @@ class ActiveconfigController extends Controller
 			VCActiveDetail::deleteAll(['id'=>$id]);
 			VCActiveDetailI18n::deleteAll(['active_detail_id'=>$id]);
 			
-// 			$sql = "DELETE FROM `v_c_active_detail` WHERE id = '{$id}' ";
-// 			$count = Yii::$app->db->createCommand($sql)->execute();
-// 			$sql = "DELETE FROM `v_c_active_detail_i18n` WHERE active_detail_id = '{$id}'";
-// 			Yii::$app->db->createCommand($sql)->execute();
-			
 			Helper::show_message('Delete successful', Url::toRoute(['active_config_edit'])."&active_id=".$active_id);
-			
 		}
 		
 		//选中删除
 		if(isset($_POST['ids'])){
-			
-// 			$ids = implode('\',\'', $_POST['ids']);
-
 			$ids = implode(',', $_POST['ids']);
 			$active_id = $_POST['active_id'];
 		
 			VCActiveDetail::deleteAll("id in ($ids)");
 			VCActiveDetailI18n::deleteAll("active_detail_id in ($ids)");
-			
-			
 				
 			VCActive::deleteAll("active_id in ($ids)");
 			VCActiveI18n::deleteAll("active_id in ($ids)");
-			
-			
-// 			$sql = "DELETE FROM `v_c_active_detail` WHERE id in ('{$ids}')";
-// 			$count = Yii::$app->db->createCommand($sql)->execute();
-// 			$sql = "DELETE FROM `v_c_active_detail_i18n` WHERE active_detail_id in ('{$ids}')";
-// 			Yii::$app->db->createCommand($sql)->execute();
+		
 			Helper::show_message('Delete successful ', Url::toRoute(['active_config_edit'])."&active_id=".$active_id);
-			
 		}
 	}
 	

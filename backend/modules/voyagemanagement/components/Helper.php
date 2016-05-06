@@ -82,56 +82,17 @@ class Helper extends Controller
 	}
 	
 	
-// 	public static function show_message($info, $url=''){
-// 		header('Content-Type:text/html;charset=utf-8');
-// 		if($url && $url !='#'){
-// 			echo "<script>alert('{$info}');location='{$url}';</script>";
-// 		}else if($url == '#'){
-// 			echo "<script>alert('{$info}');</script>";
-// 		}else{
-// 			echo "<script>alert('{$info}');history.back();</script>";
-// 		}
-// 	}
-
-	public static function show_message($info, $url=''){//跳转
+	public static function show_message($info, $url=''){
 		header('Content-Type:text/html;charset=utf-8');
-
-		?>
-			<script type="text/javascript">
-			window.onload = function(){
-				$(".ui-widget-overlay").remove();
-				$("#promptBox").remove();
-				var str = "<div class='ui-widget-overlay ui-front'></div>";
-				var str_con = '<div class="shadow"></div>'
-					str_con += '<div id="promptBox" class="pop-ups write ui-dialog">';
-					str_con += '<h3>Prompt</h3>';
-					str_con += '<span class="op"><a class="close r"></a></span>';
-					str_con += '<p><?php echo $info?></p>';
-					str_con += '<p class="btn">';
-					str_con += '<input type="button" style="margin-right:0;padding: 4px 10px;" class="cancel_but" value="OK"></input>';
-					str_con += '</p></div>';
-					
-				//$("#promptBox").before(str); 
-				$(document.body).append(str);
-				$(document.body).append(str_con);
-				$(document).on('click',".btn .cancel_but",function(){
-				$("#promptBox").hide();
-				<?php
-					if($url && $url !='#'){
-						echo "location='{$url}'";
-					}else{
-						echo "history.back();";
-					}
-				?>
-					 });
-				}
-				</script>
-			<?php 		
-		
+		if($url && $url !='#'){
+			echo "<script>alert('{$info}');location='{$url}';</script>";
+		}else if($url == '#'){
+			echo "<script>alert('{$info}');</script>";
+		}else{
+			echo "<script>alert('{$info}');history.back();</script>";
 		}
+	}
 
-
-	
 	/**确认框,确定和取消跳转不同(1次弹出框)**/
 	public static function show_message_query($info, $url='',$url_f=''){
 		header('Content-Type:text/html;charset=utf-8');
