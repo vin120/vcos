@@ -160,9 +160,9 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['cruise_desc']+"</td>";
 	                            str += "<td><img style='width:50px;height:50px;' src='<?php echo $baseUrl.'upload/';?>"+data[key]['cruise_img']+"' /></td>";
 	                            if(data[key]['status']==1)
-	                            	var status = "Usable";
+	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
 	                            else if(data[key]['status']==0)
-	                            	var status = "Disabled";
+	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td  class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['cruise_edit']);?>&code="+data[key]['cruise_code']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";

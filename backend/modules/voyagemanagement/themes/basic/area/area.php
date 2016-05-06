@@ -112,9 +112,9 @@ window.onload = function(){
 	                            str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['area_code']+"'></input></td>";
 	                            str += "<td>"+data[key]['area_name']+"</td>";
 	                            if(data[key]['status']==1)
-	                            	var status = "Usable";
+	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
 	                            else if(data[key]['status']==0)
-	                            	var status = "Disabled";
+	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
 	                            str += "<td>"+status+"</td>";
 	                           // str += "<td  class='op_btn'>";
 	                           //str += "<a class='delete' id='"+data[key]['area_code']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";

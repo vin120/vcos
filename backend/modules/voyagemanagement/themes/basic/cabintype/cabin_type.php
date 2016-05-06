@@ -157,9 +157,9 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['floor']+"</td>";
 	                            str += "<td>"+data[key]['location']+"</td>";
 	                            if(data[key]['type_status']==1)
-	                            	var status = "Usable";
+	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
 	                            else if(data[key]['type_status']==0)
-	                            	var status = "Disabled";
+	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td  class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['cabin_type_edit']);?>&code="+data[key]['type_code']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";

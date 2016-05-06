@@ -152,9 +152,9 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['country_code']+"</td>";
 	                            str += "<td>"+data[key]['port_name']+"</td>";
 	                            if(data[key]['status']==1)
-	                            	var status = "Usable";
+	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
 	                            else if(data[key]['status']==0)
-	                            	var status = "Disabled";
+	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['port_edit']);?>&code="+data[key]['port_code']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";

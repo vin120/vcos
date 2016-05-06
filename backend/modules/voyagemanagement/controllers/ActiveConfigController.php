@@ -167,17 +167,17 @@ class ActiveconfigController extends Controller
 // 		$sql = "SELECT count(*) count FROM `v_c_active_detail` WHERE active_id='{$active_id}'";
 // 		$count = Yii::$app->db->createCommand($sql)->queryOne()['count'];
 
-		$query  = new Query();
-		$query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
-		->from('v_c_active_detail a')
-		->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
-		->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
-		->limit(2)
-		->all();
+// 		$query  = new Query();
+// 		$query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
+// 		->from('v_c_active_detail a')
+// 		->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
+// 		->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
+// 		->limit(2)
+// 		->all();
 		
-		$active_detail = $query->createCommand()->queryAll();
+// 		$active_detail = $query->createCommand()->queryAll();
 		
-		$count = VCActiveDetail::find()->where(['active_id'=>$active_id])->count();
+// 		$count = VCActiveDetail::find()->where(['active_id'=>$active_id])->count();
 		
 		
 		//更新编辑页面的信息
@@ -207,9 +207,30 @@ class ActiveconfigController extends Controller
 			}
 		}
 		
-		return $this->render("active_config_edit",['active'=>$active,'active_detail'=>$active_detail,'count'=>$count,'active_config_page'=>1]);
+// 		return $this->render("active_config_edit",['active'=>$active,'active_detail'=>$active_detail,'count'=>$count,'active_config_page'=>1]);
+
+		return $this->render("active_config_edit",['active'=>$active,'active_config_page'=>1]);
 	}
 
+	//ajax获取
+	public  function actionGet_active_config_detail_ajax()
+	{
+		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
+		
+		$query  = new Query();
+		$query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
+		->from('v_c_active_detail a')
+		->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
+		->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
+		->limit(2)
+		->all();
+		
+		$active_detail = $query->createCommand()->queryAll();
+		
+		$count = VCActiveDetail::find()->where(['active_id'=>$active_id])->count();
+		
+	}
+	
 	
 	public function actionActive_config_detail_add()
 	{
@@ -283,6 +304,8 @@ class ActiveconfigController extends Controller
 		
 		return $this->render("active_config_detail_add",['active'=>$active]);
 	}
+	
+	
 	
 	
 	

@@ -30,13 +30,13 @@ $(document).ready(function(){
 			str_con += '<input type="button" class="cancel_but" value="取消"></input>';
 			str_con += '</p></div>';
 			
-		 //$("#promptBox").before(str); 
+		 //$("#promptBox").before(str);
 		 $(document.body).append(str);
 		 $(document.body).append(str_con);
 		 //$("#promptBox").removeClass('hide');
 		 
 		 $(".btn > .confirm_but").attr('id',val);
-	 }); 
+	 });
 	
 	//多选删除弹框
 
@@ -114,15 +114,7 @@ $(document).ready(function(){
 		   $(".ui-widget-overlay").addClass('hide');
 		   $("#promptBox").addClass('hide');
 	   })
-	
-	   
-	   
-	  
-
-	   
-	  
-	     
-	     
+     
 	
 	//国家数据验证
 	$("#country_val").validate({

@@ -96,9 +96,9 @@ window.onload = function(){
 	                            str += "<td>"+(key+1)+"</td>";
 	                            str += "<td>"+data[key]['name']+"</td>";
 	                            if(data[key]['status']==1)
-	                            	var status = "Usable";
+	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
 	                            else if(data[key]['status']==0)
-	                            	var status = "Disabled";
+	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['active_config_edit']);?>&active_id="+data[key]['active_id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";

@@ -22,8 +22,8 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 	<a href="#"><?php echo yii::t('app','Active Config Edit')?></a></div>
 	<div class="tab">
 		<ul class="tab_title">
-			<li class="active">Active</li>
-			<li>Detail</li>
+			<li class="active" id="tab_active">Active</li>
+			<li id="tab_detail">Detail</li>
 		</ul>
 		<div class="tab_content">
 			<div class="active">
@@ -91,25 +91,27 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach($active_detail as $key=>$row){?>
+						<!-- 
+							<?php //foreach($active_detail as $key=>$row){?>
 							<tr>
-								<td><input type="checkbox" name="ids[]" value="<?php echo $row['id']?>"></input></td>
-								<td><?php echo $row['day_from']; if($row['day_to'] != null) { echo " - ".$row['day_to']; }?></td>
-								<td><?php echo $row['detail_title']?></td>
-								<td><?php echo $row['detail_desc']?></td>
+								<td><input type="checkbox" name="ids[]" value="<?php //echo $row['id']?>"></input></td>
+								<td><?php //echo $row['day_from']; if($row['day_to'] != null) { echo " - ".$row['day_to']; }?></td>
+								<td><?php //echo //$row['detail_title']?></td>
+								<td><?php //echo //$row['detail_desc']?></td>
 								<td class='op_btn'>
-			                    	<a href="<?php echo Url::toRoute(['active_config_detail_edit'])."&active_id=".$active['active_id']."&id=".$row['id'];?>"><img src="<?=$baseUrl ?>images/write.png"></a>
-									<a class="delete" id="<?php echo $row['id'];?>" ><img src="<?=$baseUrl ?>images/delete.png"></a>
+			                    	<a href="<?php //echo Url::toRoute(['active_config_detail_edit'])."&active_id=".$active['active_id']."&id=".$row['id'];?>"><img src="<?=$baseUrl ?>images/write.png"></a>
+									<a class="delete" id="<?php //echo $row['id'];?>" ><img src="<?=$baseUrl ?>images/delete.png"></a>
 								</td>
 							</tr>
-							<?php }?>
+							<?php //}?>
+						-->
 						</tbody>
 					</table>
 					<input type="hidden" id="active_id" name="active_id" value="<?php echo $active['active_id']?>" ></input>
 					<?php 
 						ActiveForm::end(); 
 					?>
-					<p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $count;?></span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo 0//$count;?></span></p>
 					<div class="btn">
 						<a href="<?php echo Url::toRoute(['active_config_detail_add']).'&active_id='.$active['active_id'];?>" ><input type="button" value="Add"></input></a>
 						<input id="del_submit" type="button" value="Del Selected"></input>
@@ -124,54 +126,20 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <!-- content end -->
 
 <script type="text/javascript">
-window.onload = function(){ 
-<?php $active_total = (int)ceil($count/2);
-	if($active_total >1){
-?>
-	$('#active_config_page_div').jqPaginator({
-	    totalPages: <?php echo $active_total;?>,
-	    visiblePages: 5,
-	    currentPage: 1,
-	    wrapper:'<ul class="pagination"></ul>',
-	    first: '<li class="first"><a href="javascript:void(0);">First</a></li>',
-	    prev: '<li class="prev"><a href="javascript:void(0);">«</a></li>',
-	    next: '<li class="next"><a href="javascript:void(0);">»</a></li>',
-	    last: '<li class="last"><a href="javascript:void(0);">Last</a></li>',
-	    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
-	    onPageChange: function (num, type) {
-	    	var this_page = $("input#active_config_page").val();
-	    	if(this_page==num){$("input#active_config_page").val('fail');return false;}
-	    	
-	    	$.ajax({
-                url:"<?php echo Url::toRoute(['get_active_config_page']);?>",
-                type:'get',
-                data:'pag='+num,
-             	dataType:'json',
-            	success:function(data){
-                	var str = '';
-            		if(data != 0){
-    	                $.each(data,function(key){
-                        	str += "<tr>";
-                            str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['id']+"'></input></td>";
-                            var aa = data[key]['day_to']==null?'':" - "+data[key]['day_to'];
-                            str += "<td>"+data[key]['day_from']+aa+"</td>";
-                            str += "<td>"+data[key]['detail_title']+"</td>";
-                            str += "<td>"+data[key]['detail_desc']+"</td>";
-                            str += "<td  class='op_btn'>";
-                            str += "<a href='<?php echo Url::toRoute(['active_config_detail_edit']);?>&active_id="+<?php echo $active['active_id']?>+"&id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";
-                            str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
-	                        str += "</td>";
-                            str += "</tr>";
-                          });
-    	                $("table#active_config_table > tbody").html(str);
-    	            }
-            	}      
-            });
-    	}
+window.onload = function(){
+
+	$(document).on('click','#tab_detail',function(){
+		$.ajax({
+            url:"<?php echo Url::toRoute(['get_active_config_detail_ajax']);?>",
+            type:'get',
+            data:'active_id='+<?php echo $active['active_id']?>,
+         	dataType:'json',
+        	success:function(data){
+	        
+        	}
+        });
 	});
-	<?php }?>
-
-
+	
 	//delete删除确定button
    $(document).on('click',"#promptBox > .btn .confirm_but",function(){
 	   var val = $(this).attr('id');

@@ -161,9 +161,9 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['max_check_in']+"</td>";
 	                            str += "<td>"+data[key]['ieast_aduits_num']+"</td>";
 	                            if(data[key]['status']==1)
-	                            	var status = "Usable";
+	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
 	                            else if(data[key]['status']==0)
-	                            	var status = "Disabled";
+	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td  class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['cabin_edit']);?>&id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";

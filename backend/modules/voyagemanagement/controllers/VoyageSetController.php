@@ -132,29 +132,29 @@ class VoyagesetController extends Controller
 // 					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$last_active_id);
 					
 					Yii::$app->db->createCommand()->insert('v_c_voyage', [
-							'voyage_code'=>$voyage_code,
-							'cruise_code'=>$cruise_code,
-							'start_time'=>$s_time,
-							'end_time'=>$e_time,
-							'status'=>1,
-							'area_code'=>$area_code,
-							'voyage_num'=>$voyage_num,
-							'pdf_path'=>$pdf_path,
-							'start_book_time'=>$s_book_time,
-							'stop_book_time'=>$e_book_time,
-							'ticket_price'=>$ticket_price,
-							'ticket_taxes'=>$ticket_taxes,
-							'harbour_taxes'=>$harbour_taxes,
-							'deposit_ratio'=>$deposit_ratio,
+						'voyage_code'=>$voyage_code,
+						'cruise_code'=>$cruise_code,
+						'start_time'=>$s_time,
+						'end_time'=>$e_time,
+						'status'=>1,
+						'area_code'=>$area_code,
+						'voyage_num'=>$voyage_num,
+						'pdf_path'=>$pdf_path,
+						'start_book_time'=>$s_book_time,
+						'stop_book_time'=>$e_book_time,
+						'ticket_price'=>$ticket_price,
+						'ticket_taxes'=>$ticket_taxes,
+						'harbour_taxes'=>$harbour_taxes,
+						'deposit_ratio'=>$deposit_ratio,
 					])->execute();
 					
 					$last_active_id = Yii::$app->db->getLastInsertID();
 					
 					Yii::$app->db->createCommand()->insert('v_c_voyage_i18n', [
-							'voyage_code'=>$voyage_code,
-							'voyage_name'=>$voyage_name,
-							'voyage_desc'=>$desc,
-							'i18n'=>'en',
+						'voyage_code'=>$voyage_code,
+						'voyage_name'=>$voyage_name,
+						'voyage_desc'=>$desc,
+						'i18n'=>'en',
 					])->execute();
 
 					$transaction->commit();
@@ -171,19 +171,19 @@ class VoyagesetController extends Controller
 
 		$query  = new Query();
 		$query->select(['a.area_code','b.area_name'])
-		->from('v_c_area a')
-		->join('LEFT JOIN','v_c_area_i18n b','a.area_code=b.area_code')
-		->where(['b.i18n'=>'en','a.status'=>'1'])
-		->all();
+			->from('v_c_area a')
+			->join('LEFT JOIN','v_c_area_i18n b','a.area_code=b.area_code')
+			->where(['b.i18n'=>'en','a.status'=>'1'])
+			->all();
 		$area = $query->createCommand()->queryAll();
 		
 		
 		$query  = new Query();
 		$query->select(['a.cruise_code','b.cruise_name'])
-		->from('v_cruise a')
-		->join('LEFT JOIN','v_cruise_i18n b','a.cruise_code=b.cruise_code')
-		->where(['b.i18n'=>'en','a.status'=>'1'])
-		->all();
+			->from('v_cruise a')
+			->join('LEFT JOIN','v_cruise_i18n b','a.cruise_code=b.cruise_code')
+			->where(['b.i18n'=>'en','a.status'=>'1'])
+			->all();
 		$cruise = $query->createCommand()->queryAll();
 		
 		
@@ -230,7 +230,6 @@ class VoyagesetController extends Controller
 						Helper::show_message('Wrong Format',Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
 						die;
 					}
-					
 				}
 			}
 			if($voyage_name != '' && $voyage_num != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != '' ){
@@ -239,7 +238,7 @@ class VoyagesetController extends Controller
 				try{
 					$sql = " UPDATE `v_c_voyage` SET `voyage_code`='$voyage_code',`cruise_code`='$cruise_code',`start_time`='$s_time',`end_time`='$e_time',`area_code`='$area_code',`voyage_num`='$voyage_num',`pdf_path`='$pdf_path',`start_book_time`='$s_book_time',`stop_book_time`='$e_book_time',`ticket_price`='$ticket_price',`ticket_taxes`='$ticket_taxes',`harbour_taxes`='$harbour_taxes',`deposit_ratio`='$deposit_ratio' WHERE id='$voyage_id' ";
 					Yii::$app->db->createCommand($sql)->execute();
-	
+				
 					$sql = " UPDATE `v_c_voyage_i18n` SET `voyage_name`='$voyage_name',`voyage_desc`='$desc' WHERE voyage_code ='$voyage_code'";
 					Yii::$app->db->createCommand($sql)->execute();
 	
@@ -609,10 +608,5 @@ class VoyagesetController extends Controller
 			}
 		}
 	}
-	
-	
-
-	
-
 
 }
