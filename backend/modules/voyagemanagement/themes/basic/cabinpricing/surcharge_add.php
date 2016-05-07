@@ -76,7 +76,7 @@ var get_surcharge_data_ajax_url = "<?php echo Url::toRoute(['get_surcharge_data'
 			</div>
 		<div class="btn">
 			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-			<input class="cancle" type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
+			<input class="cancel" type="button" value="<?php echo yii::t('app','CANCEL')?>"></input>
 		</div>
 		<?php 
 		ActiveForm::end(); 

@@ -27,7 +27,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <!-- content start -->
 <div class="r content">
 <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
-    <a href="#"><?php echo yii::t('app','Voyage Set')?></a>&nbsp;&gt;&gt;&nbsp;
+    <a href="<?php echo Url::toRoute(['voyageset/index']);?>"><?php echo yii::t('app','Voyage Set')?></a>&nbsp;&gt;&gt;&nbsp;
     <a href="#"><?php echo yii::t('app','Voyage_set_add')?></a></div>
 	<div class="write">
 	<?php
@@ -80,7 +80,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		</div>
 		<div class="btn">
 			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-			<input type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
+			<input type="button" value="<?php echo yii::t('app','CANCEL')?>"></input>
 		</div>
 		<?php 
 			ActiveForm::end(); 

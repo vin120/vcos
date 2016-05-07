@@ -66,7 +66,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 		</div>
 		<div class="btn">
 				<input type="submit" value="<?php echo \Yii::t('app','SAVE')?>"></input>
-				<input class="cancle" type="button" value="<?php echo \Yii::t('app','CANCLE')?>"></input>
+				<input class="cancel" type="button" value="<?php echo \Yii::t('app','CANCEL')?>"></input>
 			</div>
 	</form>
 	</div>  
@@ -75,7 +75,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 <!-- content end -->
 <script type="text/javascript">
 $(function(){
-	$("input.cancle").click(function(){
+	$("input.cancel").click(function(){
 		 location.href="<?php echo Url::toRoute(['cabin_categorize']);?>";
 		});
 	  $("input[type=text]").each(function(){//聚焦是清除

@@ -63,7 +63,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 		</div>
 		<div class="btn">
 				<input type="submit" value="<?php echo \Yii::t('app','SAVE')?>"></input>
-				<input class="cancle" type="button" value="<?php echo \Yii::t('app','CANCLE')?>"></input>
+				<input class="cancel" type="button" value="<?php echo \Yii::t('app','CANCEL')?>"></input>
 			</div>
 	</form>
 	</div>  

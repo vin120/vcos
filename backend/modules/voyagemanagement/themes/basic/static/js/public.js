@@ -849,7 +849,7 @@ $(document).ready(function(){
 	
 	
 	//添加编辑页面取消填写按钮
-	$(".btn > .cancle").on('click',function(){
+	$(".btn > .cancel").on('click',function(){
 		$("form input#code").val('');
 		$("form input#code_chara").val('');
 		$("form input#name").val('');
