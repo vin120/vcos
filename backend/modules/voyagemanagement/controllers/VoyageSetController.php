@@ -9,6 +9,9 @@ use app\modules\voyagemanagement\components\Helper;
 use app\modules\voyagemanagement\models\VCVoyage;
 use app\modules\voyagemanagement\models\VCVoyageI18n;
 use yii\db\Query;
+use app\modules\voyagemanagement\models\VCVoyagePort;
+use app\modules\voyagemanagement\models\VCCabin;
+use app\modules\voyagemanagement\models\VCVoyageMapI18n;
 
 
 
@@ -16,38 +19,56 @@ class VoyagesetController extends Controller
 {
 	public function actionIndex()
 	{
-		$sql = " SELECT a.id,a.voyage_num,a.start_time,a.end_time,b.voyage_name FROM v_c_voyage a LEFT JOIN v_c_voyage_i18n b ON a.voyage_code=b.voyage_code ";
-		$count_sql = " SELECT COUNT(*) count FROM v_c_voyage a LEFT JOIN v_c_voyage_i18n b ON a.voyage_code=b.voyage_code ";
-		$where_sql = ' WHERE 1 ';
 		$_voyage_name = '';
 		$_s_time = '';
 		$_e_time = '';
-
+		$where_voyage_name = [];
+		$where_s_time = [];
+		$where_e_time = [];
 		if($_POST){
 			$voyage_name = isset($_POST['voyage_name']) ? $_POST['voyage_name'] : '';
 			$s_time = isset($_POST['s_time']) ? $_POST['s_time'] : '';
 			$e_time = isset($_POST['e_time']) ? $_POST['e_time'] : '';
-			
+	
 			$_voyage_name = $voyage_name;
 			$_s_time = $s_time;
 			$_e_time = $e_time;
+			
 			if($voyage_name != ''){
-				$where_sql .= " AND voyage_name LIKE '%$voyage_name%' ";
+				$where_voyage_name = ['like','voyage_name',$voyage_name];
 			}
-
+			
 			if($s_time != ''){
-				$where_sql .= " AND a.start_time > '$s_time' ";
+				$where_s_time = ['>','a.start_time',$s_time];;
 			}
 
 			if($e_time != ''){
-				$where_sql .= " AND a.end_time < '$e_time' ";
+				$where_e_time = ['<','a.end_time',$e_time];
 			}
-			$where_sql .= " AND b.i18n='en'  ";
 		}
-
-		$voyage = Yii::$app->db->createCommand($sql.$where_sql)->queryAll();
-		$count = Yii::$app->db->createCommand($count_sql.$where_sql)->queryOne()['count'];
-
+		
+		$query  = new Query();
+		$query->select(['a.id','a.voyage_num','a.start_time','a.end_time','b.voyage_name'])
+				->from('v_c_voyage a')
+				->join('LEFT JOIN','v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
+				->where(['b.i18n'=>'en'])
+				->andWhere($where_voyage_name)
+				->andWhere($where_s_time)
+				->andWhere($where_e_time)
+				->all();
+		$voyage = $query->createCommand()->queryAll();
+		
+		
+		
+		$query  = new Query();
+		$count = $query->from('v_c_voyage a')
+				->join('LEFT JOIN','v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
+				->where(['b.i18n'=>'en'])
+				->andWhere($where_voyage_name)
+				->andWhere($where_s_time)
+				->andWhere($where_e_time)
+				->count();
+	
 		return $this->render("index",['voyage'=>$voyage,'count'=>$count,'voyage_name'=>$_voyage_name,'s_time'=>$_s_time,'e_time'=>$_e_time]);
 	}
 
@@ -59,31 +80,41 @@ class VoyagesetController extends Controller
 		$s_time = isset($_GET['s_time']) ? $_GET['s_time'] : '';
 		$e_time = isset($_GET['e_time']) ? $_GET['e_time'] : '';
 
-		$sql = " SELECT a.id,a.voyage_num,a.start_time,a.end_time,b.voyage_name FROM v_c_voyage a LEFT JOIN v_c_voyage_i18n b ON a.voyage_code=b.voyage_code ";
-		$where_sql = " WHERE 1 ";
+		$where_voyage_name = [];
+		$where_s_time = [];
+		$where_e_time = [];
 		
-
+		
 		if($voyage_name != ''){
-			$where_sql .= " AND voyage_name LIKE '%$voyage_name%' ";
+			$where_voyage_name = ['like','voyage_name',$voyage_name];
 		}
-
+		
 		if($s_time != ''){
-			$where_sql .= " AND a.start_time > '$s_time' ";
+			$where_s_time = ['>','a.start_time',$s_time];;
 		}
 
 		if($e_time != ''){
-			$where_sql .= " AND a.end_time < '$e_time' ";
+			$where_e_time = ['<','a.end_time',$e_time];
 		}
-
-		$where_sql .= " AND b.i18n='en'  ";
-
-		$limit_sql = " limit $pag,2 ";
-
-		$result = Yii::$app->db->createCommand($sql.$where_sql.$limit_sql)->queryAll();
+		
+		
+		$query  = new Query();
+		$query->select(['a.id','a.voyage_num','a.start_time','a.end_time','b.voyage_name'])
+				->from('v_c_voyage a')
+				->join('LEFT JOIN','v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
+				->where(['b.i18n'=>'en'])
+				->andWhere($where_voyage_name)
+				->andWhere($where_s_time)
+				->andWhere($where_e_time)
+				->offset($pag)
+				->limit(2)
+				->all();
+		$result = $query->createCommand()->queryAll();
+		
 
 		if($result){
 			echo json_encode($result);
-		}  else {
+		}else{
 			echo 0;
 		}
 	}
@@ -122,14 +153,6 @@ class VoyagesetController extends Controller
 				//事务处理
 				$transaction=Yii::$app->db->beginTransaction();
 				try{
-// 					$sql = "INSERT INTO `v_c_voyage` (`voyage_code`,`cruise_code`,`start_time`,`end_time`,`status`,`area_code`,`voyage_num`,`pdf_path`,`start_book_time`,`stop_book_time`,`ticket_price`,`ticket_taxes`,`harbour_taxes`,`deposit_ratio`) 
-// 					VALUES ('$voyage_code','$cruise_code','$s_time','$e_time','1','$area_code','$voyage_num','$pdf_path','$s_book_time','$e_book_time','$ticket_price','$ticket_taxes','$harbour_taxes','$deposit_ratio') ";
-// 					Yii::$app->db->createCommand($sql)->execute();
-// 					$last_active_id = Yii::$app->db->getLastInsertID();
-// 					$sql = " INSERT INTO `v_c_voyage_i18n` (`voyage_code`,`voyage_name`,`voyage_desc`,`i18n`) VALUES ('$voyage_code','$voyage_name','$desc','en')";
-// 					Yii::$app->db->createCommand($sql)->execute();
-// 					$transaction->commit();
-// 					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$last_active_id);
 					
 					Yii::$app->db->createCommand()->insert('v_c_voyage', [
 						'voyage_code'=>$voyage_code,
@@ -171,29 +194,20 @@ class VoyagesetController extends Controller
 
 		$query  = new Query();
 		$query->select(['a.area_code','b.area_name'])
-			->from('v_c_area a')
-			->join('LEFT JOIN','v_c_area_i18n b','a.area_code=b.area_code')
-			->where(['b.i18n'=>'en','a.status'=>'1'])
-			->all();
+				->from('v_c_area a')
+				->join('LEFT JOIN','v_c_area_i18n b','a.area_code=b.area_code')
+				->where(['b.i18n'=>'en','a.status'=>'1'])
+				->all();
 		$area = $query->createCommand()->queryAll();
 		
 		
 		$query  = new Query();
 		$query->select(['a.cruise_code','b.cruise_name'])
-			->from('v_cruise a')
-			->join('LEFT JOIN','v_cruise_i18n b','a.cruise_code=b.cruise_code')
-			->where(['b.i18n'=>'en','a.status'=>'1'])
-			->all();
+				->from('v_cruise a')
+				->join('LEFT JOIN','v_cruise_i18n b','a.cruise_code=b.cruise_code')
+				->where(['b.i18n'=>'en','a.status'=>'1'])
+				->all();
 		$cruise = $query->createCommand()->queryAll();
-		
-		
-		
-// 		$sql = "SELECT a.area_code,b.area_name FROM `v_c_area` a LEFT JOIN `v_c_area_i18n` b ON a.area_code=b.area_code WHERE a.status=1 AND b.i18n='en' ";
-// 		$area = Yii::$app->db->createCommand($sql)->queryAll();
-
-
-// 		$sql = " SELECT a.cruise_code , b.cruise_name FROM `v_cruise` a LEFT JOIN `v_cruise_i18n` b ON a.cruise_code=b.cruise_code WHERE a.status=1 AND b.i18n='en'";
-// 		$cruise = Yii::$app->db->createCommand($sql)->queryAll();
 
 		return $this->render('voyage_add',['area'=>$area,'cruise'=>$cruise]);
 	}
@@ -252,77 +266,272 @@ class VoyagesetController extends Controller
 				Helper::show_message('Save failed  ',Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
 			}
 		}
+		
 
+		
 		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
-		$sql = " SELECT a.*,b.voyage_name,b.voyage_desc FROM `v_c_voyage` a LEFT JOIN `v_c_voyage_i18n` b ON a.voyage_code=b.voyage_code WHERE a.id='$voyage_id' AND a.status=1 AND b.i18n='en' ";
-		$voyage = Yii::$app->db->createCommand($sql)->queryOne();
-
-		$sql = "SELECT a.area_code,b.area_name FROM `v_c_area` a LEFT JOIN `v_c_area_i18n` b ON a.area_code=b.area_code WHERE a.status=1 AND b.i18n='en' ";
-		$area = Yii::$app->db->createCommand($sql)->queryAll();
-
-
-		$sql = " SELECT a.cruise_code , b.cruise_name FROM `v_cruise` a LEFT JOIN `v_cruise_i18n` b ON a.cruise_code=b.cruise_code WHERE a.status=1 AND b.i18n='en'";
-		$cruise = Yii::$app->db->createCommand($sql)->queryAll();
-
-
-		$sql = "SELECT * FROM `v_c_voyage_port` WHERE voyage_id='$voyage_id' limit 2 ";
-		$voyage_port = Yii::$app->db->createCommand($sql)->queryAll();
-
-		$sql = "SELECT a.port_code,b.port_name FROM `v_c_port` a LEFT JOIN `v_c_port_i18n` b ON a.port_code=b.port_code WHERE a.status=1 AND b.i18n='en' " ;
-		$port = Yii::$app->db->createCommand($sql)->queryAll();
-
-		$sql = " SELECT COUNT(*) count FROM `v_c_voyage_port` WHERE voyage_id='$voyage_id'";
-		$count = Yii::$app->db->createCommand($sql)->queryOne()['count'];
 		
+		$query  = new Query();
+		$query->select(['a.*','b.voyage_name','b.voyage_desc'])
+				->from('v_c_voyage a')
+				->join('LEFT JOIN','v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
+				->where(['a.id'=>$voyage_id,'b.i18n'=>'en','a.status'=>'1'])
+				->one();
+		$voyage = $query->createCommand()->queryOne();
+		
+		
+		$query  = new Query();
+		$query->select(['a.area_code','b.area_name'])
+				->from('v_c_area a')
+				->join('LEFT JOIN','v_c_area_i18n b','a.area_code=b.area_code')
+				->where(['b.i18n'=>'en','a.status'=>'1'])
+				->all();
+		$area = $query->createCommand()->queryAll();
 		
 
-		//start
+		$query  = new Query();
+		$query->select(['a.cruise_code','b.cruise_name'])
+				->from('v_cruise a')
+				->join('LEFT JOIN','v_cruise_i18n b','a.cruise_code=b.cruise_code')
+				->where(['b.i18n'=>'en','a.status'=>'1'])
+				->all();
+		$cruise = $query->createCommand()->queryAll();
 		
-		$sql = "SELECT a.id,b.type_name FROM `v_c_cabin_type` a LEFT JOIN `v_c_cabin_type_i18n` b ON a.type_code=b.type_code WHERE a.type_status=1 AND b.i18n='en'";
-		$cabin_type_result = Yii::$app->db->createCommand($sql)->queryAll();
-		
-		$cruise_code = Yii::$app->params['cruise_code'];
-		$sql = "SELECT deck_number FROM `v_cruise` WHERE cruise_code='{$cruise_code}'";
-		$cruise_result = Yii::$app->db->createCommand($sql)->queryOne();
-		
-		$sql = "SELECT id,cabin_name FROM `v_c_cabin_lib` WHERE status=1 AND cabin_type_id=".$cabin_type_result[0]['id']." AND deck_num=1";
-		$cabin_result = Yii::$app->db->createCommand($sql)->queryAll();
-		
-		$sql = "SELECT a.cabin_lib_id,b.cabin_name FROM `v_c_cabin` a LEFT JOIN `v_c_cabin_lib` b ON a.cabin_lib_id=b.id WHERE a.cabin_type_id=".$cabin_type_result[0]['id']." AND a.deck=1";
-		$really_cabin_result = Yii::$app->db->createCommand($sql)->queryAll();
-		
-		
-		$sql = "SELECT * FROM `v_c_voyage_map` a LEFT JOIN `v_c_voyage_map_i18n` b ON a.id=b.map_id WHERE a.voyage_id='$voyage_id' limit 1";
-		$map_result = Yii::$app->db->createCommand($sql)->queryOne();
-		
-		$sql = "select a.active_id,b.name from `v_c_active` a LEFT JOIN `v_c_active_i18n` b ON a.active_id=b.active_id WHERE a.status=1 AND b.i18n ='en'";
-		$active_result = Yii::$app->db->createCommand($sql)->queryAll();
-		$sql = "SELECT a.id,c.name FROM `v_c_voyage_active` a LEFT JOIN `v_c_active` b ON a.curr_active_id=b.active_id LEFT JOIN `v_c_active_i18n` c ON b.active_id=c.active_id  WHERE b.status=1 AND c.i18n='en' AND  a.voyage_id='$voyage_id' limit 1";
-		$curr_active_result = Yii::$app->db->createCommand($sql)->queryOne();
-		
-		$sql = " SELECT a.id,b.voyage_name FROM `v_c_voyage` a LEFT JOIN `v_c_voyage_i18n` b ON a.voyage_code=b.voyage_code WHERE  a.status=1 AND b.i18n='en' ";
-		$voyage_return = Yii::$app->db->createCommand($sql)->queryAll();
-		
-		$sql = "SELECT a.id,c.voyage_name FROM `v_c_return_voyage` a LEFT JOIN `v_c_voyage` b ON a.return_voyage_id=b.id LEFT JOIN `v_c_voyage_i18n` c ON b.voyage_code=c.voyage_code  WHERE b.status=1 AND c.i18n='en' AND  a.voyage_id='$voyage_id' limit 1";
-		$curr_return_voyage_result = Yii::$app->db->createCommand($sql)->queryOne();
-		
+		$count = VCVoyagePort::find()->where(['voyage_id'=>$voyage_id])->count();
 
-		return $this->render('voyage_edit',['curr_return_voyage_result'=>$curr_return_voyage_result,'voyage_return'=>$voyage_return,'curr_active_result'=>$curr_active_result,'active_result'=>$active_result,'map_result'=>$map_result,'really_cabin_result'=>$really_cabin_result,'cruise_result'=>$cruise_result,'cabin_result'=>$cabin_result,'cabin_type_result'=>$cabin_type_result,'voyage'=>$voyage,'area'=>$area,'cruise'=>$cruise,'voyage_port'=>$voyage_port,'port'=>$port,'count'=>$count,'voyage_port_page'=>1]);
+		
+		return $this->render('voyage_edit',['voyage'=>$voyage,'area'=>$area,'cruise'=>$cruise,'voyage_port_page'=>1,'count'=>$count]);
 	}
 	
-	//-----
+	
+	
+	//voyage port ajax 
+	public function actionGet_voyage_port_ajax()
+	{
+		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
+		
+		$query  = new Query();
+		$query->select(['*'])
+				->from('v_c_voyage_port')
+				->where(['voyage_id'=>$voyage_id])
+				->limit(2)
+				->all();
+		$voyage_port = $query->createCommand()->queryAll();
+		
+		
+		$query  = new Query();
+		$query->select(['a.port_code','b.port_name'])
+				->from('v_c_port a')
+				->join('LEFT JOIN','v_c_port_i18n b','a.port_code=b.port_code')
+				->where(['b.i18n'=>'en','a.status'=>'1'])
+				->all();
+		$port = $query->createCommand()->queryAll();
+		
+		
+		foreach($port as $port_row){
+			foreach ($voyage_port as $key => $value ) {
+				if($port_row['port_code'] == $value['port_code']) {
+					$voyage_port[$key]['port_name'] = $port_row['port_name'];
+				}
+			}
+		}
+		
+		
+		if($voyage_port){
+			echo json_encode($voyage_port);
+		}else{
+			echo 0;
+		}
+		
+	}
+	
+	//active ajax
+	public function actionGet_active_ajax()
+	{
+		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
+		
+		$query  = new Query();
+				$query->select(['a.active_id','b.name'])
+				->from('v_c_active a')
+				->join('LEFT JOIN','v_c_active_i18n b','a.active_id=b.active_id')
+				->where(['a.status'=>1,'b.i18n'=>'en'])
+				->all();
+		$active_result = $query->createCommand()->queryAll();
+		
+		
+		$query  = new Query();
+		$query->select(['a.id','c.name'])
+				->from('v_c_voyage_active a')
+				->leftJoin('v_c_active b','a.curr_active_id=b.active_id')
+				->leftJoin('v_c_active_i18n c','b.active_id=c.active_id')
+				->where(['b.status'=>1,'c.i18n'=>'en','a.voyage_id'=>$voyage_id])
+				->limit(1)
+				->one();
+		$curr_active_result = $query->createCommand()->queryOne();
+		
+		$arr = [];
+		$arr['active'] = $active_result;
+		$arr['curr_active'] = $curr_active_result;
+		if($arr){
+			echo json_encode($arr);
+		}else{
+			echo 0;
+		}
+		
+	}
+	
+	//map ajax
+	public function actionGet_voyage_map_ajax()
+	{
+		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
+		
+		$query  = new Query();
+		$query->select(['id'])
+				->from('v_c_voyage')
+				->where(['id'=>$voyage_id])
+				->one();
+		$voyage = $query->createCommand()->queryOne();
+		
+		
+		$query  = new Query();
+		$query->select(['*'])
+				->from('v_c_voyage_map a')
+				->join('LEFT JOIN','v_c_voyage_map_i18n b','a.id=b.map_id')
+				->where(['a.voyage_id'=>$voyage_id])
+				->limit(1)
+				->one();
+		$map_result = $query->createCommand()->queryOne();
+		
+		$arr = [];
+		$arr['voyage'] = $voyage;
+		$arr['map_result'] = $map_result;
+		if($arr){
+			echo json_encode($arr);
+		}else{
+			echo 0;
+		}
+	}
+	
+	//cabin ajax
+	public function actionGet_cabin_ajax()
+	{
+		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
+		
+		$query  = new Query();
+		$query->select(['id'])
+				->from('v_c_voyage')
+				->where(['id'=>$voyage_id])
+				->one();
+		$voyage = $query->createCommand()->queryOne();
+		
+		$query  = new Query();
+		$query->select(['a.id','b.type_name'])
+				->from('v_c_cabin_type a')
+				->join('LEFT JOIN','v_c_cabin_type_i18n b','a.type_code=b.type_code')
+				->where(['b.i18n'=>'en','a.type_status'=>'1'])
+				->all();
+		$cabin_type_result = $query->createCommand()->queryAll();
+		
+		$query  = new Query();
+		$query->select(['id','cabin_name'])
+				->from('v_c_cabin_lib')
+				->where(['status'=>1,'cabin_type_id'=>$cabin_type_result[0]['id'],'deck_num'=>1])
+				->all();
+		$cabin_result = $query->createCommand()->queryAll();
+		
+		$query  = new Query();
+		$query->select(['a.cabin_lib_id','b.cabin_name'])
+				->from('v_c_cabin a')
+				->join('LEFT JOIN','v_c_cabin_lib b','a.cabin_lib_id=b.id')
+				->where(['a.deck'=>1,'a.cabin_type_id'=>$cabin_type_result[0]['id']])
+				->all();
+		$really_cabin_result = $query->createCommand()->queryAll();
+		
+		$cruise_code = Yii::$app->params['cruise_code'];
+		
+		
+		$query  = new Query();
+		$query->select(['deck_number'])
+				->from('v_cruise')
+				->where(['cruise_code'=>$cruise_code])
+				->one();
+		$cruise_result = $query->createCommand()->queryOne();
+		
+		$arr =  [];
+		$arr['voyage'] = $voyage;
+		$arr['cabin_result'] = $cabin_result;
+		$arr['cabin_type_result'] = $cabin_type_result;
+		$arr['really_cabin_result'] = $really_cabin_result;
+		$arr['cruise_result'] = $cruise_result;
+		if($arr){
+			echo json_encode($arr);
+		}else{
+			echo 0;
+		}
+	}
+	
+	
+	//return ajax
+	public function actionGet_return_route_ajax()
+	{
+		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
+		
+		$query  = new Query();
+		$query->select(['a.id','c.voyage_name'])
+				->from('v_c_return_voyage a')
+				->leftJoin('v_c_voyage b','a.return_voyage_id=b.id')
+				->leftJoin('v_c_voyage_i18n c','b.voyage_code=c.voyage_code')
+				->where(['b.status'=>1,'c.i18n'=>'en','a.voyage_id'=>$voyage_id])
+				->limit(1)
+				->one();
+		$curr_return_voyage_result = $query->createCommand()->queryOne();
+		
+		$query  = new Query();
+		$query->select(['a.id','b.voyage_name'])
+				->from('v_c_voyage a')
+				->leftJoin('v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
+				->where(['a.status'=>1,'b.i18n'=>'en'])
+				->all();
+		$voyage_return = $query->createCommand()->queryAll();
+		
+		$arr = [];
+		$arr['curr_return_voyage_result'] = $curr_return_voyage_result;
+		$arr['voyage_return'] = $voyage_return;
+		
+		if($arr){
+			echo json_encode($arr);
+		}else{
+			echo 0;
+		}
+	}
+	
 
 	//港口分页
 	public function actionGet_voyage_port_page()
 	{
 		$pag = isset($_GET['pag']) ? $_GET['pag']==1 ? 0 :($_GET['pag']-1) * 2 : 0;
 		$voyage_id = isset($_GET['voyage_id']) ?$_GET['voyage_id'] :'';
-		$sql = "SELECT * FROM `v_c_voyage_port` WHERE voyage_id='$voyage_id' limit $pag,2 ";
-		$result = Yii::$app->db->createCommand($sql)->queryAll();
-
-		$sql = "SELECT a.port_code,b.port_name FROM `v_c_port` a LEFT JOIN `v_c_port_i18n` b ON a.port_code=b.port_code WHERE a.status=1 AND b.i18n='en' " ;
-		$port = Yii::$app->db->createCommand($sql)->queryAll();
-
+		
+		
+		$query  = new Query();
+		$query->select(['*'])
+				->from('v_c_voyage_port')
+				->where(['voyage_id'=>$voyage_id])
+				->offset($pag)
+				->limit(2)
+				->all();
+		$result = $query->createCommand()->queryAll();
+		
+		
+		$query  = new Query();
+		$query->select(['a.port_code','b.port_name'])
+				->from('v_c_port a')
+				->leftJoin('v_c_port_i18n b','a.port_code=b.port_code')
+				->where(['a.status'=>1,'b.i18n'=>'en'])
+				->all();
+		$port = $query->createCommand()->queryAll();
+		
+		
 		foreach($port as $port_row){
 			foreach ($result as $key => $value ) {
 				if($port_row['port_code'] == $value['port_code']) {
@@ -345,38 +554,26 @@ class VoyagesetController extends Controller
 		if(isset($_GET['id'])){
 			$id = $_GET['id'];
 			$voyage_id = $_GET['voyage_id'];
-			$sql = "DELETE FROM `v_c_voyage_port` WHERE id ='{$id}' ";
-			$count = Yii::$app->db->createCommand($sql)->execute();
-			
-			if($count>0){
-				Helper::show_message('Delete successful', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
-			}else{
-				Helper::show_message('Delete failed ');
-			}
+			VCVoyagePort::deleteAll(['id'=>$id]);
+			Helper::show_message('Delete successful', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
 		}
 		
 		//选中删除
 		if(isset($_POST['ids'])){
-			$ids = implode('\',\'', $_POST['ids']);
+			$ids = implode(',', $_POST['ids']);
 			$voyage_id = $_POST['voyage_id'];
-			$sql = "DELETE FROM `v_c_voyage_port` WHERE id in ('{$ids}')";
-			$count = Yii::$app->db->createCommand($sql)->execute();
-		
-			if($count>0){
-				Helper::show_message('Delete successful ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
-			}else{
-				Helper::show_message('Delete failed ');
-			}
+			VCVoyagePort::deleteAll("id in ($ids)");
+			Helper::show_message('Delete successful ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
 		}
 	}
 
-
+	
+	//港口添加
 	public function actionVoyage_port_add()
 	{
 		$voyage_id = isset($_GET['voyage_id']) ? $_GET['voyage_id'] : '';
-		$sql = "SELECT id FROM `v_c_voyage` WHERE id='$voyage_id' ";
-		$voyage = Yii::$app->db->createCommand($sql)->queryOne();
-
+		$voyage = VCVoyage::find()->where(['id'=>$voyage_id])->one();
+		
 		if($_POST){
 			$order_no = isset($_POST['order_no']) ? $_POST['order_no'] : '';
 			$port_code = isset($_POST['port_code']) ? $_POST['port_code'] : '';
@@ -385,48 +582,53 @@ class VoyagesetController extends Controller
 			$voyage_id_post = isset($_POST['voyage_id']) ? $_POST['voyage_id'] : '';
  
 			if($order_no != '' && $port_code != '' ){
-
-				$sql = "SELECT COUNT(*) count FROM `v_c_voyage_port` WHERE order_no='$order_no' AND voyage_id='$voyage_id_post'";
-				$count = Yii::$app->db->createCommand($sql)->queryOne()['count'];
-
+				$count = VCVoyagePort::find()->where(['order_no'=>$order_no,'voyage_id'=>$voyage_id_post])->count();
 				if($count <= 0){
-					if($EIA != '' && $ETD != ''){
-						$sql = " INSERT INTO `v_c_voyage_port` (`voyage_id`,`port_code`,`order_no`,`ETD`,`EIA`) VALUES ('$voyage_id_post','$port_code','$order_no','$ETD','$EIA')";
+					$vcvoyageport_obj = new VCVoyagePort();
+					$vcvoyageport_obj->voyage_id = $voyage_id_post;
+					$vcvoyageport_obj->port_code = $port_code;
+					$vcvoyageport_obj->order_no = $order_no;
+					if($ETD != ''){
+						$vcvoyageport_obj->ETD = $ETD;
+					}else{
+						$vcvoyageport_obj->ETD = null;
 					}
-					if($EIA ==''){
-						$sql = " INSERT INTO `v_c_voyage_port` (`voyage_id`,`port_code`,`order_no`,`ETD`) VALUES ('$voyage_id_post','$port_code','$order_no','$ETD')";
+					if($EIA != ''){
+						$vcvoyageport_obj->EIA = $EIA;
+					}else{
+						$vcvoyageport_obj->EIA = null;
 					}
-					if($ETD == ''){
-						$sql = " INSERT INTO `v_c_voyage_port` (`voyage_id`,`port_code`,`order_no`,`EIA`) VALUES ('$voyage_id_post','$port_code','$order_no','$EIA')";
-					}
+					$vcvoyageport_obj->save();
 					
-					Yii::$app->db->createCommand($sql)->execute();
 					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post);
 				}else{
 					Helper::show_message('Save failed , Num '.$order_no .' Exists ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post);
 				}
 			}
 		}
-
-
-		$sql = "SELECT a.port_code,b.port_name FROM `v_c_port` a LEFT JOIN `v_c_port_i18n` b ON a.port_code=b.port_code WHERE a.status=1 AND b.i18n='en' " ;
-		$port = Yii::$app->db->createCommand($sql)->queryAll();
+		
+		$query  = new Query();
+		$query->select(['a.port_code','b.port_name'])
+				->from('v_c_port a')
+				->join('LEFT JOIN','v_c_port_i18n b','a.port_code=b.port_code')
+				->where(['a.status'=>1,'b.i18n'=>'en'])
+				->all();
+		$port = $query->createCommand()->queryAll();
 
 		return $this->render('voyage_port_add',['port'=>$port,'voyage'=>$voyage]);
 	}
 
 	
-	
+	//港口编辑
 	public function actionVoyage_port_edit()
 	{
 		$voyage_id = isset($_GET['voyage_id']) ? $_GET['voyage_id'] : '';
-		$sql = "SELECT id FROM `v_c_voyage` WHERE id='$voyage_id' ";
-		$voyage = Yii::$app->db->createCommand($sql)->queryOne();
+		$voyage = VCVoyage::find()->where(['id'=>$voyage_id])->one();
 
 		$port_id = isset($_GET['port_id']) ? $_GET['port_id'] : '';
-		$sql = "SELECT * FROM `v_c_voyage_port` WHERE voyage_id='$voyage_id' AND id='$port_id' ";
-		$voyage_port = Yii::$app->db->createCommand($sql)->queryOne();
-
+		$voyage_port = VCVoyagePort::find()->where(['voyage_id'=>$voyage_id,'id'=>$port_id])->one();
+		
+		
 		if($_POST){
 			$order_no = isset($_POST['order_no']) ? $_POST['order_no'] : '';
 			$port_code = isset($_POST['port_code']) ? $_POST['port_code'] : '';
@@ -434,34 +636,39 @@ class VoyagesetController extends Controller
 			$ETD = isset($_POST['e_time']) ? $_POST['e_time'] : '';
 			$voyage_id_post = isset($_POST['voyage_id']) ? $_POST['voyage_id'] : '';
 			$port_id = isset($_POST['port_id']) ? $_POST['port_id'] : '';
+			
 			if($order_no != '' && $port_code != '' ){
-
-				$sql = "SELECT * FROM `v_c_voyage_port` WHERE order_no ='$order_no'AND id!='$port_id' AND voyage_id ='$voyage_id_post'";
-				$exist = Yii::$app->db->createCommand($sql)->queryOne();
-
+				$exist = VCVoyagePort::find()->where(['order_no'=>$order_no,'voyage_id'=>$voyage_id_post])->andWhere(['!=','id',$port_id])->one();
+				
 				if(!$exist){
-					if($EIA != '' && $ETD != ''){
-						$sql = " UPDATE `v_c_voyage_port` SET `order_no`='$order_no',`port_code`='$port_code',`ETD`='$ETD',`EIA`='$EIA' WHERE `voyage_id`='$voyage_id_post' AND `id`='$port_id'";
+					$vcvoyageport_obj = VCVoyagePort::findOne(['voyage_id'=>$voyage_id_post,'id'=>$port_id]);
+					$vcvoyageport_obj->order_no = $order_no;
+					$vcvoyageport_obj->port_code = $port_code;
+					if($ETD !=''){
+						$vcvoyageport_obj->ETD = $ETD;
+					}else{
+						$vcvoyageport_obj->ETD = null;
 					}
-					if($EIA ==''){
-						$sql = " UPDATE `v_c_voyage_port` SET `order_no`='$order_no',`port_code`='$port_code',`ETD`='$ETD' WHERE `voyage_id`='$voyage_id_post' AND `id`='$port_id'";
+					if($EIA != ''){
+						$vcvoyageport_obj->EIA = $EIA;
+					}else{
+						$vcvoyageport_obj->EIA = null;
 					}
-					if($ETD == ''){
-						$sql = " UPDATE `v_c_voyage_port` SET `order_no`='$order_no',`port_code`='$port_code',`EIA`='$EIA' WHERE `voyage_id`='$voyage_id_post' AND `id`='$port_id'";
-					}
-					
-					Yii::$app->db->createCommand($sql)->execute();
+					$vcvoyageport_obj->save();
 					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);
-					
 				}else{
 					Helper::show_message('Save failed , Num '.$order_no .' Exists ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);
 				}
 			}
 		}
 
-
-		$sql = "SELECT a.port_code,b.port_name FROM `v_c_port` a LEFT JOIN `v_c_port_i18n` b ON a.port_code=b.port_code WHERE a.status=1 AND b.i18n='en' " ;
-		$port = Yii::$app->db->createCommand($sql)->queryAll();
+		$query  = new Query();
+		$query->select(['a.port_code','b.port_name'])
+				->from('v_c_port a')
+				->join('LEFT JOIN','v_c_port_i18n b','a.port_code=b.port_code')
+				->where(['a.status'=>1,'b.i18n'=>'en'])
+				->all();
+		$port = $query->createCommand()->queryAll();
 
 		return $this->render('voyage_port_edit',['port'=>$port,'voyage'=>$voyage,'voyage_port'=>$voyage_port]);
 	}
@@ -489,11 +696,12 @@ class VoyagesetController extends Controller
 		//事务处理
 		$transaction=$db->beginTransaction();
 		try{
-			$sql = "DELETE FROM `v_c_cabin` WHERE voyage_id='{$voyage_id}' AND cabin_type_id='{$cabin_type_id}' AND deck='{$cabin_deck}'";
-			Yii::$app->db->createCommand($sql)->execute();
-				
+			
+			VCCabin::deleteAll(['voyage_id'=>$voyage_id,'cabin_type_id'=>$cabin_type_id,'deck'=>$cabin_deck]);
+			
 			$sql = "INSERT INTO `v_c_cabin` (voyage_id,cabin_type_id,deck,cabin_lib_id) VALUES ".$data;
 			Yii::$app->db->createCommand($sql)->execute();
+			
 			$transaction->commit();
 			$res = 1;
 		}catch(Exception $e){
@@ -509,18 +717,28 @@ class VoyagesetController extends Controller
 	public function actionVoyage_cabin_change_type_get_cabin_lib(){
 		$type_id = isset($_GET['type_id'])?$_GET['type_id']:'';
 		$deck = isset($_GET['deck'])?$_GET['deck']:'';
-		$sql = "SELECT id,cabin_name FROM `v_c_cabin_lib` WHERE status=1 AND cabin_type_id=".$type_id." AND deck_num='{$deck}'";
-		$cabin_result = Yii::$app->db->createCommand($sql)->queryAll();
-	
-		$sql = "SELECT a.cabin_lib_id,b.cabin_name FROM `v_c_cabin` a LEFT JOIN `v_c_cabin_lib` b ON a.cabin_lib_id=b.id WHERE a.cabin_type_id=".$type_id." AND a.deck='{$deck}'";
-		$really_cabin_result = Yii::$app->db->createCommand($sql)->queryAll();
-	
+		
+		$query  = new Query();
+		$query->select(['id','cabin_name'])
+				->from('v_c_cabin_lib')
+				->where(['status'=>1,'cabin_type_id'=>$type_id,'deck_num'=>$deck])
+				->all();
+		$cabin_result = $query->createCommand()->queryAll();
+		
+		$query  = new Query();
+		$query->select(['a.cabin_lib_id','b.cabin_name'])
+				->from('v_c_cabin a')
+				->join('LEFT JOIN','v_c_cabin_lib b','a.cabin_lib_id=b.id')
+				->where(['status'=>1,'a.cabin_type_id'=>$type_id,'a.deck_num'=>$deck])
+				->all();
+		$really_cabin_result = $query->createCommand()->queryAll();
+		
 		$result_arr = array();
 		$result_arr['cabin_lib'] = $cabin_result;
 		$result_arr['really'] = $really_cabin_result;
 		if($result_arr){
 			echo json_encode($result_arr);
-		}  else {
+		}else{
 			echo 0;
 		}
 	}
@@ -545,6 +763,7 @@ class VoyagesetController extends Controller
 			try{
 				if($map_id!=''){
 					if($photo_data!=''){
+						
 						$sql = "UPDATE `v_c_voyage_map_i18n` set map_img='$photo' WHERE map_id='{$map_id}'";
 						Yii::$app->db->createCommand($sql)->execute();
 					}

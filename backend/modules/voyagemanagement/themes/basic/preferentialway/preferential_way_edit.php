@@ -36,11 +36,11 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			]); 
 		?>
 		
-		<div>
+		<div class='check_save_div'>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Strategy Name')?>:</span>
-					<input type="text" required id='name' name='name' value="<?php echo $way_result['strategy_name']?>"></input>
+					<input type="text" id='name' name='name' value="<?php echo $way_result['strategy_name']?>"></input>
 					
 				</label>
 				<span class='tips'></span>
@@ -49,7 +49,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		</div>
 		<div class="btn">
 				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-				<input class='cancle' type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
+				
 			</div>
 		<?php 
 		ActiveForm::end(); 

@@ -92,7 +92,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
        <?php 
 		ActiveForm::end(); 
 		?>
-        <p class="records">Records:<span><?php echo $shore_excursion_count;?></span></p>
+        <p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $shore_excursion_count;?></span></p>
         <div class="btn">
             <a href="<?php echo Url::toRoute(['shore_excursion_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
             <input id="del_submit" type="button" value="<?php echo yii::t('app','Del Selected')?>"></input>
@@ -159,9 +159,9 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['price']+"</td>";
 	                            str += "<td>"+data[key]['se_info']+"</td>";
 	                            if(data[key]['status']==1)
-	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
+	                            	var status = "Avaliable";
 	                            else if(data[key]['status']==0)
-	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
+	                            	var status = "Unavaliable";
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td  class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['shore_excursion_edit']);?>&code="+data[key]['se_code']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";

@@ -16,16 +16,7 @@ class CabinpricingController extends Controller
 		$sql = "SELECT a.*,c.type_name FROM `v_c_cabin_pricing` a LEFT JOIN `v_c_cabin_type` b ON a.cabin_type_id=b.id LEFT JOIN `v_c_cabin_type_i18n` c ON b.type_code=c.type_code  WHERE a.voyage_code='$voyage_code'";
 		$cabin_pricing_result = Yii::$app->db->createCommand($sql)->queryAll();
 		
-		
-		$sql = "SELECT a.*,c.strategy_name FROM `v_c_preferential_strategy` a LEFT JOIN `v_c_preferential_way` b ON a.p_w_id=b.id LEFT JOIN `v_c_preferential_way_i18n` c ON b.id=c.p_w_id  WHERE c.i18n='en' AND a.status=1 AND b.status=1 AND a.voyage_code = '$voyage_code'";
-		$policies_result = Yii::$app->db->createCommand($sql)->queryAll();
-		
-		$sql = "SELECT a.id,c.cost_name FROM `v_c_surcharge` a LEFT JOIN `v_c_surcharge_lib` b ON a.cost_id=b.id LEFT JOIN `v_c_surcharge_lib_i18n` c ON b.id=c.cost_id WHERE a.status=1 AND b.status =1 AND c.i18n = 'en' AND a.voyage_code='$voyage_code'";
-		$surcharge_result = Yii::$app->db->createCommand($sql)->queryAll();
-		
-		$sql = "SELECT a.id,c.se_name FROM `v_c_shore_excursion` a LEFT JOIN `v_c_shore_excursion_lib` b ON a.sh_id=b.id LEFT JOIN `v_c_shore_excursion_lib_i18n` c ON b.se_code=c.se_code WHERE a.status=1 AND b.status =1 AND c.i18n = 'en' AND a.voyage_code='$voyage_code'";
-		$tour_result = Yii::$app->db->createCommand($sql)->queryAll();
-		return $this->render("cabin_pricing",['tour_result'=>$tour_result,'surcharge_result'=>$surcharge_result,'policies_result'=>$policies_result,'cabin_pricing_result'=>$cabin_pricing_result,'voyage_result'=>$voyage_result]);
+		return $this->render("cabin_pricing",['cabin_pricing_result'=>$cabin_pricing_result,'voyage_result'=>$voyage_result]);
 	}
 	/*
 	public function  actionGet_cabin_pricing_page(){
@@ -39,6 +30,68 @@ class CabinpricingController extends Controller
 			echo 0;
 		}
 	}*/
+	
+	/**ajax get cabin-pricing**/
+	public function actionGet_cabin_pricing_list(){
+		$voyage = isset($_GET['voyage'])?$_GET['voyage']:'0';
+		
+		$sql = "SELECT a.*,c.type_name FROM `v_c_cabin_pricing` a LEFT JOIN `v_c_cabin_type` b ON a.cabin_type_id=b.id LEFT JOIN `v_c_cabin_type_i18n` c ON b.type_code=c.type_code  WHERE a.voyage_code='$voyage'";
+		$cabin_pricing_result = Yii::$app->db->createCommand($sql)->queryAll();
+		
+		if($cabin_pricing_result){
+			echo json_encode($cabin_pricing_result);
+		}else{
+			echo 0;
+		}
+		
+	}
+	
+	/**ajax get preferential-policies**/
+	public function actionGet_preferential_policies_list(){
+		$voyage = isset($_GET['voyage'])?$_GET['voyage']:'0';
+		$sql = "SELECT a.*,c.strategy_name FROM `v_c_preferential_strategy` a LEFT JOIN `v_c_preferential_way` b ON a.p_w_id=b.id LEFT JOIN `v_c_preferential_way_i18n` c ON b.id=c.p_w_id  WHERE c.i18n='en' AND a.status=1 AND b.status=1 AND a.voyage_code = '$voyage'";
+		$policies_result = Yii::$app->db->createCommand($sql)->queryAll();
+	
+		if($policies_result){
+			echo json_encode($policies_result);
+		}else{
+			echo 0;
+		}
+	}
+	
+	/**ajax get surcharge**/
+	public function actionGet_surcharge_list(){
+		$voyage = isset($_GET['voyage'])?$_GET['voyage']:'0';
+		$sql = "SELECT a.id,c.cost_name FROM `v_c_surcharge` a LEFT JOIN `v_c_surcharge_lib` b ON a.cost_id=b.id LEFT JOIN `v_c_surcharge_lib_i18n` c ON b.id=c.cost_id WHERE a.status=1 AND b.status =1 AND c.i18n = 'en' AND a.voyage_code='$voyage'";
+		$surcharge_result = Yii::$app->db->createCommand($sql)->queryAll();
+		if($surcharge_result){
+			echo json_encode($surcharge_result);
+		}else{
+			echo 0;
+		}
+	
+	}
+	
+	/**ajax get tour-route**/
+	public function actionGet_tour_route_list(){
+		$voyage = isset($_GET['voyage'])?$_GET['voyage']:'0';
+		$sql = "SELECT a.id,c.se_name FROM `v_c_shore_excursion` a LEFT JOIN `v_c_shore_excursion_lib` b ON a.sh_id=b.id LEFT JOIN `v_c_shore_excursion_lib_i18n` c ON b.se_code=c.se_code WHERE a.status=1 AND b.status =1 AND c.i18n = 'en' AND a.voyage_code='$voyage'";
+		$tour_result = Yii::$app->db->createCommand($sql)->queryAll();
+		if($tour_result){
+			echo json_encode($tour_result);
+		}else{
+			echo 0;
+		}
+	
+	
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	//获取船舱类型

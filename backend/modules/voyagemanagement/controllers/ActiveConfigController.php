@@ -26,10 +26,8 @@ class ActiveconfigController extends Controller
 
 		if(isset($_POST['ids'])){
 			$ids = implode(',', $_POST['ids']);
-			
 			VCActive::deleteAll("active_id in ($ids)");
 			VCActiveI18n::deleteAll("active_id in ($ids)");
-			
 			Helper::show_message('Delete successful ', Url::toRoute(['active_config']));
 		}
 		
@@ -54,13 +52,12 @@ class ActiveconfigController extends Controller
 		
 		$query  = new Query();
 		$query->select(['a.*','b.name'])
-		->from('v_c_active a')
-		->join('LEFT JOIN','v_c_active_i18n b','a.active_id=b.active_id')
-		->where(['b.i18n'=>'en'])
-		->offset($pag)
-		->limit(2)
-		->all();
-		
+				->from('v_c_active a')
+				->join('LEFT JOIN','v_c_active_i18n b','a.active_id=b.active_id')
+				->where(['b.i18n'=>'en'])
+				->offset($pag)
+				->limit(2)
+				->all();
 		$result = $query->createCommand()->queryAll();
 
 		if($result){
@@ -77,13 +74,12 @@ class ActiveconfigController extends Controller
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
 		$query  = new Query();
 		$query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
-		->from('v_c_active_detail a')
-		->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
-		->where(['b.i18n'=>'en','a.active_id'=>$active_id])
-		->offset($pag)
-		->limit(2)
-		->all();
-		
+				->from('v_c_active_detail a')
+				->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
+				->where(['b.i18n'=>'en','a.active_id'=>$active_id])
+				->offset($pag)
+				->limit(2)
+				->all();
 		$result = $query->createCommand()->queryAll();
 
 		if($result){
@@ -98,13 +94,11 @@ class ActiveconfigController extends Controller
 	public function actionActive_config_add()
 	{	
 		if(isset($_POST)){
-			
 			$name = isset($_POST['name']) ? $_POST['name'] : '';
 			$active_select = isset($_POST['active_select']) ? $_POST['active_select'] : '';
 			if($name != '' && $active_select != ''){
 				$transaction = Yii::$app->db->beginTransaction();
 				try{
-					
 					$vcactive = new VCActive();
 					$vcactive->status = $active_select;
 					$vcactive->save();
@@ -136,28 +130,24 @@ class ActiveconfigController extends Controller
 		
 		$query  = new Query();
 		$query->select(['a.active_id','a.status','b.name'])
-		->from('v_c_active a')
-		->join('LEFT JOIN','v_c_active_i18n b','a.active_id=b.active_id')
-		->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
-		->one();
+				->from('v_c_active a')
+				->join('LEFT JOIN','v_c_active_i18n b','a.active_id=b.active_id')
+				->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
+				->one();
 		$active = $query->createCommand()->queryOne();
 		$count = VCActiveDetail::find()->where(['active_id'=>$active_id])->count();
 		
 		
 		//更新编辑页面的信息
 		if(isset($_POST)){
-			
 			$name = isset($_POST['name']) ? $_POST['name'] : '';
 			$active_select = isset($_POST['active_select']) ? $_POST['active_select'] : '';
 			$active_id_post = isset($_POST['active_id']) ? $_POST['active_id'] : '';
-
 			if($name != '' && $active_select != '' && $active_id_post){
-				
 				$transaction = Yii::$app->db->beginTransaction();
 				try{
 					VCActive::updateAll(['status'=>$active_select],['active_id'=>$active_id_post]);
 					VCActiveI18n::updateAll(['name'=>$name],['active_id'=>$active_id_post,'i18n'=>'en']);
-					
 					Helper::show_message('Save successful', Url::toRoute(['active_config_edit'])."&active_id=".$active_id_post);
 					$transaction->commit();
 				}catch (Exception $e){
@@ -177,15 +167,13 @@ class ActiveconfigController extends Controller
 		
 		$query  = new Query();
 		$query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
-		->from('v_c_active_detail a')
-		->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
-		->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
-		->limit(2)
-		->all();
-		
+				->from('v_c_active_detail a')
+				->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
+				->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
+				->limit(2)
+				->all();
 		$active_detail = $query->createCommand()->queryAll();
 		echo json_encode($active_detail);
-		
 	}
 	
 	
@@ -193,8 +181,6 @@ class ActiveconfigController extends Controller
 	{
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
 		$active = VCActive::find()->select(['active_id'])->where(['active_id'=>$active_id])->one();
-		
-		
 		if($_POST){
 			$day_from = isset($_POST['day_from']) ? $_POST['day_from'] : '';
 			$day_to = isset($_POST['day_to']) ? $_POST['day_to'] : '';
@@ -221,7 +207,6 @@ class ActiveconfigController extends Controller
 					}
 					$vcactivedetail_obj->detail_img = $photo;
 					$vcactivedetail_obj->save();
-					
 
 					$last_active_detail_id = Yii::$app->db->getLastInsertID();
 					
@@ -254,15 +239,13 @@ class ActiveconfigController extends Controller
 		
 		$query  = new Query();
 		$query->select(['a.id','a.active_id','a.day_from','a.day_to','a.detail_img','b.detail_title','b.detail_desc'])
-		->from('v_c_active_detail a')
-		->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
-		->where(['a.id'=>$id,'b.i18n'=>'en','a.active_id'=>$active_id])
-		->one();
-		
+				->from('v_c_active_detail a')
+				->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
+				->where(['a.id'=>$id,'b.i18n'=>'en','a.active_id'=>$active_id])
+				->one();
 		$active_detail = $query->createCommand()->queryOne();
 
 		if(isset($_POST)){
-			
 			$day_from = isset($_POST['day_from']) ? $_POST['day_from'] : '';
 			$day_to = isset($_POST['day_to']) ? $_POST['day_to'] : '';
 			$detail_title = isset($_POST['detail_title']) ? $_POST['detail_title'] : '';
@@ -296,7 +279,6 @@ class ActiveconfigController extends Controller
 					$vcactivedetaili18n_obj->detail_desc = $detail_desc;
 					$vcactivedetaili18n_obj->save();
 					
-					
 					Helper::show_message('Save successful', Url::toRoute(['active_config_edit'])."&active_id=".$active_id_post);
 					$transaction->commit();
 				}catch (Exception $e){
@@ -316,10 +298,8 @@ class ActiveconfigController extends Controller
 		if(isset($_GET['id'])){
 			$id = $_GET['id'];
 			$active_id = $_GET['active_id'];
-			
 			VCActiveDetail::deleteAll(['id'=>$id]);
 			VCActiveDetailI18n::deleteAll(['active_detail_id'=>$id]);
-			
 			Helper::show_message('Delete successful', Url::toRoute(['active_config_edit'])."&active_id=".$active_id);
 		}
 		
@@ -327,10 +307,8 @@ class ActiveconfigController extends Controller
 		if(isset($_POST['ids'])){
 			$ids = implode(',', $_POST['ids']);
 			$active_id = $_POST['active_id'];
-		
 			VCActiveDetail::deleteAll("id in ($ids)");
 			VCActiveDetailI18n::deleteAll("active_detail_id in ($ids)");
-				
 			VCActive::deleteAll("active_id in ($ids)");
 			VCActiveI18n::deleteAll("active_id in ($ids)");
 		
@@ -338,5 +316,4 @@ class ActiveconfigController extends Controller
 		}
 	}
 	
-
 }

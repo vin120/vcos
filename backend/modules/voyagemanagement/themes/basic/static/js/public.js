@@ -26,39 +26,38 @@ $(document).ready(function(){
 			str_con += '<span class="op"><a class="close r"></a></span>';
 			str_con += '<p>是否删除？</p>';
 			str_con += '<p class="btn">';
-			str_con += '<input type="button" class="confirm_but" value="确定"></input>';
-			str_con += '<input type="button" class="cancel_but" value="取消"></input>';
+			str_con += '<input type="button" class="confirm_but" value="Sumbit"></input>';
+			str_con += '<input type="button" class="cancel_but" value="Cancel"></input>';
 			str_con += '</p></div>';
 			
-		 //$("#promptBox").before(str);
+		 //$("#promptBox").before(str); 
 		 $(document.body).append(str);
 		 $(document.body).append(str_con);
 		 //$("#promptBox").removeClass('hide');
 		 
 		 $(".btn > .confirm_but").attr('id',val);
-	 });
+	 }); 
 	
 	//多选删除弹框
-
 	$("#del_submit").on('click',function(){
 		 $(".ui-widget-overlay").remove();
 		 $("#promptBox").remove();
 		 
 		 var str = "<div class='ui-widget-overlay ui-front'></div>";
 		 var str_con = '<div id="promptBox" class="pop-ups write ui-dialog" >';
-			str_con += '<h3>提示</h3>';
+			str_con += '<h3>Prompt</h3>';
 			str_con += '<span class="op"><a class="close r"></a></span>';
-			str_con += '<p>这些记录是否删除？</p>';
+			str_con += '<p>These records are deleted？</p>';
 			str_con += '<p class="btn">';
-			str_con += '<input type="button" class="confirm_but_more" value="确定"></input>';
-			str_con += '<input type="button" class="cancel_but" value="取消"></input>';
+			str_con += '<input type="button" class="confirm_but_more" value="Submit"></input>';
+			str_con += '<input type="button" class="cancel_but" value="Cancel"></input>';
 			str_con += '</p></div>';
 		 var no_str = '<div id="promptBox" class="pop-ups write ui-dialog" >';
-			no_str += '<h3>没有选中</h3>';
+			no_str += '<h3>There is no selected</h3>';
 			no_str += '<span class="op"><a class="close r"></a></span>';
-			no_str += '<p>请选择删除项</p>';
+			no_str += '<p>Please select delete items</p>';
 			no_str += '<p class="btn">';
-			no_str += '<input type="button" class="cancel_but" value="取消"></input>';
+			no_str += '<input type="button" class="cancel_but" value="Cancel"></input>';
 			no_str += '</p></div>';
 			
 		var checkbox = $("table  tbody input[type='checkbox']:checked").length;
@@ -69,8 +68,6 @@ $(document).ready(function(){
 			 $(document.body).append(str);
 			 $(document.body).append(str_con);
 		 }
-		 
-		 
 	 }); 
 	 
 	 //鼠标拖拽
@@ -114,29 +111,33 @@ $(document).ready(function(){
 		   $(".ui-widget-overlay").addClass('hide');
 		   $("#promptBox").addClass('hide');
 	   })
-     
 	
-	//国家数据验证
-	$("#country_val").validate({
-        rules: {
-            code:{required:true,maxlength:12,isEnglish:true},
-            code_chara:{required:true,maxlength:12,isEnglish:true},
-            name:{required:true,maxlength:128,isEnglish:true}
-        },
-        errorPlacement: function(error, element) { //错误信息位置设置方法
-        	error.appendTo( element.parent().parent().find("span.tips") ); //这里的element是录入数据的对象
-    	},
-    });
+	     
+	
 	
 	//国家添加编辑页面判断code是否唯一
 	$('form#country_val').submit(function(){
-        var a=1;
+        var a=0;
         var op = $(this).attr('class');
         var code = $("input#code").val();
         var name = $("input#name").val();
         var code_ch = $("input#code_chara").val();
+        var data = "<span class='point' >Required fields cannot be empty</span>";
+        
+        $(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
+    		if($(this).val()==''){
+    			$(this).parent().append(data);
+    			$(this).addClass("point");
+    			a=1;
+    			return false;
+    		}
+       	}); 
+        
+        if(a==1){return false;}
+        
+        
+        
         if(code!='' && name!='' && code_ch!=''){
-        	
         	var act = (op == 'country_edit')?1:2;
         	if(op == "country_edit")
         		var id = $("input#id").val();
@@ -151,7 +152,7 @@ $(document).ready(function(){
 			     	dataType:'json',
 			    	success:function(data){
 			    		if(data==0) a=0;
-			    		else{alert("Code can't repeat!");}
+			    		else{Alert("Code can't repeat!");a=1;}
 			    	}      
 			    });
         }
@@ -159,27 +160,42 @@ $(document).ready(function(){
            return false;
        }
     });
-	
-	
-	//港口数据验证
-	$("#port_val").validate({
-        rules: {
-            code:{required:true,maxlength:12,isEnglish:true},
-            code_chara:{required:true,maxlength:2,isEnglish:true},
-            name:{required:true,maxlength:128,isEnglish:true}
-        },
-        errorPlacement: function(error, element) { //错误信息位置设置方法
-        	error.appendTo( element.parent().parent().find("span.tips") ); //这里的element是录入数据的对象
-    	},
-    });
+	//country and port
+    $(".check_save_div input[type=text]").each(function(){//聚焦是清除
+		$(this).focus(function(){
+			 $(this).parent().find("span.point").remove();
+			 $(this).removeClass("point");
+		});
+	 });
+    
+    //textarea聚焦是清除
+	$("textarea").focus(function(){
+		 $(this).parent().find("span.point").remove();
+		 $(this).removeClass("point");
+	});
+
 	
 	//港口添加编辑页面判断港口code是否唯一
 	$('form#port_val').submit(function(){
-        var a=1;
+        var a=0;
         var op = $(this).attr('class');
         var code = $("input#code").val();
         var name = $("input#name").val();
         var code_ch = $("input#code_chara").val();
+        var data = "<span class='point' >Required fields cannot be empty</span>";
+        
+        $(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
+    		if($(this).val()==''){
+    			$(this).parent().append(data);
+    			$(this).addClass("point");
+    			a=1;
+    			return false;
+    		}
+       	}); 
+        
+        if(a==1){return false;}
+        
+        
         if(code!='' && name!='' && code_ch!=''){
         	
         	var act = (op == 'port_edit')?1:2;
@@ -196,7 +212,7 @@ $(document).ready(function(){
 			     	dataType:'json',
 			    	success:function(data){
 			    		if(data==0) a=0;
-			    		else{alert("Code can't repeat!");}
+			    		else{Alert("Code can't repeat!");a=1;}
 			    	}      
 			    });
         }
@@ -221,24 +237,11 @@ $(document).ready(function(){
     });*/
 	
 	
-	
-	
 	$("#photoimg").on('change',function(){
 		var display = $("#img_back").css('display');
 		if(display == 'none'){$("#img_back").css('display','')}
 	});
 	
-	//cabin_type数据验证
-	$("#cabin_type_val").validate({
-        rules: {
-            code:{required:true,isEnglish:true},
-            desc:{required:true,isEnglish:true},
-            name:{required:true,isEnglish:true}
-        },
-        errorPlacement: function(error, element) { //错误信息位置设置方法
-        	error.appendTo( element.parent().parent().find("span.tips") ); //这里的element是录入数据的对象
-    	},
-    });
 	
 	//cabin_type添加编辑页面判断type_code是否唯一
 	$('form#cabin_type_val').submit(function(){
@@ -246,76 +249,169 @@ $(document).ready(function(){
         var op = $(this).attr('class');
         var code = $("input#code").val();
         var name = $("input#name").val();
-        var desc = $("textarea#desc").val();
-        if(code!='' && name!='' && desc!=''){
-        	
-        	var act = (op == 'cabin_type_edit')?1:2;
-        	if(op == "cabin_type_edit")
-        		var id = $("input#id").val();
-        	else 
-        		var id = '';
-        	
-        	 $.ajax({
-			        url:cabin_type_ajax_url,
-			        type:'get',
-			        data:'code='+code+'&act='+act+'&id='+id,
-			        async:false,
-			     	dataType:'json',
-			    	success:function(data){
-			    		if(data==0) a=0;
-			    		else{alert("Code can't repeat!");}
-			    	}      
-			    });
+        var room_min = $("input#room_min").val();
+        var room_max = $("input#room_max").val();
+        var floor = $("input#floor").val();
+        var data = "<span class='point' >Required fields cannot be empty</span>";
+        
+        if(code==''){
+        	$("input#code").parent().append(data);
+        	$("input#code").addClass("point");
+			return false;
+		}
+        if(name == ''){
+        	$("input#name").parent().append(data);
+        	$("input#name").addClass("point");
+			return false;
         }
+        if(room_min==''){
+        	$("input#room_min").parent().append(data);
+        	$("input#room_min").addClass("point");
+			return false;
+        }
+        if(room_min=='' || room_max==''){
+        	$("input#room_max").parent().append(data);
+        	$("input#room_max").addClass("point");
+			return false;
+        }
+        if(floor == ''){
+        	$("input#floor").parent().append(data);
+        	$("input#floor").addClass("point");
+			return false;
+        }
+    	var act = (op == 'cabin_type_edit')?1:2;
+    	if(op == "cabin_type_edit")
+    		var id = $("input#id").val();
+    	else 
+    		var id = '';
+    	
+    	 $.ajax({
+		        url:cabin_type_ajax_url,
+		        type:'get',
+		        data:'code='+code+'&act='+act+'&id='+id,
+		        async:false,
+		     	dataType:'json',
+		    	success:function(data){
+		    		if(data==0) a=0;
+		    		else{Alert("Code can't repeat!");a=1;}
+		    	}      
+		    });
        if(a == 1){
            return false;
        }
     });
 	
-	//shore_excursion数据验证
-	$("#shore_excursion_val").validate({
-        rules: {
-            code:{required:true,isEnglish:true},
-            desc:{required:true,isEnglish:true},
-            name:{required:true,isEnglish:true}
-        },
-        errorPlacement: function(error, element) { //错误信息位置设置方法
-        	error.appendTo( element.parent().parent().find("span.tips") ); //这里的element是录入数据的对象
-    	},
+	
+	
+	//cabintype->graphic
+	$('form#cabin_type_graphic_val').submit(function(){
+        var op = $(this).attr('class');
+        var desc = $("textarea#desc").val();
+        var file = $("input[type='file']").val();
+        var data = "<span class='point' >Required fields cannot be empty</span>";
+        
+        if(desc==''){
+        	$("textarea#desc").parent().append(data);
+        	$("textarea#desc").addClass("point");
+			return false;
+		}
+        
+    	if(op != 'cabin_type_graphic_edit'){
+    		if(file==''){Alert("Please choose to upload pictures");
+       	   	return false;}
+    	}
     });
+	
+	
+	//cabin 
+	$('form#cabin_val').submit(function(){
+		var a = 0;
+		var op = $(this).attr('class');
+		var data = "<span class='point' >Required fields cannot be empty</span>";
+        
+		$(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
+    		if($(this).val()==''){
+    			$(this).parent().append(data);
+    			$(this).addClass("point");
+    			a=1;
+    			return false;
+    		}
+       	}); 
+		
+        if(a==1){return false;}
+        
+        if(op == 'cabin_add'){
+	        if($.trim($(".check_save_div textarea[name='name']").val())==''){
+	        	$(".check_save_div textarea[name='name']").parent().append(data);
+	        	$(".check_save_div textarea[name='name']").addClass("point");
+	        	return false;
+	        }
+        }
+		
+	})
 	
 	
 	//shore_excursion添加编辑页面判断shore_excursion_code是否唯一
 	$('form#shore_excursion_val').submit(function(){
-        var a=1;
+        var a=0;
         var op = $(this).attr('class');
         var code = $("input#code").val();
         var name = $("input#name").val();
         var desc = $("textarea#desc").val();
-        if(code!='' && name!='' && desc!=''){
-        	
-        	var act = (op == 'shore_excursion_edit')?1:2;
-        	if(op == "shore_excursion_edit")
-        		var id = $("input#id").val();
-        	else 
-        		var id = '';
-        	
-        	 $.ajax({
-			        url:shore_excursion_ajax_url,
-			        type:'get',
-			        data:'code='+code+'&act='+act+'&id='+id,
-			        async:false,
-			     	dataType:'json',
-			    	success:function(data){
-			    		if(data==0) a=0;
-			    		else{alert("Code can't repeat!");}
-			    	}      
-			    });
-        }
+        var price = $("input#price").val();
+        var data = "<span class='point' >Required fields cannot be empty</span>";
+        
+        $(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
+    		if($(this).val()==''){
+    			$(this).parent().append(data);
+    			$(this).addClass("point");
+    			a=1;
+    			return false;
+    		}
+       	}); 
+		
+        if(a==1){return false;}
+        
+        if(desc==''){
+        	$("textarea#desc").parent().append(data);
+        	$("textarea#desc").addClass("point");
+			return false;
+		}
+        
+    	var act = (op == 'shore_excursion_edit')?1:2;
+    	if(op == "shore_excursion_edit")
+    		var id = $("input#id").val();
+    	else 
+    		var id = '';
+    	
+    	 $.ajax({
+		        url:shore_excursion_ajax_url,
+		        type:'get',
+		        data:'code='+code+'&act='+act+'&id='+id,
+		        async:false,
+		     	dataType:'json',
+		    	success:function(data){
+		    		if(data==0) a=0;
+		    		else{Alert("Code can't repeat!");a=1;}
+		    	}      
+		   });
+        
        if(a == 1){
            return false;
        }
     });
+	
+	
+	//preferential_way
+	$("form#way_val").submit(function(){
+		var data = "<span class='point' >Required fields cannot be empty</span>";
+		if($("input[name='name']").val()==''){
+			$("input[name='name']").parent().append(data);
+			$("input[name='name']").addClass("point");
+			return false;
+		}
+	});
+	
 	
 	
 	
@@ -367,7 +463,7 @@ $(document).ready(function(){
 			     	dataType:'json',
 			    	success:function(data){
 			    		if(data==0) a=0;
-			    		else{alert("Code can't repeat!");}
+			    		else{Alert("Code can't repeat!");}
 			    	}      
 			    });
         }
@@ -492,10 +588,10 @@ $(document).ready(function(){
 	    		$(".ui-widget-overlay").remove();
 	    		$("#promptBox").remove();
 	    		if(data!=0){
-	    			alert('Save success');
+	    			Alert('Save success');
 	    			location.reload();
 	    		}else{
-	    			alert('Save failed');
+	    			Alert('Save failed');
 	    		}
 	    	}      
 	    });
@@ -610,10 +706,10 @@ $(document).ready(function(){
 	    		$(".ui-widget-overlay").remove();
 	    		$("#promptBox").remove();
 	    		if(data!=0){
-	    			alert('Save success');
+	    			Alert('Save success');
 	    			location.reload();
 	    		}else{
-	    			alert('Save failed');
+	    			Alert('Save failed');
 	    		}
 	    	}      
 	    });
@@ -717,7 +813,6 @@ $(document).ready(function(){
 	$(document).on('click','#cabin_left_but',function(){
 
 		//alert('left');
-
 		var str = '';
 		//获取左边选中值
 		$("#cabin_right_ul li").find("input[type='checkbox']:checked").each(function(e){
@@ -832,4 +927,23 @@ $(document).ready(function(){
 // 动态改变右边部分宽度
 function changeMainRWith() {
 	$("#main > .r").css("width",($("#main").width() - 44 - $("#asideNav").width())+"px");
+}
+
+
+//封装alert
+function Alert(info){
+	$(".ui-widget-overlay").remove();
+	 $("#promptBox").remove();
+	 var str = "<div class='ui-widget-overlay ui-front'></div>";
+	 var str_con = '<div id="promptBox" class="pop-ups write ui-dialog" >';
+		str_con += '<h3>Prompt</h3>';
+		str_con += '<span class="op"><a class="close r"></a></span>';
+		str_con += '<p>'+info+'</p>';
+		str_con += '<p class="btn">';
+		str_con += '<input type="button" class="cancel_but" value="OK"></input>';
+		str_con += '</p></div>';
+		
+	 //$("#promptBox").before(str); 
+	 $(document.body).append(str);
+	 $(document.body).append(str_con);
 }

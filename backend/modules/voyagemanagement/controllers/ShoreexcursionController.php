@@ -90,7 +90,7 @@ class ShoreexcursionController extends Controller
 			$where .= "a.status=".$w_state." AND ";
 		}
 		$where = trim($where,'AND ');
-		if($where=''){$where=1;}
+		if($where==''){$where=1;}
 		$sql = "SELECT a.*,b.se_name,b.se_info,b.i18n FROM `v_c_shore_excursion_lib` a LEFT JOIN `v_c_shore_excursion_lib_i18n` b ON a.se_code=b.se_code WHERE b.i18n='en' AND ".$where." limit $pag,2";
 		$result = Yii::$app->db->createCommand($sql)->queryAll();
 		if($result){
@@ -112,8 +112,16 @@ class ShoreexcursionController extends Controller
 			$state = isset($_POST['state'])?$_POST['state']:'0';
 			$name = isset($_POST['name'])?addslashes($_POST['name']):'';
 			$desc = isset($_POST['desc'])?addslashes(trim($_POST['desc'])):'';
-			 
+			$price = isset($_POST['price'])?$_POST['price']:'0';
+			$date_of_entry = isset($_POST['date_of_entry'])?$_POST['date_of_entry']:date("Y-m-d H:i:s",time());
+			if(isset($_POST['date_of_entry'])){
+				$date_of_entry = explode(' ', $date_of_entry);
+				$year = explode('/', $date_of_entry[0]);
+				$date_of_entry = $year[2].'-'.$year[1].'-'.$year[0].' '.$date_of_entry[1];
+			}
 			$shore_excursion->se_code = $code;
+			$shore_excursion->price = $price;
+			$shore_excursion->date = $date_of_entry;
 			$shore_excursion->status = $state;
 			 
 			$shore_excursion_language->se_code = $code;
@@ -145,10 +153,17 @@ class ShoreexcursionController extends Controller
 			$state = isset($_POST['state'])?$_POST['state']:'0';
 			$name = isset($_POST['name'])?addslashes($_POST['name']):'';
 			$desc = isset($_POST['desc'])?addslashes(trim($_POST['desc'])):'';
-			//事务处理
+			$price = isset($_POST['price'])?$_POST['price']:'0';
+			$date_of_entry = isset($_POST['date_of_entry'])?$_POST['date_of_entry']:date("Y-m-d H:i:s",time());
+			if(isset($_POST['date_of_entry'])){
+				$date_of_entry = explode(' ', $date_of_entry);
+				$year = explode('/', $date_of_entry[0]);
+				$date_of_entry = $year[2].'-'.$year[1].'-'.$year[0].' '.$date_of_entry[1];
+			}
+		//事务处理
 			$transaction=$db->beginTransaction();
 			try{
-				$sql = "UPDATE `v_c_shore_excursion_lib` set se_code='$code',status='$state' WHERE se_code='$old_code'";
+				$sql = "UPDATE `v_c_shore_excursion_lib` set se_code='$code',price='$price',date='$date_of_entry',status='$state' WHERE se_code='$old_code'";
 				Yii::$app->db->createCommand($sql)->execute();
 				$sql = "UPDATE `v_c_shore_excursion_lib_i18n` set se_code='$code',se_name='{$name}',se_info='{$desc}',i18n='en' WHERE se_code='$old_code'";
 				Yii::$app->db->createCommand($sql)->execute();

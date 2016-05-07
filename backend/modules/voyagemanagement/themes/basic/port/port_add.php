@@ -17,7 +17,6 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <script type="text/javascript">
 var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 </script>
-
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
@@ -38,22 +37,20 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 				'enableClientScript'=>false
 			]); 
 		?>
-		<div>
+		<div class="check_save_div">
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Port Code')?>:</span>
-					<input type="text" required id='code' name='code'></input>
+					<input type="text" maxlength="12"  id='code' name='code'></input>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Port Code(2 character)')?>:</span>
-					<input type="text" required id="code_chara" name="code_chara"></input>
+					<input type="text" maxlength="2"  id="code_chara" name="code_chara"></input>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
@@ -65,15 +62,13 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 						<?php }?>
 					</select>
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Port Name')?>:</span>
-					<input type="text" required id="name" name="name"></input>
+					<input type="text" maxlength="40" id="name" name="name"></input>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 			<label>
@@ -89,7 +84,7 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 		</div>
 		<div class="btn">
 				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-				<input class="cancle" type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
+				
 			</div>
 		<?php 
 		ActiveForm::end(); 

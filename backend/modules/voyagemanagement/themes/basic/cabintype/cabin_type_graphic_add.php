@@ -17,7 +17,10 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 //$baseUrl = Yii::$app->assetManager->publish($assets);
 
 ?>
-
+<style>
+	.write label span.btn_img{width:95px;}
+	.write label span.btn_img > span{width:90px;}
+</style>
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
@@ -40,12 +43,12 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 		?>
 		
 		
-				<div>
+				<div  class="check_save_div">
 				<input type="hidden" name="type_id" id='type_id' value="<?php echo $id;?>" />
-					<p>
+					<p style="min-height: 90px;">
 						<label>
 							<span class='max_l'><?php echo yii::t('app','Describe')?>:</span>
-							<textarea id="desc" name="desc" required></textarea>
+							<textarea id="desc" name="desc"></textarea>
 						</label>
 					</p>
 					<p>
@@ -55,7 +58,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 							<img id="ImgPr" width="120" height="120" src=""/>
 							</span>
 							<span id="up_btn" class="btn_img" style="display:inline-block;margin-left:5px;">
-								<span><?php echo yii::t('app','choose images')?></span>
+								<span><?php echo yii::t('app','choose image')?></span>
 								<input id="photoimg" type="file" name="photoimg" style="width:60px;">
 							</span>
 							

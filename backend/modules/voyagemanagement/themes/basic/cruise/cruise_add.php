@@ -17,6 +17,10 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 //$baseUrl = Yii::$app->assetManager->publish($assets);
 
 ?>
+<style>
+	.write label span.btn_img{width:95px;}
+	.write label span.btn_img > span{width:90px;}
+</style>
 <script type="text/javascript">
 var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 </script>
@@ -26,6 +30,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 	#cruise_val label.error { width: auto; position: absolute; background: #fe5d5d; padding: 4px 10px; color: #fff; font-weight: bolder; }
     #cruise_val label.error:before { content: ""; position: absolute; left: -10px; top: 4px; width: 0; height: 0; border-style: solid; border-width: 5px 10px 5px 0; border-color: transparent #fe5d5d transparent transparent; }
     #cruise_val input.point { outline-color: #fe5d5d; border: 2px solid #fe5d5d; }
+    #cruise_val textarea.point { outline-color: #fe5d5d; border: 2px solid #fe5d5d; }
 </style>
 <!-- content start -->
 <div class="r content" id="user_content">
@@ -53,8 +58,6 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 					<span class='max_l'><?php echo yii::t('app','Cruise Code')?>:</span>
 					<input type="text" id='code' name='code' />
 					</label>
-				
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
@@ -69,8 +72,6 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 					<input type="text"  id='number' name='number'  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
 					
 				</label>
-				
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
@@ -84,15 +85,12 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 					</span>
 					
 				 </label>
-				<span class='tips'></span>
 			</p>
-			<p style="clear: both">
+			<p style="clear: both;min-height:90px;">
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Cruise Desc')?>:</span>
-					<textarea id='desc' name='desc'>
-					</textarea>
+					<textarea id='desc' name='desc'></textarea>
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
@@ -107,7 +105,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 		</div>
 		<div class="btn">
 				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-				<input class="cancle" type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
+				
 			</div>
 		<?php 
 		ActiveForm::end(); 
@@ -136,45 +134,47 @@ $("input[type=text]").each(function(){//聚焦是清除
 
 //邮轮添加编辑页面判断邮轮code是否唯一
 $('form#cruise_val').submit(function(){
-    var a=1;
+    var a=0;
     var op = $(this).attr('class');
     var code = $("input#code").val();
     var name = $("input#name").val();
-    var desc = $("textarea#desc").val();
+    var desc = $.trim($("textarea#desc").val());
+    var file = $("input[type='file']").val();
+    var number = $("input#number").val();
     var data = "<span class='point' ><?php echo yii::t('app','Required fields cannot be empty ')?></span>";
     $("input[type=text]").each(function(e){	//如果文本框为空值			
 		if($(this).val()==''){
 			$(this).parent().append(data);
 			$(this).addClass("point");
+			a=1;
 			return false;
 		}
    	}); 
-   	if($desc == ''){
-   		$(this).parent().append(data);
-		$(this).addClass("point");
+    if(a==1){return false;}
+   	if(desc == ''){
+   		$("textarea#desc").parent().append(data);
+   		$("textarea#desc").addClass("point");
 		return false;
    	}
-		
-    if(code!='' && name!='' && desc!=''){
-    	var act = (op == 'cruise_edit')?1:2;
-    	if(op == "cruise_edit")
-    		var id = $("input#id").val();
-    	else 
+   	if(file==''){
+   	   	Alert("<?php echo yii::t('app','Please choose to upload pictures')?>");
+   	   	return false;}
+
+    if(code!='' && number!='' && name!='' && desc!=''){
     		var id = '';
     	
     	 $.ajax({
 		        url:cruise_ajax_url,
 		        type:'get',
-		        data:'code='+code+'&act='+act+'&id='+id,
+		        data:'code='+code+'&act=2&id='+id,
 		        async:false,
 		     	dataType:'json',
 		    	success:function(data){
 		    		if(data==0) a=0;
-		    		else{alert("Code can't repeat!");}
+		    		else{Alert("<?php echo yii::t('app','Code can\'t repeat!')?>");a=1;}
 		    	}      
 		    });
     }
-    return false;
    if(a == 1){
        return false;
    }

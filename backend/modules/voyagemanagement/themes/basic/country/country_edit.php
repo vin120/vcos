@@ -45,23 +45,27 @@ var ajax_url = "<?php echo Url::toRoute(['country_code_check']);?>";
 		
 		
 		
-		<div>
+		<div  class="check_save_div">
 		<input type="hidden" id="id" name="id" value="<?php echo $country_result['id']?>" />
 			<p>
 			<label>
-				<span><?php echo yii::t('app','Country Name')?>:</span>
-				<input type="text" id="name" name="name" required value="<?php echo $country_result['country_name']?>"></input>
+				<span class='max_l'><?php echo yii::t('app','Country Name')?>:</span>
+				<input type="text" id="name" name="name" value="<?php echo $country_result['country_name']?>"></input>
 			</label>
+			</p>
+			<p>
 			<label>
-				<span><?php echo yii::t('app','Area Name')?>:</span>
+				<span class='max_l'><?php echo yii::t('app','Area Name')?>:</span>
 				<select class="input_select" id="area_code" name="area_code">
 					<?php foreach ($area_result as $row){?>
 					<option <?php echo $row['area_code']==$country_result['area_code']?"selected='selected'":''; ?> value="<?php echo $row['area_code']?>"><?php echo $row['area_name']?></option>
 					<?php }?>
 				</select>
 			</label>
+			</p>
+			<p>
 			<label>
-				<span>Status:</span>
+				<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
 				<select name="state" id="state">
 					<option value='1' <?php echo $country_result['status']==1?"selected='selected'":'';?>><?php echo yii::t('app','Avaliable')?></option>
 					<option value='0' <?php echo $country_result['status']==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
@@ -70,18 +74,20 @@ var ajax_url = "<?php echo Url::toRoute(['country_code_check']);?>";
 			</p>
 			<p>
 				<label>
-					<span><?php echo yii::t('app','Code(2 characters)')?>:</span>
-					<input type="text"  id='code' required name='code' value="<?php echo $country_result['country_code']?>"></input>
+					<span class='max_l'><?php echo yii::t('app','Code(2 characters)')?>:</span>
+					<input type="text"  id='code' name='code' maxlength="2" value="<?php echo $country_result['country_code']?>"></input>
 				</label>
+			</p>
+			<p>
 				<label>
-					<span><?php echo yii::t('app','Code(3 characters)')?>:</span>
-					<input type="text" id="code_chara" required name="code_chara" value="<?php echo $country_result['counry_short_code']?>"></input>
+					<span class='max_l'><?php echo yii::t('app','Code(3 characters)')?>:</span>
+					<input type="text" id="code_chara" maxlength="3" name="code_chara" value="<?php echo $country_result['counry_short_code']?>"></input>
 				</label>
 			</p>
 		</div>
 		<div class="btn">
 			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-			<input class='cancle' type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
+			
 		</div>
 		<?php 
 		ActiveForm::end(); 
@@ -92,5 +98,4 @@ var ajax_url = "<?php echo Url::toRoute(['country_code_check']);?>";
     </div>
 </div>
 <!-- content end -->
-
 

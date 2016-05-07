@@ -154,6 +154,14 @@ td.op_btn  a:first-child {margin-right:5px;}
 
 
 
+/**数据验证提示样式***/
+.check_save_div span.point {margin-left:5px; width: auto; position: absolute; background: #fe5d5d; padding: 4px 10px; color: #fff; font-weight: bolder; }
+.check_save_div span.point:before { content: ""; position: absolute; left: -10px; top: 4px; width: 0; height: 0; border-style: solid; border-width: 5px 10px 5px 0; border-color: transparent #fe5d5d transparent transparent; }
+.check_save_div label.error { width: auto; position: absolute; background: #fe5d5d; padding: 4px 10px; color: #fff; font-weight: bolder; }
+.check_save_div label.error:before { content: ""; position: absolute; left: -10px; top: 4px; width: 0; height: 0; border-style: solid; border-width: 5px 10px 5px 0; border-color: transparent #fe5d5d transparent transparent; }
+.check_save_div input.point { outline-color: #fe5d5d; border: 2px solid #fe5d5d; }
+.check_save_div textarea.point { outline-color: #fe5d5d; border: 2px solid #fe5d5d; }
+
 /*弹出框**/
 #promptBox { width: 300px; }
 #promptBox p { text-align: center; }
@@ -243,3 +251,7 @@ td.op_btn  a:first-child {margin-right:5px;}
   border-color: #dddddd;
   cursor: not-allowed;
 }
+
+#form input.point { outline-color: red; border: 2px solid red; }/*表单验证  */
+#form span.point { width: auto; position: absolute; background: red; padding: 4px 10px; color: #fff; font-weight: bolder; }
+#form span.point:before { content: ""; position: absolute; left: -10px; top: 4px; width: 0; height: 0; border-style: solid; border-width: 5px 10px 5px 0; border-color: transparent red transparent transparent; }

@@ -39,48 +39,48 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 			]); 
 		?>
 		
-		<div>
+		<div class="check_save_div">
 			<input type="hidden" id="id" name="id" value="<?php echo $shore_excursion_result['id']?>" />
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Tour Code')?>:</span>
-					<input type="text" required id='code' name='code' value="<?php echo $shore_excursion_result['se_code']?>"></input>
+					<input type="text" id='code' name='code' value="<?php echo $shore_excursion_result['se_code']?>"></input>
 					
 				</label>
-				
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Tour Name')?>:</span>
-					<input type="text" required id="name" name="name" value="<?php echo $shore_excursion_result['se_name']?>"></input>
+					<input type="text" id="name" name="name" value="<?php echo $shore_excursion_result['se_name']?>"></input>
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Price')?>:</span>
-					<input type="text" required id="price" name="price" value="<?php echo $shore_excursion_result['price']?>"></input>
+					<input type="text" id="price" name="price" onkeyup="value=value.replace(/[^\d.]/g,'')" onafterpaste="value=value.replace(/[^\d.]/g,'')" value="<?php echo $shore_excursion_result['price']?>"></input>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Describe')?>:</span>
-					<textarea id="desc" name="desc" required>
-					<?php echo $shore_excursion_result['se_info']?>
-					</textarea>
+					<textarea id="desc" name="desc"><?php echo $shore_excursion_result['se_info']?></textarea>
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Date')?>:</span>
-					<input type="text" name="date_of_entry" value="<?php echo isset($shore_excursion_result['date'])?$shore_excursion_result['date']:''?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate" id="date_of_entry"></input>
+					<?php $date =  isset($shore_excursion_result['date'])?$shore_excursion_result['date']:'';
+						if(isset($shore_excursion_result['date'])){
+							$date = explode(' ', $date);
+							$year = $date[0];
+							$year = explode('-', $year);
+							$date = $year[2].'/'.$year[1].'/'.$year[0].' '.$date[1];
+						}
+					?>
+					<input type="text" name="date_of_entry" value="<?php echo $date;?>" onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en'})" class="Wdate" id="date_of_entry"></input>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
@@ -95,7 +95,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 		</div>
 		<div class="btn">
 				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-				<input class='cancle' type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
+				
 			</div>
 		<?php 
 		ActiveForm::end(); 

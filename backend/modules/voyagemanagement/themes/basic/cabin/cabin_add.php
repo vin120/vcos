@@ -17,6 +17,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <style type="text/css">
 	.write label span { width: 160px; }
 	.write select.input_select{ width: 165px; height: 26px; }
+	.check_save_div .cabin_label span.point {margin-left:-258px;margin-top:30px; }
 </style>
 
 
@@ -42,7 +43,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		?>
 		
 		
-				<div>
+				<div class='check_save_div'>
 					<p>
 						<label>
 							<span class='max_l'><?php echo yii::t('app','Cabin Type')?>:</span>
@@ -53,42 +54,37 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 							</select>
 							
 						</label>
-						<span class='tips'></span>
 					</p>
 					<p>
 						<label>
 							<span class='max_l'><?php echo yii::t('app','Deck Num')?>:</span>
-							<input type="text" required id="deck" name="deck"></input>
+							<input type="text" id="deck" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')"></input>
 							
 						</label>
-						<span class='tips'></span>
 					</p>
 					
 					<p>
 						<label>
 							<span class='max_l'><?php echo yii::t('app','Max Check In')?>:</span>
-							<input type="text" required id="max" name="max"></input>
+							<input type="text" id="max" maxlength="9" name="max" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')"></input>
 							
 						</label>
-						<span class='tips'></span>
 					</p>
 					<p>
 						<label>
 							<span class='max_l'><?php echo yii::t('app','Ieast Aduits Num')?>:</span>
-							<input type="text" required id="min" name="min"></input>
+							<input type="text" id="min" maxlength="9" name="min" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')"></input>
 							
 						</label>
-						<span class='tips'></span>
 					</p>
 					<p>
-						<label>
+						<label class="cabin_label">
 							<span class='max_l'><?php echo yii::t('app','Cabin Name')?>:</span>
 							
-							<textarea type="text" id="name" name="name" required>
-							</textarea>
-							<span style="color:red;"><?php echo yii::t('app','例')?>：2001,,2002,2003,</span>
+							<textarea type="text" id="name" name="name"></textarea>
+							<span style="color:red;text-align:left;width:95px;"><?php echo yii::t('app','For example')?>：</span>
+							<span style="color:red;text-align:left;">2001,2002,2003,</span>
 						</label>
-						<span class='tips'></span>
 					</p>
 					<p>
 					<label>
@@ -103,7 +99,6 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			</div>
 		<div class="btn">
 			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-			<input class="cancle" type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
 		</div>
 		<?php 
 		ActiveForm::end(); 

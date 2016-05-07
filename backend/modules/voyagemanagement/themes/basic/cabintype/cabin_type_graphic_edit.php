@@ -17,7 +17,10 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 //$baseUrl = Yii::$app->assetManager->publish($assets);
 
 ?>
-
+<style>
+	.write label span.btn_img{width:95px;}
+	.write label span.btn_img > span{width:90px;}
+</style>
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
@@ -41,13 +44,12 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 		
 		
 		
-		<div>
-		<p>
+		<div class="check_save_div">
+		<input type="hidden" id="id" name="id" value="<?php echo $graphic_result['id']?>" />
+		<p style="min-height: 90px;">
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Describe')?>:</span>
-					<textarea id='desc' name='desc' required>
-					<?php echo $graphic_result['graphic_desc']?>
-					</textarea>
+					<textarea id='desc' name='desc'><?php echo $graphic_result['graphic_desc']?></textarea>
 				</label>
 				<span class='tips'></span>
 			</p>
@@ -67,7 +69,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 		</div>
 		<div class="btn">
 			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-			<input class='cancle' type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
+			
 		</div>
 		<?php 
 		ActiveForm::end(); 

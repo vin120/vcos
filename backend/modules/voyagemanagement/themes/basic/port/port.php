@@ -31,7 +31,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			<input type="text" name="w_name" value="<?php echo $w_name;?>"></input>
 		</label>
 		<label>
-			<span><?php echo yii::t('app','Country Code')?></span>
+			<span><?php echo yii::t('app','Country Code')?>:</span>
 			<input type="text" name="w_code" value="<?php echo $w_code;?>"></input>
 		</label>
 		<label>
@@ -152,9 +152,9 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['country_code']+"</td>";
 	                            str += "<td>"+data[key]['port_name']+"</td>";
 	                            if(data[key]['status']==1)
-	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
+	                            	var status = "Avaliable";
 	                            else if(data[key]['status']==0)
-	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
+	                            	var status = "Unavaliable";
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['port_edit']);?>&code="+data[key]['port_code']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";

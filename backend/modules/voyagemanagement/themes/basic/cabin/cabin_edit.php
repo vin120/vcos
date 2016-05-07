@@ -40,7 +40,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					'enableClientScript'=>false
 			]); 
 		?>
-		<div>
+		<div class='check_save_div'>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Cabin Type')?>:</span>
@@ -51,40 +51,35 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					</select>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Deck Num')?>:</span>
-					<input type="text" required id="deck" name="deck" value="<?php echo $cabin_result['deck_num']?>"></input>
+					<input type="text" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="deck" name="deck" value="<?php echo $cabin_result['deck_num']?>"></input>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Max Check In')?>:</span>
-					<input type="text" required id="max" name="max" value="<?php echo $cabin_result['max_check_in']?>"></input>
+					<input type="text" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="max" name="max" value="<?php echo $cabin_result['max_check_in']?>"></input>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Ieast Aduits Num')?>:</span>
-					<input type="text" required id="min" name="min" value="<?php echo $cabin_result['ieast_aduits_num']?>"></input>
+					<input type="text" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="min" name="min" value="<?php echo $cabin_result['ieast_aduits_num']?>"></input>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Cabin Name')?>:</span>
 					
-					<input type="text" required id="name" name="name" value="<?php echo $cabin_result['cabin_name'] ?>"/>
+					<input type="text"  id="name" name="name" value="<?php echo $cabin_result['cabin_name'] ?>"/>
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 			<label>
@@ -99,7 +94,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 	</div>
 		<div class="btn">
 			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-			<input class='cancle' type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
+			
 		</div>
 		<?php 
 		ActiveForm::end(); 

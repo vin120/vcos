@@ -17,7 +17,6 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <script type="text/javascript">
 var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 </script>
-
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
@@ -39,23 +38,21 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 			]); 
 		?>
 		
-		<div>
+		<div class='check_save_div'>
 			<input type="hidden" id="id" name="id" value="<?php echo $port_result['id']?>" />
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Port Code')?>:</span>
-					<input type="text" required id='code' name='code' value="<?php echo $port_result['port_code']?>"></input>
+					<input type="text" id='code' name='code' value="<?php echo $port_result['port_code']?>"></input>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Port Code(2 character)')?>:</span>
-					<input type="text" required id="code_chara" name="code_chara" value="<?php echo $port_result['port_short_code']?>"></input>
+					<input type="text" id="code_chara" name="code_chara" value="<?php echo $port_result['port_short_code']?>"></input>
 					
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
@@ -66,15 +63,14 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 						<?php }?>
 					</select>
 				</label>
-				<span class='tips'></span>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Port Name')?>:</span>
-					<input type="text" required id="name" name="name" value="<?php echo $port_result['port_name']?>"></input>
+					<input type="text" id="name" name="name" value="<?php echo $port_result['port_name']?>"></input>
 					
 				</label>
-				<span class='tips'></span>
+				
 			</p>
 			<p>
 				<label>
@@ -90,7 +86,7 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 		</div>
 		<div class="btn">
 				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-				<input class='cancle' type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
+				
 			</div>
 		<?php 
 		ActiveForm::end(); 

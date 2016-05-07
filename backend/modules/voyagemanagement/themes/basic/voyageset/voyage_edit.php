@@ -59,12 +59,12 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
     <a href="#"><?php echo yii::t('app','Voyage_set_edit')?></a></div>
 	<div class="tab">
 		<ul class="tab_title">
-			<li class="active"><?php echo yii::t('app','Voyage')?></li>
-			<li><?php echo yii::t('app','Voyage Port')?></li>
-			<li><?php echo yii::t('app','Active')?></li>
-			<li><?php echo yii::t('app','Voyage Map')?></li>
-			<li><?php echo yii::t('app','Cabin')?></li>
-			<li><?php echo yii::t('app','Return route')?></li>
+			<li class="active" id="tab_voyage"><?php echo yii::t('app','Voyage')?></li>
+			<li id="tab_voyage_port"><?php echo yii::t('app','Voyage Port')?></li>
+			<li id="tab_active"><?php echo yii::t('app','Active')?></li>
+			<li id="tab_voyage_map"><?php echo yii::t('app','Voyage Map')?></li>
+			<li id="tab_voyage_cabin"><?php echo yii::t('app','Cabin')?></li>
+			<li id="tab_voyage_return_route"><?php echo yii::t('app','Return route')?></li>
 		</ul>
 		<div class="tab_content">
 			<div class="active">
@@ -96,7 +96,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						<p>
 							<label class="shortLabel">
 								<span><?php echo yii::t('app','Area')?>:</span>
-								<select name="area" id="area">
+								<select name="area" id="area" style="width: 170px;">
 									<?php foreach ($area as $row ){?>
 									<option <?php echo $row['area_code']==$voyage['area_code']?"selected='selected'":'' ?>  value="<?php echo $row['area_code'];?>"><?php echo $row['area_name']?></option>
 									<?php } ?>
@@ -104,20 +104,11 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 							</label>
 							<label>
 								<span><?php echo yii::t('app','Cruise')?>:</span>
-								<select id="cruise" name="cruise">
+								<select id="cruise" name="cruise" style="width: 170px;">
 								<?php foreach($cruise as $row) {?>
 									<option <?php echo $row['cruise_code']==$voyage['cruise_code']?"selected='selected'":'' ?> value="<?php echo $row['cruise_code']?>"><?php echo $row['cruise_name']?></option>
 								<?php } ?>
 								</select>
-							</label>
-						</p>
-						<p>
-							<label >
-								<span><?php echo yii::t('app','Scheduling')?>:</span>
-							</label>
-							<label class="uploadFileBox">
-								<span class="fileName"><?php echo yii::t('app','Pick Up PDF...')?></span>
-								<a href="#" class="uploadFile">choose<input type="file" name="pdf" id="pdf"></input></a>
 							</label>
 						</p>
 						<p>
@@ -129,6 +120,13 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 								<span><?php echo yii::t('app','End Time')?>:</span>
 								<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo $voyage['end_time']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
 							</label>
+						</p>
+						<p>
+							<label style="width:auto;">
+								<span><?php echo yii::t('app','Scheduling')?>:</span>
+								<input type="file" name="pdf" id="pdf"></input>
+							</label>
+							
 						</p>
 						<p>
 							<label >
@@ -206,19 +204,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						</tr>
 					</thead>
 					<tbody>
-					<?php foreach($voyage_port as $key=>$row):?>
-						<tr>
-							<td><input type="checkbox" name="ids[]" value="<?php echo $row['id']?>"></input></td>
-							<td><?php echo $row['order_no']?></td>
-							<td><?php foreach($port as $port_row ){ if($row['port_code'] == $port_row['port_code']){echo $port_row['port_name'] ;}} ?></td>
-							<td><?php echo $row['EIA']==''?' - - ':$row['EIA']?></td>
-							<td><?php echo $row['ETD']==''?' - - ':$row['ETD']?></td>
-							<td>
-								<a href="<?php echo Url::toRoute(['voyage_port_edit'])."&voyage_id=".$voyage['id']."&port_id=".$row['id'];?>"><img src="<?=$baseUrl ?>images/write.png"></a>
-								<a class="delete" id="<?php echo $row['id'];?>" ><img src="<?=$baseUrl ?>images/delete.png"></a>
-							</td>
-						</tr>
-						<?php endforeach;?>
+						<!-- get data via ajax -->
 					</tbody>
 				</table>
 				<?php 
@@ -229,138 +215,92 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 		            <a href="<?php echo Url::toRoute(['voyage_port_add']).'&voyage_id='.$voyage['id'];?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
 		            <input id="del_submit" type="button" value="<?php echo yii::t('app','Del Selected')?>"></input>
 		        </div>
-		        <!-- 分页 -->
+		        <!-- pagination -->
         		<div class="center" id="voyage_port_page_div"> </div>
 				<!-- voyage port end -->
 			</div>
-			<div>
+			<div >
+			<!-- active start -->
+			
 			<?php
-					$form = ActiveForm::begin([
-						'action' => ['voyage_active'],
-						'method'=>'get',
-						'id'=>'voyage_active',
-						'options' => ['class' => 'voyage_active','enctype'=>'multipart/form-data'],
-						'enableClientValidation'=>false,
-						'enableClientScript'=>false
-					]); 
-				?>
+				$form = ActiveForm::begin([
+					'action' => ['voyage_active'],
+					'method'=>'get',
+					'id'=>'voyage_active',
+					'options' => ['class' => 'voyage_active','enctype'=>'multipart/form-data'],
+					'enableClientValidation'=>false,
+					'enableClientScript'=>false
+				]); 
+			?>
 				<input type="hidden" name="voyage_active_id" value="<?php echo $voyage['id']?>" />
-				<!-- active start -->
-				<p>
-					<label>
-						<span><?php echo yii::t('app','Curr Active')?>:</span>
-						<span style="color:red"><?php echo $curr_active_result['name']?></span>
-					</label>
-				</p>
-				<p>
-					<label>
-						<span><?php echo yii::t('app','Active Type')?>:</span>
-						<select name="voyage_active">
-						<?php foreach ($active_result as $k=>$v){?>
-							<option value="<?php echo $v['active_id']?>"><?php echo $v['name']?></option>
-						<?php }?>
-						</select>
-					</label>
-				</p>
+				<div class="div_active">
+					<!-- get via ajax -->
+				</div>
 				<div class="btn">
 					<input type="submit" value="<?php echo yii::t('app','Save')?>"  ></input>
 				</div>
-				<?php 
-					ActiveForm::end();
-				?>
+			<?php 
+				ActiveForm::end();
+			?>
+				
 				<!-- active end -->
 			</div>
 			<div id="map">
+			<!-- voyage map start -->
 			<?php
-					$form = ActiveForm::begin([
-						'action' => ['voyage_map'],
-						'method'=>'post',
-						'id'=>'voyage_map',
-						'options' => ['class' => 'voyage_map','enctype'=>'multipart/form-data'],
-						'enableClientValidation'=>false,
-						'enableClientScript'=>false
-					]); 
-				?>
-				<!-- voyage map start -->
-				<div>
-				<input type="hidden" name="voyage_map_id" value="<?php echo $voyage['id']?>" />
-				<input type="hidden" name="map_id" value="<?php echo $map_result['map_id'];?>" />
-					<img id="ImgPr" src="<?php echo $baseUrl.'upload/'.$map_result['map_img'] ?>">
-					<input id="photoimg" name="photoimg" type="file"></input>
-					<div class="btn">
-						<input type="submit" value="<?php echo yii::t('app','Upload')?>"></input>
-					</div>
+				$form = ActiveForm::begin([
+					'action' => ['voyage_map'],
+					'method'=>'post',
+					'id'=>'voyage_map',
+					'options' => ['class' => 'voyage_map','enctype'=>'multipart/form-data'],
+					'enableClientValidation'=>false,
+					'enableClientScript'=>false
+				]); 
+			?>
+			
+				<div class="div_voyage_map">
+				<!-- get data via ajax -->
 				</div>
 				<?php 
 					ActiveForm::end();
 				?>
 				<!-- voyage map end -->
 			</div>
+			
 			<div>
-				<form id="voyage_cabin_form">
 				<!-- cabin start -->
-				<div class="search">
-				<input type="hidden" name="cabin_voyage_id" value="<?php echo $voyage['id']?>" />
-					<label>
-						<span><?php echo yii::t('app','Type')?>:</span>
-						<select name="cabin_type_id">
-						<?php foreach ($cabin_type_result as $k=>$v){?>
-							<option value="<?php echo $v['id']?>"><?php echo $v['type_name']?></option>
-						<?php }?>
-						</select>
-					</label>
-					<label>
-						<span><?php echo yii::t('app','Deck')?>:</span>
-						<select name="cabin_deck">
-						<?php for ($i=1; $i<=$cruise_result['deck_number']; $i++){?>
-							<option value="<?php echo $i?>"><?php echo $i?></option>
-						<?php }?>
-						</select>
-					</label>
-				</div>
-				
-				<div class="searchResult selectBox" style="margin-top:20px;">
-				
-					<div class="l selectList">
-						<ul >
-							<li><span><input type="checkbox"></span></input><span><?php echo yii::t('app','No Selected')?></span></li>
-						</ul>
-						<ul  id="cabin_left_ul">
-						<?php 
-						$really_arr = array();
-						foreach ($really_cabin_result as $k=>$v){
-							$really_arr[$k] = $v['cabin_lib_id'];
- 						}?>
-						<?php foreach ($cabin_result as $k=>$v){?>
-						<?php if(!in_array($v['id'], $really_arr)){?>
-							<li><span><input type="checkbox"  value="<?php echo $v['id'];?>"></span><span class="text"><?php echo $v['cabin_name'];?></span></li>
-						<?php }}?>
-						</ul>
+				<form id="voyage_cabin_form">
+					<div class="search">
+						<!-- get data via ajax -->
 					</div>
-					<div class="btn l">
-						<input id="cabin_right_but" type="button" value=" >> "></input>
-						<input id="cabin_left_but" type="button" value=" << "></input>
-					</div>
-					<div class="l selectList">
 					
-						<ul>
-							<li><span><input type="checkbox"></span></input><span><?php echo yii::t('app','Selected')?></span></li>
-						</ul>
-						<ul id="cabin_right_ul">
-						<?php foreach ($really_cabin_result as $k=>$v){?>
-							<li><span><input type="checkbox" name="cabin_right_ids[]" value="<?php echo $v['cabin_lib_id']?>" ></span><span class="text"><?php echo $v['cabin_name']?></span></li>
-						<?php }?>
-						</ul>
+					<div class="searchResult selectBox" style="margin-top:20px;">
+						<div class="l selectList">
+							<div class="div_no_select">
+								<!-- get data via ajax -->
+							</div>
+						</div>
+						<div class="btn l">
+							<input id="cabin_right_but" type="button" value=" >> "></input>
+							<input id="cabin_left_but" type="button" value=" << "></input>
+						</div>
+						<div class="l selectList">
+							<div class="div_select">
+								<!-- get data via ajax -->
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="btn">
-					<input id="voyage_cabin_save_but" type="button" value="<?php echo yii::t('app','Save')?>" style=" float: left; margin-left: 20%;"></input>
-				</div>
-			</form>	
+					
+					<div class="btn">
+						<input id="voyage_cabin_save_but" type="button" value="<?php echo yii::t('app','Save')?>" style=" float: left; margin-left: 20%;"></input>
+					</div>
+				</form>	
 				<!-- cabin end -->
 			</div>
+			
 			<div>
-			<?php
+			<!-- Return route start -->
+				<?php
 					$form = ActiveForm::begin([
 						'action' => ['return_voyage'],
 						'method'=>'get',
@@ -370,25 +310,11 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						'enableClientScript'=>false
 					]); 
 				?>
-				<!-- Return route start -->
-				<input type="hidden" name="return_voyage_id" value="<?php echo $voyage['id']?>" />
-				<p>
-					<label>
-						<span><?php echo yii::t('app','Curr Route')?>:</span>
-						<span style="color:red"><?php echo $curr_return_voyage_result['voyage_name']?></span>
-					</label>
-				</p>
-				<p>
-					<label>
-						<span><?php echo yii::t('app','Return Route')?>:</span>
-						<select name="return_voyage">
-						<?php foreach ($voyage_return as $k=>$v){?>
-							<option value="<?php echo $v['id']?>"><?php echo $v['voyage_name']?></option>
-						<?php }?>
-						</select>
-					</label>
-				</p>
 				
+				<input type="hidden" name="return_voyage_id" value="<?php echo $voyage['id']?>" />
+				<div class="div_return_route">
+					<!-- get data via ajax -->
+				</div>
 				<div class="btn">
 					<input type="submit" value="<?php echo yii::t('app','Save')?>" ></input>
 				</div>
@@ -404,9 +330,214 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 <script type="text/javascript">
 window.onload = function(){
 
+	//tab voyage port
+	$(document).on('click','#tab_voyage_port',function(){
+		$.ajax({
+            url:"<?php echo Url::toRoute(['get_voyage_port_ajax']);?>",
+            type:'get',
+            data:"voyage_id="+<?php echo $voyage['id']?>,
+         	dataType:'json',
+        	success:function(data){
+            	var str = '';
+        		if(data != 0){
+	                $.each(data,function(key){
+                    	str += "<tr>";
+                        str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['id']+"'></input></td>";
+                        str += "<td>"+data[key]['order_no']+"</td>";
+                        str += "<td>"+data[key]['port_name']+"</td>";
+                        if(data[key]['EIA']==null){var eia='- -';}else{var eia=data[key]['EIA'];}
+                        if(data[key]['ETD']==null){var etd='- -';}else{var etd=data[key]['ETD'];}
+                        str += "<td>"+eia+"</td>";
+                        str += "<td>"+etd+"</td>";
+                        str += "<td  class='op_btn'>";
+                        str += "<a href='<?php echo Url::toRoute(['voyage_port_edit']);?>&voyage_id="+<?php echo $voyage['id']?>+"&port_id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";
+                        str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+                        str += "</td>";
+                        str += "</tr>";
+                      });
+	                $("table#voyage_port_table > tbody").html(str);
+	            }
+        	}      
+        });
+	});
+
+	//tab active
+	$(document).on('click','#tab_active',function(){
+		$.ajax({
+            url:"<?php echo Url::toRoute(['get_active_ajax']);?>",
+            type:'get',
+            data:"voyage_id="+<?php echo $voyage['id']?>,
+         	dataType:'json',
+        	success:function(data){
+            	var str = '';
+        		if(data != 0){
+	            	var active = data['active'];
+	            	var curr_active = data['curr_active'];
+	            	var str = '';
+	            	str += "<p>";
+					str +="<label>";
+					str +="<span><?php echo yii::t('app','Curr Active')?>:</span>";
+					str +="<span style='color:red'>"+curr_active['name']+"</span>";
+					str +="</label>";
+					str +="</p>";
+					str +="<p>";
+					str +="<label>";
+					str +="<span><?php echo yii::t('app','Active Type')?>:</span>";
+					str +="<select name='voyage_active'>";
+					$.each(active,function(key){
+						str +="<option value='"+active[key]['active_id']+"'>"+active[key]['name']+"</option>";   	
+					});
+					str +="</select>";
+					str +="</label>";
+					str +="</p>";
+	               
+	                $(".div_active").html(str);
+	            }
+        	}      
+        });	
+	});
+
+	//tab map
+	$(document).on('click','#tab_voyage_map',function(){
+		$.ajax({
+            url:"<?php echo Url::toRoute(['get_voyage_map_ajax']);?>",
+            type:'get',
+            data:"voyage_id="+<?php echo $voyage['id']?>,
+         	dataType:'json',
+        	success:function(data){
+            	var str = '';
+        		if(data != 0){
+	            	var voyage = data['voyage'];
+	            	var map_result = data['map_result'];
+	            	var str = '';
+	            	str += "<input type='hidden' name='voyage_map_id' value='"+voyage['id']+"' />";
+					str +="<input type='hidden' name='map_id' value='"+map_result['map_id']+"' />";
+					str +="<img id='ImgPr' src='<?php echo $baseUrl.'upload/'?>"+map_result['map_img']+"'>";
+					str +="<input id='photoimg' name='photoimg' type='file'></input>";
+					str +="<div class='btn'>";
+					str +="<input type='submit' value='<?php echo yii::t('app','Upload')?>'></input>";
+					str +="</div>";
+	                $(".div_voyage_map").html(str);
+	            }
+        	}      
+        });	
+	});
+
+	//tab cabin
+	$(document).on('click','#tab_voyage_cabin',function(){
+		$.ajax({
+            url:"<?php echo Url::toRoute(['get_cabin_ajax']);?>",
+            type:'get',
+            data:'voyage_id='+<?php echo $voyage['id']?>,
+         	dataType:'json',
+        	success:function(data){
+            	var str = '';
+            	var i = 0;
+        		if(data != 0){
+            		var voyage = data['voyage'];
+	            	var cabin_result = data['cabin_result'];
+	            	var cabin_type_result = data['cabin_type_result'];
+	            	var really_cabin_result = data['really_cabin_result'];
+	            	var cruise_result = data['cruise_result'];
+
+	            	//type deck
+	            	var str = '';
+	            	str += "<input type='hidden' name='cabin_voyage_id' value='"+voyage['id']+"' />";
+	            	str += "<label>";
+					str += "<span><?php echo yii::t('app','Type')?>:</span>";
+					str += "<select name='cabin_type_id'>";
+					$.each(cabin_type_result,function(key){
+						str +="<option value='"+cabin_type_result[key]['id']+"'>"+cabin_type_result[key]['type_name']+"</option>";   	
+					});
+					str += "</select>";
+					str += "</label>";
+					str += "<label>";
+					str += "<span><?php echo yii::t('app','Deck')?>:</span>";
+					str += "<select name='cabin_deck'>";
+					
+					for(i=1; i<=cruise_result['deck_number'];i++){
+						str +="<option value='"+i+"'>"+i+"</option>"; 
+					}
+					str += "</select>";
+					str += "</label>";
+	                $(".search").html(str);
+
+
+	                //no select
+					var str_no_select='';
+					str_no_select += "<ul>";
+					str_no_select += "<li><span><input type='checkbox' id='canbin_check_left'></span></input><span><?php echo yii::t('app','No Selected')?></span></li>";
+					str_no_select += "</ul>";
+					str_no_select += "<ul  id='cabin_left_ul'>";
+					var really_arr = new Array;
+					$.each(really_cabin_result,function(key){
+						really_arr[key] = 	really_cabin_result[key]['cabin_lib_id'];
+					});
+					$.each(cabin_result,function(key){
+						//if(really_arr.indexOf(cabin_result[key]['id'])){
+						if($.inArray(cabin_result[key]['id'], really_arr)==-1){
+							str_no_select += "<li><span><input type='checkbox'  value='"+cabin_result[key]['id']+"'></span><span class='text'>"+cabin_result[key]['cabin_name']+"</span></li>";
+						}
+					});
+					str_no_select += "</ul>";
+					$(".div_no_select").html(str_no_select);
+
+					//select
+					var str_select = '';
+					
+					str_select += "<ul>";
+					str_select += "<li><span><input type='checkbox' id='canbin_check_right'></span></input><span><?php echo yii::t('app','Selected')?></span></li>";
+					str_select += "</ul>";
+					str_select += "<ul id='cabin_right_ul'>";
+					$.each(really_cabin_result,function(key){
+						str_select += "<li><span><input type='checkbox' name='cabin_right_ids[]' value='"+really_cabin_result[key]['cabin_lib_id']+"' ></span><span class='text'>"+really_cabin_result[key]['cabin_name']+"</span></li>";
+					});
+					str_select += "</ul>";
+					$(".div_select").html(str_select);
+	            }
+        	}      
+        });	
+	});
+
+	// tab return route
+	$(document).on('click','#tab_voyage_return_route',function(){
+		$.ajax({
+            url:"<?php echo Url::toRoute(['get_return_route_ajax']);?>",
+            type:'get',
+            data:"voyage_id="+<?php echo $voyage['id']?>,
+         	dataType:'json',
+        	success:function(data){
+            	var str = '';
+        		if(data != 0){
+	            	var curr_return_voyage_result = data['curr_return_voyage_result'];
+	            	var voyage_return = data['voyage_return'];
+	            	var str = '';
+	            	str += "<p>";
+	            	str += "<label>";
+	            	str += "<span><?php echo yii::t('app','Curr Route')?>:</span>";
+	            	str += "<span style='color:red'>"+curr_return_voyage_result['voyage_name']+"</span>";
+	            	str += "</label>"
+	            	str += "</p>";
+	            	str += "<p>";
+	            	str += "<label>";
+	            	str += "<span><?php echo yii::t('app','Return Route')?>:</span>";
+	            	str += "<select name='return_voyage'>";
+	            	$.each(voyage_return,function(key){
+	            		str += "<option value='"+voyage_return[key]['id']+"'>"+voyage_return[key]['voyage_name']+"</option>";
+					});
+	            	str += "</select>";
+	            	str += "</label>";
+	            	str += "</p>";
+	                $(".div_return_route").html(str);
+	            }
+        	}      
+        });	
+	});
+	
+	
 	$("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
 	
-// 上传文件功能
+	// 上传文件功能
 	$(".uploadFile").on("change","input[type='file']",function(){
 		var filePath = $(this).val();
 		var arr=filePath.split('\\');
@@ -450,7 +581,6 @@ window.onload = function(){
 	$("#voyage_cabin_form select[name='cabin_type_id'],#voyage_cabin_form select[name='cabin_deck']").on('change',function(){
 		var type_id = $("#voyage_cabin_form select[name='cabin_type_id']").val();
 		var deck = $("#voyage_cabin_form select[name='cabin_deck']").val();
-		//alert(type_id+'----'+deck);
 		$.ajax({
 	        url:"<?php echo Url::toRoute(['voyage_cabin_change_type_get_cabin_lib']);?>",
 	        type:'get',
@@ -480,8 +610,37 @@ window.onload = function(){
 	    		}
 	    	}      
 	    });
-		
 	});
+
+	//点击全选--左边
+	$(document).on('click','#canbin_check_left',function(){
+		var check = $(this).is(":checked");
+		if(check==true){
+			$("#cabin_left_ul").find("input[type='checkbox']").each(function(e){
+				$(this).prop("checked","checked");
+			});
+		}else if(check==false){
+			$("#cabin_left_ul").find("input[type='checkbox']").each(function(e){
+				$(this).removeAttr("checked");
+			});
+		}
+	});
+
+	//点击全选--右边
+	$(document).on('click','#canbin_check_right',function(){
+		var check = $(this).is(":checked");
+		if(check==true){
+			$("#cabin_right_ul").find("input[type='checkbox']").each(function(e){
+				$(this).prop("checked","checked");
+			});
+		}else if(check==false){
+			$("#cabin_right_ul").find("input[type='checkbox']").each(function(e){
+				$(this).removeAttr("checked");
+			});
+		}
+	});
+
+
 
 	//delete删除确定but
    $(document).on('click',"#promptBox > .btn .confirm_but",function(){

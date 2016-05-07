@@ -17,7 +17,6 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <script type="text/javascript">
 var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>";
 </script>
-
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
@@ -44,23 +43,20 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 								'enableClientScript'=>false
 						]); 
 					?>
-					<div>
+					<div class="check_save_div">
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Cabin Type Code')?>:</span>
-								<input required type="text" id='code' name='code'></input>
+								<input type="text" id='code' name='code'></input>
 								
 							</label>
-							
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Cabin Type Name')?>:</span>
-								<input required type="text" id="name" name="name"></input>
+								<input type="text" id="name" name="name"></input>
 								
 							</label>
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
@@ -72,8 +68,6 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 									<option value='4'>4</option>
 								</select>
 							</label>
-							
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
@@ -85,26 +79,21 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 									<option value='4'>4</option>
 								</select>
 							</label>
-							
-							<span class='tips'></span>
 						</p>
 						
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Room Area')?>:</span>
-								<input required type="text" id="room_min" name="room_min" style="width:35px" /> -
-								<input required type="text" id="room_max" name="room_max" style="width:35px" /><?php echo yii::t('app','㎡')?>
+								<input type="text" id="room_min" name="room_min" style="width:35px" /> -
+								<input type="text" id="room_max" name="room_max" style="width:35px" /><font style="margin-left: 5px;" class='cabin_type_room_span'><?php echo yii::t('app','㎡')?></font>
 							</label>
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Floor')?>:</span>
-								<input required type="text" id='floor' name='floor'></input>
+								<input type="text" id='floor' name='floor'></input>
 								
 							</label>
-							
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
@@ -114,7 +103,6 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 									<option value="1"><?php echo yii::t('app','Starboard Side')?></option>
 								</select>
 							</label>
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
@@ -162,7 +150,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 					</table>
 					<p class="records"><?php echo yii::t('app','Records')?>:<span>0</span></p>
 					<div class="btn">
-						<input type="button" value="Add" style="background:#ccc;"></input>
+						<input type="button" value="<?php echo yii::t('app','Add')?>" style="background:#ccc;"></input>
 					</div>
 				</div>
 			</div>

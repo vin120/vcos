@@ -20,7 +20,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <script type="text/javascript">
 var get_cabin_type_ajax_url = "<?php echo Url::toRoute(['get_cabin_type']);?>";
 var cabin_pricing_submit_ajax_url = "<?php echo Url::toRoute(['cabin_pricing_submit']);?>";
-var cabin_pricing_submit_success_ajax_url = "<?php echo Url::toRoute(['get_cabin_pricing_page','pag'=>1]);?>";
+//var cabin_pricing_submit_success_ajax_url = "<?php //echo  Url::toRoute(['get_cabin_pricing_page','pag'=>1]);?>";
 var get_cabin_pricing_data_ajax_url = "<?php echo Url::toRoute(['get_cabin_pricing_data']);?>";
 var get_strategy_data_ajax_url = "<?php echo Url::toRoute(['get_strategy_data']);?>";
 var preferential_policies_submit_ajax_url = "<?php echo Url::toRoute(['preferential_policies_submit']);?>";
@@ -113,20 +113,10 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 							</tr>
 						</thead>
 						<tbody>
-						<?php foreach ($policies_result as $k=>$v){?>
-							<tr>
-								<td><?php echo $v['strategy_name']?></td>
-								<td><?php echo $v['p_price']?></td>
-								<td>
-									<a class="preferential_policies_edit" id="<?php echo $v['id']?>" value="edit"><img src="<?=$baseUrl ?>images/write.png"></a>
-				                    <a class="delete" id="<?php echo $v['id']?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
-				                
-								</td>
-							</tr>
-						<?php }?>
+						<!-- ajax -->
 						</tbody>
 					</table>
-					<p class="records"><?php echo yii::t('app','Records')?>:<span id="preferential_policies_total"><?php echo count($policies_result);?></span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span id="preferential_policies_total"></span></p>
 					<div class="btn">
 						<input type="button" id="preferential_policies_add" value="<?php echo yii::t('app','Add')?>"></input>
 					</div>
@@ -156,17 +146,10 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 							</tr>
 						</thead>
 						<tbody>
-						<?php foreach ($surcharge_result as $k=>$v){?>
-							<tr>
-								<td><?php echo $v['cost_name']?></td>
-								<td>
-				                    <a class="delete" id="<?php echo $v['id']?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
-				               </td>
-							</tr>
-						<?php }?>
+						<!-- ajax -->
 						</tbody>
 					</table>
-					<p class="records"><?php echo yii::t('app','Records')?>:<span id="surcharge_total"><?php echo count($surcharge_result)?></span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span id="surcharge_total"></span></p>
 					<div class="btn">
 						<a href="<?php echo Url::toRoute(['surcharge_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
 					</div>
@@ -196,17 +179,10 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 							</tr>
 						</thead>
 						<tbody>
-						<?php foreach ($tour_result as $k=>$v){?>
-							<tr>
-								<td><?php echo $v['se_name']?></td>
-								<td>
-				                    <a class="delete" id="<?php echo $v['id']?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
-				               </td>
-							</tr>
-						<?php }?>
+						<!-- ajax -->
 						</tbody>
 					</table>
-					<p class="records"><?php echo yii::t('app','Records')?>:<span id="tour_total"><?php echo count($tour_result)?></span></p>
+					<p class="records"><?php echo yii::t('app','Records')?>:<span id="tour_total"></span></p>
 					<div class="btn">
 						<a href="<?php echo Url::toRoute(['tour_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
 					</div>
@@ -221,6 +197,144 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 
 <script type="text/javascript">
 window.onload = function(){ 
+		/**点击导航栏获取相应值***/
+		
+		$(".tab_title li[act='pricing']").on('click',function(){
+			var curr = $(this).is('.active');
+			if(curr == true){return false;}
+			var voyage = $("select#cabin_pricing_vayage").val();
+			$.ajax({
+		        url:"<?php echo Url::toRoute(['get_cabin_pricing_list']);?>",
+		        type:'get',
+		        async:false,
+		        data:'voyage='+voyage,
+		     	dataType:'json',
+		    	success:function(data){
+		    		var str = '';
+	        		if(data != 0){
+		                $.each(data,function(key){
+							str += "<tr>";
+							str += "<td>"+data[key]['type_name']+"</td>";
+		                	str += "<td>"+data[key]['check_num']+"</td>";
+							str += "<td>"+data[key]['bed_price']+"</td>";
+							str += "<td>"+data[key]['2_empty_bed_preferential']+"</td>";
+							var t_3_data = data[key]['3_4_empty_bed_preferential']==0?'--':data[key]['3_4_empty_bed_preferential'];
+							str += "<td>"+t_3_data+"</td>";
+							str += "<td class='op_btn'>";
+							str += "<a class='cabin_pricing_edit' id='"+data[key]['id']+"' value='edit'><img src='<?=$baseUrl ?>images/write.png'></a>";
+			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";   
+			                str += "</td></tr>";    
+	                      });
+		                $("table#cabin_pricing_table > tbody").html(str);
+		                $("#cabin_pricing_total").html(data.length);
+		            }else{
+		            	$("table#cabin_pricing_table > tbody").html('');
+		            	$("#cabin_pricing_total").html(data);
+			        }
+		    	}      
+		    });
+		});
+
+		$(".tab_title li[act='policies']").on('click',function(){
+			var curr = $(this).is('.active');
+			if(curr == true){return false;}
+
+			var voyage = $("select#policies_vayage").val();
+			$.ajax({
+		        url:"<?php echo Url::toRoute(['get_preferential_policies_list']);?>",
+		        type:'get',
+		        async:false,
+		        data:'voyage='+voyage,
+		     	dataType:'json',
+		    	success:function(data){
+		    		var str = '';
+	        		if(data != 0){
+		                $.each(data,function(key){
+		                	str += "<tr>";
+							str += "<td>"+data[key]['strategy_name']+"</td>";
+		                	str += "<td>"+data[key]['p_price']+"</td>";
+							str += "<td>";
+							str += "<a class='preferential_policies_edit' id='"+data[key]['id']+"' value='edit'><img src='<?=$baseUrl ?>images/write.png'></a>";
+			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+			                str += "</td></tr>";
+	                      });
+		                $("table#preferential_policies_table > tbody").html(str);
+		                $("#preferential_policies_total").html(data.length);
+		            }else{
+		            	$("table#preferential_policies_table > tbody").html('');
+		            	$("#preferential_policies_total").html(data);
+			        }
+		    	}      
+		    });
+		});
+		$(".tab_title li[act='surcharge']").on('click',function(){
+			var curr = $(this).is('.active');
+			if(curr == true){return false;}
+
+			var voyage = $("select#surcharge_vayage").val();
+			$.ajax({
+		        url:"<?php echo Url::toRoute(['get_surcharge_list']);?>",
+		        type:'get',
+		        async:false,
+		        data:'voyage='+voyage,
+		     	dataType:'json',
+		    	success:function(data){
+		    		var str = '';
+	        		if(data != 0){
+		                $.each(data,function(key){
+		                	str += "<tr>";
+							str += "<td>"+data[key]['cost_name']+"</td>";
+							str += "<td>";
+			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+			                str += "</td></tr>";
+	                      });
+		                $("table#surcharge_table > tbody").html(str);
+		                $("#surcharge_total").html(data.length);
+		            }else{
+		            	$("table#surcharge_table > tbody").html('');
+		            	$("#surcharge_total").html(data);
+			        }
+		    	}      
+		    });
+		});
+		$(".tab_title li[act='tour']").on('click',function(){
+			var curr = $(this).is('.active');
+			if(curr == true){return false;}
+
+			var voyage = $("select#tour_vayage").val();
+			$.ajax({
+		        url:"<?php echo Url::toRoute(['get_tour_route_list']);?>",
+		        type:'get',
+		        async:false,
+		        data:'voyage='+voyage,
+		     	dataType:'json',
+		    	success:function(data){
+		    		var str = '';
+	        		if(data != 0){
+		                $.each(data,function(key){
+		                	str += "<tr>";
+							str += "<td>"+data[key]['se_name']+"</td>";
+							str += "<td>";
+			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+			                str += "</td></tr>";
+
+	                      });
+		                $("table#tour_table > tbody").html(str);
+		                $("#tour_total").html(data.length);
+		            }else{
+		            	$("table#tour_table > tbody").html('');
+		            	$("#tour_total").html(data);
+			        }
+		    	}      
+		    });
+		});
+
+
+
+
+
+
+	
 	//船舱定价-》船舱定价航线改变
 	$(document).on('change',"#cabin_pricing_vayage",function(){
 		var voyage = $(this).val();

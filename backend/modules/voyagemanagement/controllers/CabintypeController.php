@@ -141,7 +141,7 @@ class CabintypeController extends Controller
 					Yii::$app->db->createCommand($sql)->execute();
 				}
 				$transaction->commit();
-				Helper::show_message_query('Save success  ', Url::toRoute(['cabin_type_edit','code'=>$code]),'');
+				Helper::show_message('Save success  ', Url::toRoute(['cabin_type_edit','code'=>$code]));
 			}catch(Exception $e){
 				$transaction->rollBack();
 				Helper::show_message('Save failed  ','#');

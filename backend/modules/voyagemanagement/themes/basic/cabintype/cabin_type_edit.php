@@ -41,30 +41,27 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						$form = ActiveForm::begin([
 								'action' => ['cabin_type_edit','code'=>$cabin_type_result['type_code']],
 								'method'=>'post',
-								'id'=>'cabin_type_from',
+								'id'=>'cabin_type_val',
 								'options' => ['class' => 'cabin_type_edit'],
 								'enableClientValidation'=>false,
 								'enableClientScript'=>false
 						]); 
 					?>
-					<div>
+					<div  class="check_save_div">
 					<input type="hidden" id="id" name="id" value="<?php echo $cabin_type_result['id']?>" />
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Cabin Type Code')?>:</span>
-								<input type="text" required id='code' name='code' value="<?php echo $cabin_type_result['type_code']?>"></input>
+								<input type="text" id='code' name='code' value="<?php echo $cabin_type_result['type_code']?>"></input>
 								
 							</label>
-							
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Cabin Type Name')?>:</span>
-								<input type="text" required id="name" name="name" value="<?php echo $cabin_type_result['type_name']?>"></input>
+								<input type="text" id="name" name="name" value="<?php echo $cabin_type_result['type_name']?>"></input>
 								
 							</label>
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
@@ -76,8 +73,6 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 									<option value='4' <?php echo $cabin_type_result['live_number']==4?"selected='selected'":'';?>>4</option>
 								</select>
 							</label>
-							
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
@@ -89,27 +84,22 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 									<option value='4' <?php echo $cabin_type_result['beds']==4?"selected='selected'":'';?>>4</option>
 								</select>
 							</label>
-							
-							<span class='tips'></span>
 						</p>
 						
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Room Area')?>:</span>
 								<?php $room = explode('-', $cabin_type_result['room_area']);?>
-								<input type="text" required id="room_min" name="room_min" style="width:35px" value="<?php echo $room[0];?>" /> -
-								<input type="text" required id="room_max" name="room_max" style="width:35px" value="<?php echo $room[1];?>" /><?php echo yii::t('app','㎡')?>
+								<input type="text" id="room_min" name="room_min" style="width:35px" value="<?php echo $room[0];?>" /> -
+								<input type="text" id="room_max" name="room_max" style="width:35px" value="<?php echo $room[1];?>" /><?php echo yii::t('app','㎡')?>
 							</label>
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Floor')?>:</span>
-								<input type="text" required id='floor' name='floor' value="<?php echo $cabin_type_result['floor']?>" ></input>
+								<input type="text" id='floor' name='floor' value="<?php echo $cabin_type_result['floor']?>" ></input>
 								
 							</label>
-							
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
@@ -119,7 +109,6 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 									<option value="1" <?php echo $cabin_type_result['location']==1?"selected='selected'":'';?>><?php echo yii::t('app','Starboard Side')?></option>
 								</select>
 							</label>
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
@@ -228,9 +217,9 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['graphic_desc']+"</td>";
 	                            str += "<td><img style='width:50px;height:50px;' src='<?php echo $baseUrl.'upload/';?>"+data[key]['graphic_img']+"' /></td>";
 	                           	if(data[key]['status']==1)
-	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
+	                            	var status = "Avaliable";
 	                            else if(data[key]['status']==0)
-	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
+	                            	var status = "Unavaliable";
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td  class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['cabin_type_graphic_edit']);?>&id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";

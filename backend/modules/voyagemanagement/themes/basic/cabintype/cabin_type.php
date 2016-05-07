@@ -90,7 +90,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
        <?php 
 		ActiveForm::end(); 
 		?>
-        <p class="records">Records:<span><?php echo $cabin_type_count;?></span></p>
+        <p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $cabin_type_count;?></span></p>
         <div class="btn">
             <a href="<?php echo Url::toRoute(['cabin_type_add']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
           
@@ -157,9 +157,9 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['floor']+"</td>";
 	                            str += "<td>"+data[key]['location']+"</td>";
 	                            if(data[key]['type_status']==1)
-	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
+	                            	var status = "Avaliable";
 	                            else if(data[key]['type_status']==0)
-	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
+	                            	var status = "Unavaliable";
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td  class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['cabin_type_edit']);?>&code="+data[key]['type_code']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";
