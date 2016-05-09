@@ -49,6 +49,9 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 	.selectBox .btn input { display: block; margin: 20px; }
 	
 </style>
+<script>
+var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code_check']);?>";
+</script>
 
 <!-- content start -->
 <div class="r content">
@@ -72,21 +75,21 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					$form = ActiveForm::begin([
 						'action' => ['voyage_add'],
 						'method'=>'post',
-						'id'=>'voyage_add',
+						'id'=>'voyage_val',
 						'options' => ['class' => 'voyage_add'],
 						'enableClientValidation'=>false,
 						'enableClientScript'=>false
 					]); 
 				?>
-					<div>
+					<div class="check_save_div">
 						<p>
 							<label>
 								<span><?php echo yii::t('app','Voyage Name')?>:</span>
-								<input type="text" id="voyage_name" name="voyage_name" required ></input>
+								<input type="text" id="voyage_name" name="voyage_name" ></input>
 							</label>
 							<label>
 								<span><?php echo yii::t('app','Voyage Num')?>:</span>
-								<input type="text" id="voyage_num" name="voyage_num" required ></input>
+								<input type="text" id="voyage_num" name="voyage_num"  ></input>
 							</label>
 						</p>
 						<p>
@@ -147,21 +150,21 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Ticket Price')?>:</span>
-									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="ticket_price" name="ticket_price" required></input>
+									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="ticket_price" name="ticket_price"></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Ticket Taxes')?>:</span>
-									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="ticket_taxes" name="ticket_taxes" min="0" max="100" required></input>
+									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="ticket_taxes" name="ticket_taxes" maxlength="9"></input>
 								</label>
 							</p>
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Harbour Taxes')?>:</span>
-									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="harbour_taxes" name="harbour_taxes" min="0" max="100" required></input>
+									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="harbour_taxes" name="harbour_taxes" maxlength="9" ></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Deposit ratio')?>:</span>
-									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="deposit_ratio" name="deposit_ratio" min="0" max="100" required></input>
+									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="deposit_ratio" name="deposit_ratio" maxlength="9" ></input>
 								</label>
 							</p>
 						</div>

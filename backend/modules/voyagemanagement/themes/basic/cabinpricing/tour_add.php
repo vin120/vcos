@@ -64,7 +64,7 @@ var get_tour_data_ajax_url = "<?php echo Url::toRoute(['get_tour_data']);?>";
  						}?>
 					<p>
 						<label>
-							<span class='max_l' style="height:30px;position: absolute;"><?php echo yii::t('app','Surcharge')?>:</span>
+							<span class='max_l' style="height:30px;position: absolute;"><?php echo yii::t('app','Tour')?>:</span>
 							<span id="tour_data_list" style="max-height: 500px;position: relative;left:200px;">
 							<?php foreach ($tour_result as $k=>$v){?>
 							<?php if(!in_array($v['id'], $really_arr)){?>
@@ -76,7 +76,7 @@ var get_tour_data_ajax_url = "<?php echo Url::toRoute(['get_tour_data']);?>";
 			</div>
 		<div class="btn">
 			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-			<input class="cancel" type="button" value="<?php echo yii::t('app','CANCEL')?>"></input>
+			<!-- <input class="cancle" type="button" value="<?php // echo yii::t('app','CANCLE')?>"></input> -->
 		</div>
 		<?php 
 		ActiveForm::end(); 
@@ -87,4 +87,14 @@ var get_tour_data_ajax_url = "<?php echo Url::toRoute(['get_tour_data']);?>";
     </div>
 </div>
 <!-- content end -->
-
+<script type="text/javascript">
+window.onload = function(){ 
+	$("form#tour_val").submit(function(){
+		var length = $("#tour_data_list input[type='checkbox']:checked").length;
+		if(length==0){
+			Alert("Uncheck tour");return false;
+			}
+	});
+	
+}
+</script>

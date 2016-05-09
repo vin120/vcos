@@ -168,6 +168,7 @@ $(document).ready(function(){
 		});
 	 });
     
+    
     //textarea聚焦是清除
 	$("textarea").focus(function(){
 		 $(this).parent().find("span.point").remove();
@@ -413,63 +414,34 @@ $(document).ready(function(){
 	});
 	
 	
-	
-	
-	//voyage_set数据验证
-	$("#voyage_set_val").validate({
-        rules: {
-            code:{required:true,isEnglish:true},
-            desc:{required:true,isEnglish:true},
-            name:{required:true,isEnglish:true},
-        },
-        errorPlacement: function(error, element) { //错误信息位置设置方法
-        	error.appendTo( element.parent().parent().find("span.tips") ); //这里的element是录入数据的对象
-    	},
-    });
-	$("form#voyage_set_val").submit(function(){
-		
-		if($("input#s_time").val()==''){
-			$("input#s_time").parent().parent().find(".tips").html("Required fields");
-			return false;
-		}else{$("input#s_time").parent().parent().find(".tips").html("");}
-		if($("input#e_time").val()==''){
-			$("input#e_time").parent().parent().find(".tips").html("Required fields");
-			return false;
-		}else{
-			$("input#e_time").parent().parent().find(".tips").html("");
-		}
-	});
-	
 	//voyage_set添加编辑页面判断voyage_code是否唯一
-	$('form#voyage_set_val').submit(function(){
-        var a=1;
+	$('form#voyage_val').submit(function(){
+        var a=0;
         var op = $(this).attr('class');
-        var code = $("input#code").val();
-        var name = $("input#name").val();
-        var desc = $("textarea#desc").val();
-        if(code!='' && name!='' && desc!=''){
-        	
-        	var act = (op == 'voyage_set_edit')?1:2;
-        	if(op == "voyage_set_edit")
-        		var id = $("input#id").val();
-        	else 
-        		var id = '';
-        	
-        	 $.ajax({
-			        url:voyage_set_ajax_url,
-			        type:'get',
-			        data:'code='+code+'&act='+act+'&id='+id,
-			        async:false,
-			     	dataType:'json',
-			    	success:function(data){
-			    		if(data==0) a=0;
-			    		else{Alert("Code can't repeat!");}
-			    	}      
-			    });
+        var data = "<span class='point' >Required fields cannot be empty</span>";
+		var file = $("input[type='file']").val();
+        $(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
+    		if($(this).val()==''){
+    			$(this).parent().append(data);
+    			$(this).addClass("point");
+    			a=1;
+    			return false;
+    		}
+       	}); 
+        if(a==1){return false;}
+        if($("textarea[name='desc']").val() == ''){
+        	$("textarea[name='desc']").parent().append(data);
+        	$("textarea[name='desc']").addClass("point");
+			return false;
         }
-       if(a == 1){
-           return false;
-       }
+        
+        if(op == 'voyage_add'){
+        	if(file == ''){
+        		Alert("Please choose to upload pictures");
+           	   	return false;
+        	}
+        }
+       
     });
 	
 	
@@ -516,7 +488,7 @@ $(document).ready(function(){
 		 $(".ui-widget-overlay").remove();
 		 $("#promptBox").remove();
 		 var str = "<div class='ui-widget-overlay ui-front'></div>";
-		 var str_con = '<div id="promptBox" class="pop-ups write ui-dialog" style="width:450px;" >';
+		 var str_con = '<div id="promptBox" class="check_save_div pop-ups write ui-dialog" style="width:450px;" >';
 			str_con += '<h3>Cabin Pricing</h3>';
 			str_con += '<span class="op"><a class="close r"></a></span>';
 			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">Cabin Type Name:</span>';
@@ -541,15 +513,15 @@ $(document).ready(function(){
 			
 			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">Bed Price:</span>';
 			var bed_price = act=='edit'?pricing_data['bed_price']:'';
-			str_con += '<input style="width:120px" type="text" value="'+bed_price+'" id="bed_price" name="bed_price" /></label></p>';
+			str_con += '<input style="width:120px" onkeyup="this.value=this.value.replace(/[^0-9.]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9.]/g,\'\')" type="text" value="'+bed_price+'" id="bed_price" name="bed_price" /></label></p>';
 			
 			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">2th-Bed Sates(%):</span>';
 			var t_2_sates = act=='edit'?pricing_data['2_empty_bed_preferential']:'';
-			str_con += '<input style="width:120px" type="text" value="'+t_2_sates+'" id="t_2_sates" name="t_2_sates" /></label></p>';
+			str_con += '<input  onkeyup="this.value=this.value.replace(/[^0-9]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9]/g,\'\')" style="width:120px" type="text" value="'+t_2_sates+'" id="t_2_sates" name="t_2_sates" /></label></p>';
 			
 			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">3/4th-Bed Sates(%):</span>';
 			var t_3_sates = act=='edit'?(pricing_data['3_4_empty_bed_preferential']==0?'':pricing_data['3_4_empty_bed_preferential']):'';
-			str_con += '<input style="width:120px" type="text" value="'+t_3_sates+'" disabled="disabled" id="t_3_sates" name="t_3_sates" /></label></p>';
+			str_con += '<input style="width:120px"  onkeyup="this.value=this.value.replace(/[^0-9]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9]/g,\'\')" type="text" value="'+t_3_sates+'" disabled="disabled" id="t_3_sates" name="t_3_sates" /></label></p>';
 			
 			str_con += '<p class="btn">';
 			var sub_id = act=='edit'?id:0;
@@ -562,7 +534,17 @@ $(document).ready(function(){
 		 $(document.body).append(str_con);
 		 //$("#promptBox").removeClass('hide');
 		 $(".btn > .cabin_pricing_confirm_but").attr('voyage_code',$voyage);
+		 $("#promptBox input[type=text]").each(function(){//聚焦是清除
+				$(this).focus(function(){
+					 $(this).parent().find("span.point").remove();
+					 $(this).removeClass("point");
+				});
+		 });
 	 }); 
+	
+	
+	
+	
 	
 	
 	//船舱定价弹出框提交按钮
@@ -578,6 +560,22 @@ $(document).ready(function(){
 		var voyage_code = $(this).attr('voyage_code');
 		var sub_id = $(this).attr('id');
 		
+		var data = "<span class='point' >Required fields cannot be empty</span>";
+		if(bed_price==''){
+			$("input[name='bed_price']").parent().append(data);
+			$("input[name='bed_price']").addClass("point");
+			return false;
+		}
+		if(t_2_sates==''){
+			$("input[name='t_2_sates']").parent().append(data);
+			$("input[name='t_2_sates']").addClass("point");
+			return false;
+		}
+		if(t_3_sates==''){
+			$("input[name='t_3_sates']").parent().append(data);
+			$("input[name='t_3_sates']").addClass("point");
+			return false;
+		}
 		$.ajax({
 	        url:cabin_pricing_submit_ajax_url,
 	        type:'get',
@@ -655,7 +653,7 @@ $(document).ready(function(){
 		 $(".ui-widget-overlay").remove();
 		 $("#promptBox").remove();
 		 var str = "<div class='ui-widget-overlay ui-front'></div>";
-		 var str_con = '<div id="promptBox" class="pop-ups write ui-dialog" style="width:450px;" >';
+		 var str_con = '<div id="promptBox" class="check_save_div pop-ups write ui-dialog" style="width:450px;" >';
 			str_con += '<h3>Cabin Pricing</h3>';
 			str_con += '<span class="op"><a class="close r"></a></span>';
 			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">Strategy:</span>';
@@ -671,7 +669,7 @@ $(document).ready(function(){
 			
 			str_con += '<p><label><span style="width:128px;margin-left:-100px;display:inline-block;text-align:right;">Preferential(%):</span>';
 			var price = act=='edit'?policies_data['p_price']:'';
-			str_con += '<input style="width:120px" type="text" value="'+price+'" id="price" name="price" /></label></p>';
+			str_con += '<input onkeyup="this.value=this.value.replace(/[^0-9]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9]/g,\'\')" style="width:120px" type="text" value="'+price+'" id="price" name="price" /></label></p>';
 			
 			str_con += '<p class="btn">';
 			var sub_id = act=='edit'?id:0;
@@ -684,6 +682,12 @@ $(document).ready(function(){
 		 $(document.body).append(str_con);
 		 //$("#promptBox").removeClass('hide');
 		 $(".btn > .preferential_policies_confirm_but").attr('voyage_code',$voyage);
+		 $("#promptBox input[type=text]").each(function(){//聚焦是清除
+				$(this).focus(function(){
+					 $(this).parent().find("span.point").remove();
+					 $(this).removeClass("point");
+				});
+			});
 	})
 	
 	
@@ -695,6 +699,13 @@ $(document).ready(function(){
 		var price = $("input[name='price']").val();
 		var voyage_code = $(this).attr('voyage_code');
 		var sub_id = $(this).attr('id');
+		
+		var data = "<span class='point' >Required fields cannot be empty</span>";
+		if(price==''){
+			$("input[name='price']").parent().append(data);
+			$("input[name='price']").addClass("point");
+			return false;
+		}
 		
 		$.ajax({
 	        url:preferential_policies_submit_ajax_url,
@@ -713,6 +724,8 @@ $(document).ready(function(){
 	    		}
 	    	}      
 	    });
+		
+		
 		
 	});
 	
@@ -794,6 +807,35 @@ $(document).ready(function(){
 	
 	
 	
+	//active-config detail
+	
+	$("form#active_config_detail_val").submit(function(){
+		var op = $(this).attr('class');
+		var detail_title = $("input[name='detail_title']").val();
+		var detail_desc = $("textarea[name='detail_desc']").val();
+		var file = $("input[type='file']").val();
+		var data = "<span class='point' >Required fields cannot be empty</span>";
+       
+		if(detail_title==''){
+			$("input[name='detail_title']").parent().append(data);
+			$("input[name='detail_title']").addClass("point");
+			return false;
+		}
+		if(detail_desc==''){
+			$("textarea[name='detail_desc']").parent().append(data);
+			$("textarea[name='detail_desc']").addClass("point");
+			return false;
+		}
+		if(op == 'active_config_detail_add'){
+			if(file == ''){
+				Alert("<?php echo yii::t('app','Please choose to upload pictures')?>");
+		   	   	return false;
+			}
+		}
+	});
+	
+	
+	
 	//航线-》船舱
 	$(document).on('click','#cabin_right_but',function(){
 		var str = '';
@@ -849,7 +891,7 @@ $(document).ready(function(){
 	
 	
 	//添加编辑页面取消填写按钮
-	$(".btn > .cancel").on('click',function(){
+	$(".btn > .cancle").on('click',function(){
 		$("form input#code").val('');
 		$("form input#code_chara").val('');
 		$("form input#name").val('');

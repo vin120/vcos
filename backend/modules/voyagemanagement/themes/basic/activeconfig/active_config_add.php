@@ -13,7 +13,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content">
-	<div class="topNav"><?php echo yii::t('app','Route Manage') ?>&nbsp;&gt;&gt;&nbsp;
+	<div class="topNav"><?php echo yii::t('app','Voyage Manage') ?>&nbsp;&gt;&gt;&nbsp;
 	<a href="<?php echo Url::toRoute(['active_config']);?>"><?php echo yii::t('app','Active Config') ?></a>&nbsp;&gt;&gt;&nbsp;
 	<a href="#"><?php echo yii::t('app','Active Config Add')?></a></div>
 	<div class="tab">
@@ -34,13 +34,12 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						'enableClientScript'=>false
 					]); 
 				?>
-					<div>
+					<div class="check_save_div">
 						<p>
 							<label>
 								<span> <?php echo yii::t('app','Name')?>:</span>
-								<input type="text" id="name"  name="name" required></input>
+								<input type="text" id="name"  name="name"></input>
 							</label>
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
@@ -50,7 +49,6 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 									<option value="0"><?php echo yii::t('app','Unavaliabled') ?></option>
 								</select>
 							</label>
-							<span class='tips'></span>
 						</p>
 					</div>
 					<div class="btn">
@@ -86,3 +84,19 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 	</div>
 </div>
 <!-- content end -->
+
+<script type="text/javascript">
+window.onload = function(){ 
+	$("form#active_config_add").submit(function(){
+		var name = $("input[name='name']").val();
+		var data = "<span class='point' >Required fields cannot be empty</span>";
+        
+		if(name==''){
+			$("input[name='name']").parent().append(data);
+			$("input[name='name']").addClass("point");
+			return false;
+		}
+	});
+	
+}
+</script>

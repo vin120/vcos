@@ -28,7 +28,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <div class="r content">
 <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
     <a href="<?php echo Url::toRoute(['voyageset/index']);?>"><?php echo yii::t('app','Voyage Set')?></a>&nbsp;&gt;&gt;&nbsp;
-    <a href="#"><?php echo yii::t('app','Voyage_set_add')?></a></div>
+    <a href="#"><?php echo yii::t('app','Voyage_set_port_add')?></a></div>
 	<div class="write">
 	<?php
 		$form = ActiveForm::begin([

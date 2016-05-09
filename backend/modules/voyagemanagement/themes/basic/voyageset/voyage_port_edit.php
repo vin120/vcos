@@ -27,8 +27,8 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 <!-- content start -->
 <div class="r content">
 <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['voyageset/index']);?>"><?php echo yii::t('app','Voyage Set')?></a>&nbsp;&gt;&gt;&nbsp;
-    <a href="#"><?php echo yii::t('app','Voyage_set_edit')?></a></div>
+    <a href="#"><?php echo yii::t('app','Voyage Set')?></a>&nbsp;&gt;&gt;&nbsp;
+    <a href="#"><?php echo yii::t('app','Voyage_set_port_add')?></a></div>
 	<div class="write">
 	<?php
 		$form = ActiveForm::begin([
@@ -69,7 +69,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			<p>
 				<label>
 					<span><?php echo yii::t('app','Arrival Time')?>:</span>
-					<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>"  value="<?php echo $voyage_port['EIA']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"></input>
+					<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>"  value="<?php echo $voyage_port['ETA']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"></input>
 				</label>
 			</p>
 			<p>
@@ -81,7 +81,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		</div>
 		<div class="btn">
 			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-			<input type="button" value="<?php echo yii::t('app','CANCEL')?>"></input>
+			<input type="button" value="<?php echo yii::t('app','CANCLE')?>"></input>
 		</div>
 		<?php 
 			ActiveForm::end(); 

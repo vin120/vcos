@@ -22,13 +22,13 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 	<a href="#"><?php echo yii::t('app','Active Config Edit')?></a></div>
     
     <div class="searchResult">
-        <div id="service_write" class="pop-ups write max_write">
+        <div id="service_write" class="write">
 
 		<?php
 			$form = ActiveForm::begin([
 				'action' => ['active_config_detail_edit'],
 				'method'=>'post',
-				'id'=>'active_config_detail_edit',
+				'id'=>'active_config_detail_val',
 				'options' => ['class' => 'active_config_detail_edit','enctype'=>'multipart/form-data'],
 				'enableClientValidation'=>false,
 				'enableClientScript'=>false
@@ -36,7 +36,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 		?>
 		<input type="hidden" id="active_id" name="active_id" value="<?php echo $active_detail['active_id'];?>"></input>
 		<input type="hidden" id="active_detail_id" name="active_detail_id" value="<?php echo $active_detail['id'];?>" ></input>
-		<div>
+		<div  class="check_save_div">
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Day')?>:</span>
@@ -60,7 +60,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Title')?>:</span>
-					<input type="text" id='detail_title' name='detail_title' value="<?php echo $active_detail['detail_title'];?>" required></input>
+					<input type="text" id='detail_title' name='detail_title' value="<?php echo $active_detail['detail_title'];?>"></input>
 				</label>
 				
 				<span class='tips'></span>
@@ -72,7 +72,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				</label>
 				<span class='tips'></span>
 			</p>
-			<p>
+			<p style="min-height: 110px;">
 				<label>
 					<span class='max_l' style="float: left;"><?php echo yii::t('app','Active Img')?>:</span>
 					<span style="width:120px;height:120px;float:left;margin-left:5px;">
@@ -85,12 +85,12 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				 </label>
 				<span class='tips'></span>
 			</p>
-			
+			</div>
 			<div class="btn">
 				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-				<input class="cancel" type="button" value="<?php echo yii::t('app','CANCEL')?>"></input>
+				
 			</div>
-		</div>
+		
 		<?php 
 			ActiveForm::end(); 
 		?>

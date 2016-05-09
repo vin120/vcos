@@ -74,7 +74,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					$form = ActiveForm::begin([
 						'action' => ['voyage_edit'],
 						'method'=>'post',
-						'id'=>'voyage_edit',
+						'id'=>'voyage_val',
 						'options' => ['class' => 'voyage_edit'],
 						'enableClientValidation'=>false,
 						'enableClientScript'=>false
@@ -82,15 +82,15 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				?>
 				<input type="hidden" id="voyage_code" name="voyage_code" value="<?php echo $voyage['voyage_code'] ?>"></input>
 				<input type="hidden" id="voyage_id" name="voyage_id" value="<?php echo $voyage['id']?>"></input>
-					<div>
+					<div class="check_save_div">
 						<p>
 							<label>
 								<span><?php echo yii::t('app','Voyage Name')?>:</span>
-								<input type="text" id="voyage_name" name="voyage_name" value="<?php echo $voyage['voyage_name']?>" required></input>
+								<input type="text" id="voyage_name" name="voyage_name" value="<?php echo $voyage['voyage_name']?>"></input>
 							</label>
 							<label>
 								<span><?php echo yii::t('app','Voyage Num')?>:</span>
-								<input type="text" id="voyage_num" name="voyage_num" value="<?php echo $voyage['voyage_num']?>" required></input>
+								<input type="text" id="voyage_num" name="voyage_num" value="<?php echo $voyage['voyage_num']?>"></input>
 							</label>
 						</p>
 						<p>
@@ -149,21 +149,21 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Ticket Price')?>:</span>
-									<input type="text" id="ticket_price"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="ticket_price" value="<?php echo $voyage['ticket_price']?>" required></input>
+									<input type="text" id="ticket_price"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="ticket_price" value="<?php echo $voyage['ticket_price']?>" ></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Ticket Taxes')?>:</span>
-									<input type="text" id="ticket_taxes"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="ticket_taxes" value="<?php echo $voyage['ticket_taxes']?>" min="0" max="100" required></input>
+									<input type="text" id="ticket_taxes"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="ticket_taxes" value="<?php echo $voyage['ticket_taxes']?>" maxlength="9" ></input>
 								</label>
 							</p>
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Harbour Taxes')?>:</span>
-									<input type="text" id="harbour_taxes" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  name="harbour_taxes" value="<?php echo $voyage['harbour_taxes']?>"min="0" max="100" required></input>
+									<input type="text" id="harbour_taxes" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  name="harbour_taxes" value="<?php echo $voyage['harbour_taxes']?>" maxlength="9"></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Deposit ratio')?>:</span>
-									<input type="text" id="deposit_ratio" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="deposit_ratio" value="<?php echo $voyage['deposit_ratio']?>" min="0" max="100" required></input>
+									<input type="text" id="deposit_ratio" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="deposit_ratio" value="<?php echo $voyage['deposit_ratio']?>" maxlength="9" ></input>
 								</label>
 							</p>
 						</div>
@@ -345,9 +345,9 @@ window.onload = function(){
                         str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['id']+"'></input></td>";
                         str += "<td>"+data[key]['order_no']+"</td>";
                         str += "<td>"+data[key]['port_name']+"</td>";
-                        if(data[key]['EIA']==null){var eia='- -';}else{var eia=data[key]['EIA'];}
+                        if(data[key]['ETA']==null){var eta='- -';}else{var eta=data[key]['ETA'];}
                         if(data[key]['ETD']==null){var etd='- -';}else{var etd=data[key]['ETD'];}
-                        str += "<td>"+eia+"</td>";
+                        str += "<td>"+eta+"</td>";
                         str += "<td>"+etd+"</td>";
                         str += "<td  class='op_btn'>";
                         str += "<a href='<?php echo Url::toRoute(['voyage_port_edit']);?>&voyage_id="+<?php echo $voyage['id']?>+"&port_id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";
@@ -684,9 +684,9 @@ window.onload = function(){
                             str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['id']+"'></input></td>";
                             str += "<td>"+data[key]['order_no']+"</td>";
                             str += "<td>"+data[key]['port_name']+"</td>";
-                            if(data[key]['EIA']==null){var eia='- -';}else{var eia=data[key]['EIA'];}
+                            if(data[key]['ETA']==null){var eta='- -';}else{var eta=data[key]['ETA'];}
                             if(data[key]['ETD']==null){var etd='- -';}else{var etd=data[key]['ETD'];}
-                            str += "<td>"+eia+"</td>";
+                            str += "<td>"+eta+"</td>";
                             str += "<td>"+etd+"</td>";
                             str += "<td  class='op_btn'>";
                             str += "<a href='<?php echo Url::toRoute(['voyage_port_edit']);?>&voyage_id="+<?php echo $voyage['id']?>+"&port_id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";

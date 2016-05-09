@@ -80,7 +80,14 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><?php echo $row['cruise_code'];?></td>
                 <td><?php echo $row['cruise_name'];?></td>
                 <td><?php echo $row['deck_number'];?></td>
-                <td><?php echo $row['cruise_desc'];?></td>
+   				<td><?php
+		        		$r = &$row['cruise_desc'];
+		                mb_internal_encoding("UTF-8");
+		                if(mb_strlen($r)>30)
+		                	echo mb_substr($r, 0, 30).'...';
+		                else 
+		                	echo $r;?>
+		        </td>
                 <td><img style="width:50px;height:50px;" src="<?php echo $baseUrl.'upload/'.$row['cruise_img'];?>" /></td>
                 <td><?php echo $row['status']?yii::t('app', 'Avaliable'):yii::t('app', 'Unavaliable');?></td>
                 <td class="op_btn">
@@ -151,13 +158,18 @@ window.onload = function(){
 	                	var str = '';
 	            		if(data != 0){
 	    	                $.each(data,function(key){
+								var cruise_desc = data[key]['cruise_desc'];
+								if(cruise_desc.length > 30){
+									cruise_desc = cruise_desc.substr(0,30)+'...';
+								}
+		    	                
 	                        	str += "<tr>";
 	                            str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['cruise_code']+"'></input></td>";
 	                            str += "<td>"+(key+1)+"</td>";
 	                            str += "<td>"+data[key]['cruise_code']+"</td>";
 	                            str += "<td>"+data[key]['cruise_name']+"</td>";
 	                            str += "<td>"+data[key]['deck_number']+"</td>";
-	                            str += "<td>"+data[key]['cruise_desc']+"</td>";
+	                            str += "<td>"+cruise_desc+"</td>";
 	                            str += "<td><img style='width:50px;height:50px;' src='<?php echo $baseUrl.'upload/';?>"+data[key]['cruise_img']+"' /></td>";
 	                            if(data[key]['status']==1)
 	                            	var status = "<?php echo yii::t('app','Avaliable')?>";

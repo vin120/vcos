@@ -253,7 +253,7 @@ window.onload = function(){
 		                	str += "<tr>";
 							str += "<td>"+data[key]['strategy_name']+"</td>";
 		                	str += "<td>"+data[key]['p_price']+"</td>";
-							str += "<td>";
+							str += "<td  class='op_btn'>";
 							str += "<a class='preferential_policies_edit' id='"+data[key]['id']+"' value='edit'><img src='<?=$baseUrl ?>images/write.png'></a>";
 			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 			                str += "</td></tr>";
@@ -284,7 +284,7 @@ window.onload = function(){
 		                $.each(data,function(key){
 		                	str += "<tr>";
 							str += "<td>"+data[key]['cost_name']+"</td>";
-							str += "<td>";
+							str += "<td  class='op_btn'>";
 			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 			                str += "</td></tr>";
 	                      });
@@ -314,7 +314,7 @@ window.onload = function(){
 		                $.each(data,function(key){
 		                	str += "<tr>";
 							str += "<td>"+data[key]['se_name']+"</td>";
-							str += "<td>";
+							str += "<td  class='op_btn'>";
 			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 			                str += "</td></tr>";
 

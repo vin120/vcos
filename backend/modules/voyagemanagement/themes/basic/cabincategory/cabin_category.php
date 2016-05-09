@@ -58,8 +58,8 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 										<td><?php echo \Yii::t('app',$v['price'])?></td>
 										<td><?php echo \Yii::t('app',$v['status']==1?'Avaliable':'Unavaliable')?></td>
 										<td>
-											<a href="<?php echo Url::toRoute(['cabincategory_option','class_id'=>$v['class_id']]);?>"><img src="<?=$baseUrl ?>images/write.png" class="btn1"></a>
-											<a class="delete" id="<?php echo $v['class_id'];?>"><img src="<?=$baseUrl ?>images/delete.png" class="btn2"></a>
+											<a href="<?php echo Url::toRoute(['cabincategory_option','class_id'=>$v['class_id']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
+											<a class="delete" id="<?php echo $v['class_id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
 										</td>
 									</tr>
 									<?php endforeach;?>

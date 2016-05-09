@@ -76,7 +76,7 @@ var get_surcharge_data_ajax_url = "<?php echo Url::toRoute(['get_surcharge_data'
 			</div>
 		<div class="btn">
 			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-			<input class="cancel" type="button" value="<?php echo yii::t('app','CANCEL')?>"></input>
+			<!-- <input class="cancle" type="button" value="<?php //echo yii::t('app','CANCLE')?>"></input> -->
 		</div>
 		<?php 
 		ActiveForm::end(); 
@@ -87,4 +87,14 @@ var get_surcharge_data_ajax_url = "<?php echo Url::toRoute(['get_surcharge_data'
     </div>
 </div>
 <!-- content end -->
-
+<script type="text/javascript">
+window.onload = function(){ 
+	$("form#surcharge_val").submit(function(){
+		var length = $("#surcharge_data_list input[type='checkbox']:checked").length;
+		if(length==0){
+			Alert("Uncheck surcharge");return false;
+			}
+	});
+	
+}
+</script>

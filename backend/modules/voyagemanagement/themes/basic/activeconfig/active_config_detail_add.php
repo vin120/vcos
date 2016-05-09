@@ -22,20 +22,20 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 	<a href="#"><?php echo yii::t('app','Active Config Edit')?></a></div>
     
     <div class="searchResult">
-        <div id="service_write" class="pop-ups write max_write">
+        <div id="service_write" class="write">
 
 		<?php
 			$form = ActiveForm::begin([
 				'action' => ['active_config_detail_add'],
 				'method'=>'post',
-				'id'=>'active_config_detail_add',
+				'id'=>'active_config_detail_val',
 				'options' => ['class' => 'active_config_detail_add','enctype'=>'multipart/form-data'],
 				'enableClientValidation'=>false,
 				'enableClientScript'=>false
 			]); 
 		?>
 		<input type="hidden" id="active_id" name="active_id" value="<?php echo $active['active_id']?>"></input>
-		<div>
+		<div class="check_save_div">
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Day')?>:</span>
@@ -58,7 +58,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Title')?>:</span>
-					<input type="text" id='detail_title' name='detail_title' required ></input>
+					<input type="text" id='detail_title' name='detail_title' ></input>
 				</label>
 				
 				<span class='tips'></span>
@@ -70,7 +70,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				</label>
 				<span class='tips'></span>
 			</p>
-			<p>
+			<p style="min-height: 110px;">
 				<label>
 					<span class='max_l' style="float: left;"><?php echo yii::t('app','Img')?>:</span>
 					<span id="img_back" style="width:120px;height:120px;float:left;margin-left:5px;margin-bottom:30px;display:none">
@@ -83,12 +83,12 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				 </label>
 				<span class='tips'></span>
 			</p>
-			
+			</div>
 			<div class="btn">
 				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
-				<input class="cancel" type="button" value="<?php echo yii::t('app','CANCEL')?>"></input>
+				
 			</div>
-		</div>
+		
 		<?php 
 			ActiveForm::end(); 
 		?>
@@ -109,7 +109,6 @@ window.onload = function(){
 			$("select[name='day_to']").attr("disabled",'disabled');
 		}
 	});
-
 
 
    	$("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });

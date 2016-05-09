@@ -55,6 +55,7 @@ class VoyagesetController extends Controller
 				->andWhere($where_voyage_name)
 				->andWhere($where_s_time)
 				->andWhere($where_e_time)
+				->limit(2)
 				->all();
 		$voyage = $query->createCommand()->queryAll();
 		
@@ -577,7 +578,7 @@ class VoyagesetController extends Controller
 		if($_POST){
 			$order_no = isset($_POST['order_no']) ? $_POST['order_no'] : '';
 			$port_code = isset($_POST['port_code']) ? $_POST['port_code'] : '';
-			$EIA = isset($_POST['s_time']) ? $_POST['s_time'] : '';
+			$ETA = isset($_POST['s_time']) ? $_POST['s_time'] : '';
 			$ETD = isset($_POST['e_time']) ? $_POST['e_time'] : '';
 			$voyage_id_post = isset($_POST['voyage_id']) ? $_POST['voyage_id'] : '';
  
@@ -593,10 +594,10 @@ class VoyagesetController extends Controller
 					}else{
 						$vcvoyageport_obj->ETD = null;
 					}
-					if($EIA != ''){
-						$vcvoyageport_obj->EIA = $EIA;
+					if($ETA != ''){
+						$vcvoyageport_obj->ETA = $ETA;
 					}else{
-						$vcvoyageport_obj->EIA = null;
+						$vcvoyageport_obj->ETA = null;
 					}
 					$vcvoyageport_obj->save();
 					
@@ -632,7 +633,7 @@ class VoyagesetController extends Controller
 		if($_POST){
 			$order_no = isset($_POST['order_no']) ? $_POST['order_no'] : '';
 			$port_code = isset($_POST['port_code']) ? $_POST['port_code'] : '';
-			$EIA = isset($_POST['s_time']) ? $_POST['s_time'] : '';
+			$ETA = isset($_POST['s_time']) ? $_POST['s_time'] : '';
 			$ETD = isset($_POST['e_time']) ? $_POST['e_time'] : '';
 			$voyage_id_post = isset($_POST['voyage_id']) ? $_POST['voyage_id'] : '';
 			$port_id = isset($_POST['port_id']) ? $_POST['port_id'] : '';
@@ -649,10 +650,10 @@ class VoyagesetController extends Controller
 					}else{
 						$vcvoyageport_obj->ETD = null;
 					}
-					if($EIA != ''){
-						$vcvoyageport_obj->EIA = $EIA;
+					if($ETA != ''){
+						$vcvoyageport_obj->ETA = $ETA;
 					}else{
-						$vcvoyageport_obj->EIA = null;
+						$vcvoyageport_obj->ETA = null;
 					}
 					$vcvoyageport_obj->save();
 					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id_post."&port_id=".$port_id);

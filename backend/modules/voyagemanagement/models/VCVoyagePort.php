@@ -11,7 +11,7 @@ use Yii;
  * @property integer $voyage_id
  * @property string $port_code
  * @property integer $order_no
- * @property string $EIA
+ * @property string $ETA
  * @property string $ETD
  */
 class VCVoyagePort extends \yii\db\ActiveRecord
@@ -31,7 +31,7 @@ class VCVoyagePort extends \yii\db\ActiveRecord
     {
         return [
             [['voyage_id', 'order_no'], 'integer'],
-            [['EIA', 'ETD'], 'safe'],
+            [['ETA', 'ETD'], 'safe'],
             [['port_code'], 'string', 'max' => 255]
         ];
     }
@@ -46,7 +46,7 @@ class VCVoyagePort extends \yii\db\ActiveRecord
             'voyage_id' => Yii::t('app', 'Voyage ID'),
             'port_code' => Yii::t('app', 'Port Code'),
             'order_no' => Yii::t('app', 'Order No'),
-            'EIA' => Yii::t('app', 'Eia'),
+            'ETA' => Yii::t('app', 'Eta'),
             'ETD' => Yii::t('app', 'Etd'),
         ];
     }

@@ -17,7 +17,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <!-- content start -->
 <div class="r content">
-	<div class="topNav"><?php echo yii::t('app','Route Manage')?>&nbsp;&gt;&gt;&nbsp;
+	<div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
 	<a href="<?php echo Url::toRoute(['active_config']);?>"><?php echo yii::t('app','Active Config')?></a>&nbsp;&gt;&gt;&nbsp;
 	<a href="#"><?php echo yii::t('app','Active Config Edit')?></a></div>
 	<div class="tab">
@@ -38,14 +38,13 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						'enableClientScript'=>false
 					]); 
 				?>
-					<div>
+					<div class="check_save_div">
 						<p>
 							<label>
 								<span><?php echo yii::t('app','Name')?>:</span>
-								<input type="text" id="name" name="name" value="<?php echo $active['name'] ?>" required></input>
+								<input type="text" id="name" name="name" value="<?php echo $active['name'] ?>"></input>
 								<input type="hidden" id="active_id" name="active_id" value="<?php echo $active['active_id']?>" ></input>
 							</label>
-							<span class='tips'></span>
 						</p>
 						<p>
 							<label>
@@ -55,7 +54,6 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 									<option value="0" <?php if($active['status']=='0'){?>selected="selected"<?php }?>>Unavaliable</option>
 								</select>
 							</label>
-							<span class='tips'></span>
 						</p>
 					</div>
 					<div class="btn">
@@ -213,6 +211,18 @@ window.onload = function(){
    $(document).on('click',"#promptBox > .btn .confirm_but_more",function(){
 	   $("form#active_config_detail_delete").submit();
    });
+
+
+   $("form#active_config_edit").submit(function(){
+		var name = $("input[name='name']").val();
+		var data = "<span class='point' >Required fields cannot be empty</span>";
+       
+		if(name==''){
+			$("input[name='name']").parent().append(data);
+			$("input[name='name']").addClass("point");
+			return false;
+		}
+	});
 
 }
 </script>
