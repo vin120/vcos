@@ -66,7 +66,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Live Number')?>:</span>
-								<select name='live_number' id="live_number">
+								<select name='live_number' id="live_number" class='input_select'>
 									<option value='1' <?php echo $cabin_type_result['live_number']==1?"selected='selected'":'';?>>1</option>
 									<option value='2' <?php echo $cabin_type_result['live_number']==2?"selected='selected'":'';?>>2</option>
 									<option value='3' <?php echo $cabin_type_result['live_number']==3?"selected='selected'":'';?>>3</option>
@@ -77,7 +77,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Beds')?>:</span>
-								<select name='beds' id="beds">
+								<select name='beds' id="beds" class='input_select'>
 									<option value='1' <?php echo $cabin_type_result['beds']==1?"selected='selected'":'';?>>1</option>
 									<option value='2' <?php echo $cabin_type_result['beds']==2?"selected='selected'":'';?>>2</option>
 									<option value='3' <?php echo $cabin_type_result['beds']==3?"selected='selected'":'';?>>3</option>
@@ -104,7 +104,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','location')?>:</span>
-								<select name="location" id="location">
+								<select name="location" id="location" class='input_select'>
 									<option value="0" <?php echo $cabin_type_result['location']==0?"selected='selected'":'';?>><?php echo yii::t('app','Port Side')?></option>
 									<option value="1" <?php echo $cabin_type_result['location']==1?"selected='selected'":'';?>><?php echo yii::t('app','Starboard Side')?></option>
 								</select>
@@ -113,7 +113,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
-								<select name="state" id="state">
+								<select name="state" id="state" class='input_select'>
 									<option value='1' <?php echo $cabin_type_result['type_status']==1?"selected='selected'":'';?>><?php echo yii::t('app','Avaliable')?></option>
 									<option value='0' <?php echo $cabin_type_result['type_status']==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
 								</select>

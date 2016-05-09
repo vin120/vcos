@@ -95,7 +95,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
-					<select name="state" id="state">
+					<select name="state" id="state" class='input_select'> 
 						<option value='1'><?php echo yii::t('app','Avaliable')?></option>
 						<option value='0'><?php echo yii::t('app','Unavaliable')?></option>
 					</select>

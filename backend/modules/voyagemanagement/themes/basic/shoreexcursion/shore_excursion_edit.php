@@ -85,7 +85,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
-					<select name="state" id="state">
+					<select name="state" id="state" class='input_select'>
 						<option value='1' <?php echo $shore_excursion_result['status']==1?"selected='selected'":'';?>><?php echo yii::t('app','Avaliable')?></option>
 						<option value='0' <?php echo $shore_excursion_result['status']==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
 					</select>

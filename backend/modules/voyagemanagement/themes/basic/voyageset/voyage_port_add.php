@@ -45,7 +45,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			<p>
 				<label class="shortLabel">
 					<span><?php echo yii::t('app','Num')?>:</span>
-					<select id="order_no" name="order_no">
+					<select id="order_no" name="order_no" class='input_select'>
 						<?php for($i=1;$i<=100;$i++){ ?>
                        		<option value="<?php echo $i;?>"><?php echo $i?></option>
                         <?php } ?>
@@ -55,7 +55,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			<p>
 				<label class="shortLabel">
 					<span><?php echo yii::t('app','Port')?>:</span>
-					<select id="port_code" name="port_code">
+					<select id="port_code" name="port_code" class='input_select'>
 						<?php foreach($port as $row){?>
 						<option id="<?php echo $row['port_code']?>" value="<?php echo $row['port_code'] ?>"><?php echo $row['port_name'] ;?> </option>
 						<?php } ?>

@@ -123,6 +123,7 @@ td.op_btn  a:first-child {margin-right:5px;}
 /*.write  div > p{min-height:50px; position:relative;}*/
 .write label span { display: inline-block; width: 100px; text-align: right; }
 .write label span.max_l{width:200px;}
+.write select.input_select{ width: 165px; height: 26px; }
 .write  div > p > span.tips{height:10px;display:block;margin-left:205px;}
 .write input[type='text'] { width: 160px; height: 20px ; }
 .date_write input[type='text'] { width: 160px; height: 25px !important ; }

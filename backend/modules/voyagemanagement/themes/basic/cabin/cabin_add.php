@@ -16,7 +16,6 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 ?>
 <style type="text/css">
 	.write label span { width: 160px; }
-	.write select.input_select{ width: 165px; height: 26px; }
 	.check_save_div .cabin_label span.point {margin-left:-258px;margin-top:30px; }
 </style>
 
@@ -89,7 +88,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					<p>
 					<label>
 							<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
-							<select name="state" id="state">
+							<select name="state" id="state" class='input_select'>
 								<option value='1'><?php echo yii::t('app','Avaliable')?></option>
 								<option value='0'><?php echo yii::t('app','Unavaliable')?></option>
 							</select>

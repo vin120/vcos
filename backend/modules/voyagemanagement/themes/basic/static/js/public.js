@@ -22,9 +22,9 @@ $(document).ready(function(){
 		 $("#promptBox").remove();
 		 var str = "<div class='ui-widget-overlay ui-front'></div>";
 		 var str_con = '<div id="promptBox" class="pop-ups write ui-dialog" >';
-			str_con += '<h3>提示</h3>';
+			str_con += '<h3>Prompt</h3>';
 			str_con += '<span class="op"><a class="close r"></a></span>';
-			str_con += '<p>是否删除？</p>';
+			str_con += '<p>Whether or not to delete？</p>';
 			str_con += '<p class="btn">';
 			str_con += '<input type="button" class="confirm_but" value="Sumbit"></input>';
 			str_con += '<input type="button" class="cancel_but" value="Cancel"></input>';

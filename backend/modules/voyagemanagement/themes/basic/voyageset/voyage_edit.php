@@ -381,8 +381,8 @@ window.onload = function(){
                         str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['id']+"'></input></td>";
                         str += "<td>"+data[key]['order_no']+"</td>";
                         str += "<td>"+data[key]['port_name']+"</td>";
-                        if(data[key]['ETA']==null){var eta='- -';}else{var eta=data[key]['ETA'];}
-                        if(data[key]['ETD']==null){var etd='- -';}else{var etd=data[key]['ETD'];}
+                        if(data[key]['ETA']==null){var eta='- -';}else{var eta=createDate(data[key]['ETA']);}
+                        if(data[key]['ETD']==null){var etd='- -';}else{var etd=createDate(data[key]['ETD']);}
                         str += "<td>"+eta+"</td>";
                         str += "<td>"+etd+"</td>";
                         str += "<td  class='op_btn'>";
@@ -721,8 +721,8 @@ window.onload = function(){
                             str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['id']+"'></input></td>";
                             str += "<td>"+data[key]['order_no']+"</td>";
                             str += "<td>"+data[key]['port_name']+"</td>";
-                            if(data[key]['ETA']==null){var eta='- -';}else{var eta=data[key]['ETA'];}
-                            if(data[key]['ETD']==null){var etd='- -';}else{var etd=data[key]['ETD'];}
+                            if(data[key]['ETA']==null){var eta='- -';}else{var eta=createDate(data[key]['ETA']);}
+                            if(data[key]['ETD']==null){var etd='- -';}else{var etd=createDate(data[key]['ETD']);}
                             str += "<td>"+eta+"</td>";
                             str += "<td>"+etd+"</td>";
                             str += "<td  class='op_btn'>";

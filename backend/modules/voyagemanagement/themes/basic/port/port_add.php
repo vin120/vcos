@@ -56,7 +56,7 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Country Code')?>:</span>
 					
-					<select name="country_code" id="country_code">
+					<select name="country_code" id="country_code" class='input_select'>
 						<?php foreach ($country_result as $k=>$val){?>
 						<option value="<?php echo $val['country_code']?>"><?php echo $val['country_code']?></option>
 						<?php }?>
@@ -73,7 +73,7 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 			<p>
 			<label>
 					<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
-					<select name="state" id="state">
+					<select name="state" id="state" class='input_select'>
 						<option value='1'><?php echo yii::t('app','Avaliable')?></option>
 						<option value='0'><?php echo yii::t('app','Unavaliable')?></option>
 					</select>

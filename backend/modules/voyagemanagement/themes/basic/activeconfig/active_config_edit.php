@@ -49,7 +49,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						<p>
 							<label>
 								<span><?php echo yii::t('app','Status')?>:</span>
-								<select id="active_select" name="active_select">
+								<select id="active_select" name="active_select" class='input_select'>
 									<option value="1" <?php if($active['status']=='1'){?>selected="selected"<?php }?>>Avaliable</option>
 									<option value="0" <?php if($active['status']=='0'){?>selected="selected"<?php }?>>Unavaliable</option>
 								</select>

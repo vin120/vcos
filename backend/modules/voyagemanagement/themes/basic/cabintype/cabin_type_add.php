@@ -61,7 +61,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Live Number')?>:</span>
-								<select name='live_number' id="live_number">
+								<select name='live_number' id="live_number" class='input_select'>
 									<option value='1'>1</option>
 									<option value='2'>2</option>
 									<option value='3'>3</option>
@@ -72,7 +72,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Beds')?>:</span>
-								<select name='beds' id="beds">
+								<select name='beds' id="beds" class='input_select'>
 									<option value='1'>1</option>
 									<option value='2'>2</option>
 									<option value='3'>3</option>
@@ -98,7 +98,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','location')?>:</span>
-								<select name="location" id="location">
+								<select name="location" id="location" class='input_select'>
 									<option value="0"><?php echo yii::t('app','Port Side')?></option>
 									<option value="1"><?php echo yii::t('app','Starboard Side')?></option>
 								</select>
@@ -107,7 +107,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
-								<select name="state" id="state">
+								<select name="state" id="state" class='input_select'>
 									<option value='1'><?php echo yii::t('app','Avaliable')?></option>
 									<option value='0'><?php echo yii::t('app','Unavaliable')?></option>
 								</select>
