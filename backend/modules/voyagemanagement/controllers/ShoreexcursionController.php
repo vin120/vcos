@@ -115,9 +115,7 @@ class ShoreexcursionController extends Controller
 			$price = isset($_POST['price'])?$_POST['price']:'0';
 			$date_of_entry = isset($_POST['date_of_entry'])?$_POST['date_of_entry']:date("Y-m-d H:i:s",time());
 			if(isset($_POST['date_of_entry'])){
-				$date_of_entry = explode(' ', $date_of_entry);
-				$year = explode('/', $date_of_entry[0]);
-				$date_of_entry = $year[2].'-'.$year[1].'-'.$year[0].' '.$date_of_entry[1];
+				$date_of_entry = Helper::GetCreateTime($date_of_entry);
 			}
 			$shore_excursion->se_code = $code;
 			$shore_excursion->price = $price;
@@ -156,9 +154,7 @@ class ShoreexcursionController extends Controller
 			$price = isset($_POST['price'])?$_POST['price']:'0';
 			$date_of_entry = isset($_POST['date_of_entry'])?$_POST['date_of_entry']:date("Y-m-d H:i:s",time());
 			if(isset($_POST['date_of_entry'])){
-				$date_of_entry = explode(' ', $date_of_entry);
-				$year = explode('/', $date_of_entry[0]);
-				$date_of_entry = $year[2].'-'.$year[1].'-'.$year[0].' '.$date_of_entry[1];
+				$date_of_entry = Helper::GetCreateTime($date_of_entry);
 			}
 		//事务处理
 			$transaction=$db->beginTransaction();

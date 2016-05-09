@@ -1,6 +1,7 @@
 <?php
 $this->title = 'Voyage Management';
 
+use app\modules\voyagemanagement\components\Helper;
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAsset;
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetDate;
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUpload;
@@ -27,15 +28,18 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 	.write label + label { float: right; margin-right: 15%; }
 	.write label span { width: 140px; }
 	.shortLabel { margin-right: 84px; }
-	.write label textarea { float: left; margin-left: 45%; width: 550px; height: 80px; vertical-align: top; }
+	.write label textarea { float: left; margin-left: 45%; width: 650px; height: 80px; vertical-align: top; }
 	
 	/*upload*/
+	.write .upload { width: auto; }
+	.write .upload > span { line-height: 30px; vertical-align: top; }
 	.uploadFileBox { display: inline-block; width: 280px; line-height: 20px; border: 1px solid #dcdcdc; border-radius: 4px; box-sizing: border-box; overflow: hidden; }
 	.fileName { display: inline-block; width: 190px; line-height: 30px; margin-left: 10px; vertical-align: middle; overflow: hidden; }
 	.uploadFile { float: right; position: relative; display: inline-block; background-color: #3f7fcf; padding: 6px 12px; overflow: hidden; color: #fff; text-decoration: none; text-indent: 0; line-height: 20px; }
 	.uploadFile input { position: absolute; font-size: 100px; right: 0; top: 0; opacity: 0; }
 	.price {border-radius: 4px; box-sizing: border-box; background-color:"#fff"}
 	#map img {display: block; width: 40%; min-height: 400px; margin-bottom: 20px; border: 1px solid #dcdcdc; }
+	
 	
 	
 	/* cabin */
@@ -49,9 +53,38 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 	.selectBox .btn input { display: block; margin: 20px; }
 	
 	.pagination{display:inline-flex;}
+	
+	.file_map {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+	}
+	.file_map input {
+	    position: absolute;
+	    font-size: 100px;
+	    right: 0;
+	    top: 0;
+	    opacity: 0;
+	}
+	.file_map:hover {
+	    background: #AADFFD;
+	    border-color: #78C3F3;
+	    color: #004974;
+	    text-decoration: none;
+	}
 
 </style>
-
+<script>
+var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code_check']);?>";
+</script>
 <!-- content start -->
 <div class="r content">
 <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
@@ -80,18 +113,19 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						'enableClientScript'=>false
 					]); 
 				?>
-				<input type="hidden" id="voyage_code" name="voyage_code" value="<?php echo $voyage['voyage_code'] ?>"></input>
 				<input type="hidden" id="voyage_id" name="voyage_id" value="<?php echo $voyage['id']?>"></input>
+				<input type="hidden" id="voyage_code" name="voyage_code" value="<?php echo $voyage['voyage_code']?>"></input>
 					<div class="check_save_div">
 						<p>
+							<label>
+								<span><?php echo yii::t('app','Voyage Code')?>:</span>
+								<input type="text" id="voyage_code_1" name="voyage_code_1" style="cursor:not-allowed;background: #ccc" disabled="disabled" value="<?php echo $voyage['voyage_code']?>"></input>
+							</label>
 							<label>
 								<span><?php echo yii::t('app','Voyage Name')?>:</span>
 								<input type="text" id="voyage_name" name="voyage_name" value="<?php echo $voyage['voyage_name']?>"></input>
 							</label>
-							<label>
-								<span><?php echo yii::t('app','Voyage Num')?>:</span>
-								<input type="text" id="voyage_num" name="voyage_num" value="<?php echo $voyage['voyage_num']?>"></input>
-							</label>
+							
 						</p>
 						<p>
 							<label class="shortLabel">
@@ -114,19 +148,21 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						<p>
 							<label>
 								<span><?php echo yii::t('app','Start Time')?>:</span>
-								<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo $voyage['start_time']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+								<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo empty($voyage['start_time'])?"":Helper::GetDate($voyage['start_time']);?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',maxDate:'#F{$dp.$D(\'e_time\')}'})" class="Wdate"  ></input>
 							</label>
 							<label>
 								<span><?php echo yii::t('app','End Time')?>:</span>
-								<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo $voyage['end_time']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+								<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo empty($voyage['end_time'])?"":Helper::GetDate($voyage['end_time']);?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en',minDate:'#F{$dp.$D(\'s_time\')}',startDate:'#F{$dp.$D(\'s_time\',{d:+1})}'})" class="Wdate"  ></input>
 							</label>
 						</p>
 						<p>
-							<label style="width:auto;">
+							<label class="upload">
 								<span><?php echo yii::t('app','Scheduling')?>:</span>
-								<input type="file" name="pdf" id="pdf"></input>
+								<label class="uploadFileBox">
+									<span class="fileName"><?php echo yii::t('app','Select PDF')?>...</span>
+									<a href="#" class="uploadFile">choose<input type="file" name="pdf" id="pdf"></input></a>
+								</label>
 							</label>
-							
 						</p>
 						<p>
 							<label >
@@ -139,11 +175,11 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Start booking time')?>:</span>
-									<input type="text" id="s_book_time" name="s_book_time" placeholder="please choose" value="<?php echo $voyage['start_book_time'] ?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate" ></input>
+									<input type="text" id="s_book_time" name="s_book_time" placeholder="please choose" value="<?php echo empty($voyage['start_book_time'])?"":Helper::GetDate($voyage['start_book_time']); ?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en',maxDate:'#F{$dp.$D(\'e_book_time\')}'})" class="Wdate" ></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Stop booking time')?>:</span>
-									<input type="text" id="e_book_time" name="e_book_time" placeholder="please choose" value="<?php echo $voyage['stop_book_time'] ?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+									<input type="text" id="e_book_time" name="e_book_time" placeholder="please choose" value="<?php echo empty($voyage['stop_book_time'])?"":Helper::GetDate($voyage['stop_book_time']); ?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en',minDate:'#F{$dp.$D(\'s_book_time\')}',startDate:'#F{$dp.$D(\'s_book_time\',{d:+1})}',maxDate:'#F{$dp.$D(\'e_time\')}'})" class="Wdate"  ></input>
 								</label>
 							</p>
 							<p>
@@ -169,7 +205,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						</div>
 					</div>
 					<div class="btn">
-						<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+						<input type="submit" style="cursor:pointer" value="<?php echo yii::t('app','SAVE')?>"></input>
 						<input class="cancel" type="button" value="<?php echo yii::t('app','CANCEL')?>" ></input>
 					</div>
 				</div>
@@ -237,7 +273,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					<!-- get via ajax -->
 				</div>
 				<div class="btn">
-					<input type="submit" value="<?php echo yii::t('app','Save')?>"  ></input>
+					<input type="submit" style="cursor:pointer" value="<?php echo yii::t('app','Save')?>"  ></input>
 				</div>
 			<?php 
 				ActiveForm::end();
@@ -292,7 +328,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					</div>
 					
 					<div class="btn">
-						<input id="voyage_cabin_save_but" type="button" value="<?php echo yii::t('app','Save')?>" style=" float: left; margin-left: 20%;"></input>
+						<input id="voyage_cabin_save_but" style="cursor:pointer" type="button" value="<?php echo yii::t('app','Save')?>" style=" float: left; margin-left: 20%;"></input>
 					</div>
 				</form>	
 				<!-- cabin end -->
@@ -316,7 +352,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					<!-- get data via ajax -->
 				</div>
 				<div class="btn">
-					<input type="submit" value="<?php echo yii::t('app','Save')?>" ></input>
+					<input type="submit" style="cursor:pointer" value="<?php echo yii::t('app','Save')?>" ></input>
 				</div>
 				<?php 
 					ActiveForm::end();
@@ -413,9 +449,10 @@ window.onload = function(){
 	            	str += "<input type='hidden' name='voyage_map_id' value='"+voyage['id']+"' />";
 					str +="<input type='hidden' name='map_id' value='"+map_result['map_id']+"' />";
 					str +="<img id='ImgPr' src='<?php echo $baseUrl.'upload/'?>"+map_result['map_img']+"'>";
+					//str +="<a href='javascript:;' class='file_map'>aaa<input id='photoimg' name='photoimg' type='file'></input></a>";
 					str +="<input id='photoimg' name='photoimg' type='file'></input>";
 					str +="<div class='btn'>";
-					str +="<input type='submit' value='<?php echo yii::t('app','Upload')?>'></input>";
+					str +="<input type='submit' style='cursor:pointer' value='<?php echo yii::t('app','Upload')?>'></input>";
 					str +="</div>";
 	                $(".div_voyage_map").html(str);
 	            }

@@ -31,30 +31,30 @@ class Helper extends Controller
 	
 		// 检查上传文件的类型是否在允许的文件类型数组里
 		if( !in_array($file['type'], $allow_type[$type]) ){
-			$error="请上传".implode('、', array_keys($allow_type[$type]) )."格式的文件";
+			$error="Please upload".implode('、', array_keys($allow_type[$type]) )."Format of the file";
 			//Helper::show_message($error);die;
 		}
 	
 		// 检查上传文件的大小是否超过指定大小
 		$size=$allow_size*1024*1024;
 		if( $file['size'] > $size ){
-			$error="你上传的文件大小请不要超过{$allow_size}MB";
+			$error="You upload the file size please don't over{$allow_size}MB";
 			//Helper::show_message($error);die;
 		}
 	
 		// 错误状态
 		switch($file['error']){
 			case 1:
-				$error='你所上传的文件大小超过了服务器配置的大小';
+				$error='You have uploaded file size is more than the size of the server configuration';
 				//Helper::show_message($error);die;
 			case 2:
-				$error='你所上传的文件大小超过了表单设置的大小';
+				$error='You uploaded file size is more than the size of the form setting';
 				//Helper::show_message($error);die;
 			case 3:
-				$error='网络出现问题，请检查你的网络是否连接？';
+				$error='Network problems, please check your Internet connection?';
 				//Helper::show_message($error);die;
 			case 4:
-				$error='请选择你要上传的文件';
+				$error='Please select you want to upload files';
 				//Helper::show_message($error);die;
 		}
 	
@@ -84,15 +84,51 @@ class Helper extends Controller
 	
 	public static function show_message($info, $url=''){
 		header('Content-Type:text/html;charset=utf-8');
-		if($url && $url !='#'){
-			echo "<script>alert('{$info}');location='{$url}';</script>";
-		}else if($url == '#'){
-			echo "<script>alert('{$info}');</script>";
-		}else{
-			echo "<script>alert('{$info}');history.back();</script>";
-		}
+	?>
+		<style>
+	.pop-ups { position: fixed; top: 50%; left: 50%; background-color: #fff; border: 1px solid #e0e9f4; box-shadow: 1px 1px 1px #cbcbcb; box-sizing: border-box; overflow: hidden; }
+	.pop-ups h3 { padding: 16px; margin: 0; background: #3f7fcf; text-align: center; color: #fff; }
+	.pop-ups h3 a { display: inline-block; width: 28px; height: 28px; margin-top: -4px; background: url(img/lg_close.png) no-repeat; }
+	#promptBox {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 200px;
+    font: 14px Arial;
+    }
+    .pop-ups {
+    position: fixed;
+    border: 1px solid #e0e9f4;
+    box-shadow: 1px 1px 1px #cbcbcb;
+    box-sizing: border-box;
+    overflow: hidden;
 	}
-
+	div {
+    display: block;
+	}
+		</style>
+		<div class='ui-widget-overlay ui-front'></div>
+		<div id="promptBox" class="pop-ups write ui-dialog">
+		<h3><?php echo yii::t('app','Prompt')?></h3>
+		<span class="op"><a class="close r"></a></span>
+		<p><?php echo yii::t('app',$info)?></p>
+		<p class="btn">
+		<input type="button" style="margin-right:0;padding: 4px 10px;" onclick="showmessage();" class="cancel_but" value="<?php echo yii::t('app','Ok')?>"></input>
+		</p></div>
+	<script type="text/javascript">
+		function showmessage(){
+			document.getElementById("promptBox").style.display = "none";
+				<?php
+				if($url && $url !='#'){
+				echo "location='{$url}'";
+				}else{
+					echo "history.back();";
+				}
+				?>
+			}
+			</script>
+		<?php 
+		}
 	/**确认框,确定和取消跳转不同(1次弹出框)**/
 	public static function show_message_query($info, $url='',$url_f=''){
 		header('Content-Type:text/html;charset=utf-8');
@@ -106,25 +142,28 @@ class Helper extends Controller
 			}*/
 		echo "<script>var r = confirm('{$info}');
 		if(r == true){
-			location='{$url}';
+		location='{$url}';
 		}else{
-			location='{$url_f}';
+		location='{$url_f}';
 		}
 		</script>";
 	}
 	
+	//2015-12-14 12:23:34
+	public static function GetCreateTime($time){//时间格式转换
+		$time = explode(' ', $time);
+		$year = explode('/', $time[0]);
+		$date = $year[2].'-'.$year[1].'-'.$year[0].' '.$time[1];
+		return $date;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//09/05/2016 12:23:13
+	public static function GetDate($time){
+		$time = explode(' ', $time);
+		$year = explode('-', $time[0]);
+		$date = $year[2].'/'.$year[1].'/'.$year[0].' '.$time[1];
+		return $date;
+	}
+		
 	
 }

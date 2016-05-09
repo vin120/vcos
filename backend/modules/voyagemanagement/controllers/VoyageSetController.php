@@ -29,7 +29,13 @@ class VoyagesetController extends Controller
 			$voyage_name = isset($_POST['voyage_name']) ? $_POST['voyage_name'] : '';
 			$s_time = isset($_POST['s_time']) ? $_POST['s_time'] : '';
 			$e_time = isset($_POST['e_time']) ? $_POST['e_time'] : '';
-	
+			
+			if($s_time!=''){
+				$s_time = Helper::GetCreateTime($s_time);
+			}
+			if($e_time!=''){
+				$e_time = Helper::GetCreateTime($e_time);
+			}
 			$_voyage_name = $voyage_name;
 			$_s_time = $s_time;
 			$_e_time = $e_time;
@@ -48,7 +54,7 @@ class VoyagesetController extends Controller
 		}
 		
 		$query  = new Query();
-		$query->select(['a.id','a.voyage_num','a.start_time','a.end_time','b.voyage_name'])
+		$query->select(['a.id','a.voyage_code','a.start_time','a.end_time','b.voyage_name'])
 				->from('v_c_voyage a')
 				->join('LEFT JOIN','v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
 				->where(['b.i18n'=>'en'])
@@ -70,7 +76,7 @@ class VoyagesetController extends Controller
 				->andWhere($where_e_time)
 				->count();
 	
-		return $this->render("index",['voyage'=>$voyage,'count'=>$count,'voyage_name'=>$_voyage_name,'s_time'=>$_s_time,'e_time'=>$_e_time]);
+		return $this->render("index",['voyage_pag'=>1,'voyage'=>$voyage,'count'=>$count,'voyage_name'=>$_voyage_name,'s_time'=>$_s_time,'e_time'=>$_e_time]);
 	}
 
 	//航线分页
@@ -100,7 +106,7 @@ class VoyagesetController extends Controller
 		
 		
 		$query  = new Query();
-		$query->select(['a.id','a.voyage_num','a.start_time','a.end_time','b.voyage_name'])
+		$query->select(['a.id','a.voyage_code','a.start_time','a.end_time','b.voyage_name'])
 				->from('v_c_voyage a')
 				->join('LEFT JOIN','v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
 				->where(['b.i18n'=>'en'])
@@ -124,7 +130,7 @@ class VoyagesetController extends Controller
 	{
 		if($_POST){
 			$voyage_name = isset($_POST['voyage_name']) ? $_POST['voyage_name'] : '';
-			$voyage_num = isset($_POST['voyage_num']) ? $_POST['voyage_num'] : '';
+			$voyage_code = isset($_POST['voyage_code']) ? $_POST['voyage_code'] : '';
 			$area_code = isset($_POST['area']) ? $_POST['area'] : '';
 			$cruise_code = isset($_POST['cruise']) ? $_POST['cruise'] : '';
 			$s_time = isset($_POST['s_time']) ? $_POST['s_time'] : '';
@@ -136,6 +142,20 @@ class VoyagesetController extends Controller
 			$ticket_taxes = isset($_POST['ticket_taxes']) ? $_POST['ticket_taxes'] : 0;
 			$harbour_taxes = isset($_POST['harbour_taxes']) ? $_POST['harbour_taxes'] : 0;
 			$deposit_ratio = isset($_POST['deposit_ratio']) ? $_POST['deposit_ratio'] : 0;
+			
+			if($s_time!=''){
+				$s_time = Helper::GetCreateTime($s_time);
+			}
+			if($e_time!=''){
+				$e_time = Helper::GetCreateTime($e_time);
+			}
+			if($s_book_time!=''){
+				$s_book_time = Helper::GetCreateTime($s_book_time);
+			}
+			if($e_book_time!=''){
+				$e_book_time = Helper::GetCreateTime($e_book_time);
+			}
+			
 			$pdf_path = '';
 			if(isset($_FILES['pdf'])){
 				if($_FILES['pdf']['error'] != 4){
@@ -148,13 +168,11 @@ class VoyagesetController extends Controller
 					}
 				}
 			}
-			$voyage_code = time();
 
-			if($voyage_name != '' && $voyage_num != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != ''){
+			if($voyage_name != '' && $voyage_code != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != ''){
 				//事务处理
 				$transaction=Yii::$app->db->beginTransaction();
 				try{
-					
 					Yii::$app->db->createCommand()->insert('v_c_voyage', [
 						'voyage_code'=>$voyage_code,
 						'cruise_code'=>$cruise_code,
@@ -162,7 +180,6 @@ class VoyagesetController extends Controller
 						'end_time'=>$e_time,
 						'status'=>1,
 						'area_code'=>$area_code,
-						'voyage_num'=>$voyage_num,
 						'pdf_path'=>$pdf_path,
 						'start_book_time'=>$s_book_time,
 						'stop_book_time'=>$e_book_time,
@@ -183,7 +200,7 @@ class VoyagesetController extends Controller
 
 					$transaction->commit();
 					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$last_active_id);
-								
+					
 				}catch(Exception $e){
 					$transaction->rollBack();
 					Helper::show_message('Save failed  ',Url::toRoute(['voyage_add']));
@@ -218,7 +235,7 @@ class VoyagesetController extends Controller
 	{
 		if($_POST){
 			$voyage_name = isset($_POST['voyage_name']) ? $_POST['voyage_name'] : '';
-			$voyage_num = isset($_POST['voyage_num']) ? $_POST['voyage_num'] : '';
+			$voyage_code = isset($_POST['voyage_code']) ? $_POST['voyage_code'] : '';
 			$area_code = isset($_POST['area']) ? $_POST['area'] : '';
 			$cruise_code = isset($_POST['cruise']) ? $_POST['cruise'] : '';
 			$s_time = isset($_POST['s_time']) ? $_POST['s_time'] : '';
@@ -230,11 +247,30 @@ class VoyagesetController extends Controller
 			$ticket_taxes = isset($_POST['ticket_taxes']) ? $_POST['ticket_taxes'] : 0;
 			$harbour_taxes = isset($_POST['harbour_taxes']) ? $_POST['harbour_taxes'] : 0;
 			$deposit_ratio = isset($_POST['deposit_ratio']) ? $_POST['deposit_ratio'] : 0;
-			$voyage_code = isset($_POST['voyage_code']) ? $_POST['voyage_code'] : time();
 			$voyage_id = isset($_POST['voyage_id']) ? $_POST['voyage_id'] : '';
 			
-			$sql = "SELECT pdf_path FROM `v_c_voyage` WHERE id='$voyage_id' ";
-			$pdf_path = Yii::$app->db->createCommand($sql)->queryOne()['pdf_path'];
+			
+			if($s_time!=''){
+				$s_time = Helper::GetCreateTime($s_time);
+			}
+			if($e_time!=''){
+				$e_time = Helper::GetCreateTime($e_time);
+			}
+			if($s_book_time!=''){
+				$s_book_time = Helper::GetCreateTime($s_book_time);
+			}
+			if($e_book_time!=''){
+				$e_book_time = Helper::GetCreateTime($e_book_time);
+			}
+			
+			
+			
+			
+// 			$sql = "SELECT pdf_path FROM `v_c_voyage` WHERE id='$voyage_id' ";
+// 			$pdf_path = Yii::$app->db->createCommand($sql)->queryOne()['pdf_path'];
+			
+			$pdf_path = VCVoyage::find()->where(['id'=>$voyage_id])->one()['pdf_path'];
+			
 			
 			if(isset($_FILES['pdf'])){
 				if($_FILES['pdf']['error'] != 4){
@@ -247,16 +283,40 @@ class VoyagesetController extends Controller
 					}
 				}
 			}
-			if($voyage_name != '' && $voyage_num != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != '' ){
+			if($voyage_name != '' && $voyage_code != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != '' ){
 				//事务
 				$transaction=Yii::$app->db->beginTransaction();
 				try{
-					$sql = " UPDATE `v_c_voyage` SET `voyage_code`='$voyage_code',`cruise_code`='$cruise_code',`start_time`='$s_time',`end_time`='$e_time',`area_code`='$area_code',`voyage_num`='$voyage_num',`pdf_path`='$pdf_path',`start_book_time`='$s_book_time',`stop_book_time`='$e_book_time',`ticket_price`='$ticket_price',`ticket_taxes`='$ticket_taxes',`harbour_taxes`='$harbour_taxes',`deposit_ratio`='$deposit_ratio' WHERE id='$voyage_id' ";
-					Yii::$app->db->createCommand($sql)->execute();
+					$vcvoyage_obj = VCVoyage::findOne(['id'=>$voyage_id]);
+					$vcvoyage_obj->cruise_code = $cruise_code;
+					$vcvoyage_obj->start_time = $s_time;
+					$vcvoyage_obj->end_time = $e_time;
+					$vcvoyage_obj->area_code = $area_code;
+					$vcvoyage_obj->pdf_path = $pdf_path;
+					$vcvoyage_obj->start_book_time = $s_book_time;
+					$vcvoyage_obj->stop_book_time = $e_book_time;
+					$vcvoyage_obj->ticket_price = $ticket_price;
+					$vcvoyage_obj->ticket_taxes = $ticket_taxes;
+					$vcvoyage_obj->harbour_taxes = $harbour_taxes;
+					$vcvoyage_obj->deposit_ratio = $deposit_ratio;
+					$vcvoyage_obj->save();
+					
+					
+					$vcvoyagei18n_obj = VCVoyageI18n::findOne(['voyage_code'=>$voyage_code]);
+					$vcvoyagei18n_obj->voyage_name = $voyage_name;
+					$vcvoyagei18n_obj->voyage_desc = $desc;
+					$vcvoyagei18n_obj->save();
+					
+					
+// 					$sql = " UPDATE `v_c_voyage` SET `voyage_code`='$voyage_code',`cruise_code`='$cruise_code',`start_time`='$s_time',`end_time`='$e_time',
+// 					`area_code`='$area_code',`voyage_num`='$voyage_num',`pdf_path`='$pdf_path',`start_book_time`='$s_book_time',`stop_book_time`='$e_book_time',
+// 					`ticket_price`='$ticket_price',`ticket_taxes`='$ticket_taxes',`harbour_taxes`='$harbour_taxes',`deposit_ratio`='$deposit_ratio' WHERE id='$voyage_id' ";
+// 					Yii::$app->db->createCommand($sql)->execute();
+
+// 					$sql = " UPDATE `v_c_voyage_i18n` SET `voyage_name`='$voyage_name',`voyage_desc`='$desc' WHERE voyage_code ='$voyage_code'";
+// 					Yii::$app->db->createCommand($sql)->execute();
+					
 				
-					$sql = " UPDATE `v_c_voyage_i18n` SET `voyage_name`='$voyage_name',`voyage_desc`='$desc' WHERE voyage_code ='$voyage_code'";
-					Yii::$app->db->createCommand($sql)->execute();
-	
 					$transaction->commit();
 					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
 				}catch(Exception $e){

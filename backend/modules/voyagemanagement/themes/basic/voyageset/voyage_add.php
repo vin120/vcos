@@ -27,9 +27,11 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 	.write label + label { float: right; margin-right: 15%; }
 	.write label span { width: 140px; }
 	.shortLabel { margin-right: 84px; }
-	.write label textarea { float: left; margin-left: 45%; width: 550px; height: 80px; vertical-align: top; }
+	.write label textarea { float: left; margin-left: 45%; width: 650px; height: 80px; vertical-align: top; }
 	
 	/*upload*/
+	.write .upload { width: auto; }
+	.write .upload > span { line-height: 30px; vertical-align: top; }
 	.uploadFileBox { display: inline-block; width: 280px; line-height: 20px; border: 1px solid #dcdcdc; border-radius: 4px; box-sizing: border-box; overflow: hidden; }
 	.fileName { display: inline-block; width: 190px; line-height: 30px; margin-left: 10px; vertical-align: middle; overflow: hidden; }
 	.uploadFile { float: right; position: relative; display: inline-block; background-color: #3f7fcf; padding: 6px 12px; overflow: hidden; color: #fff; text-decoration: none; text-indent: 0; line-height: 20px; }
@@ -84,18 +86,19 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 					<div class="check_save_div">
 						<p>
 							<label>
+								<span><?php echo yii::t('app','Voyage Code')?>:</span>
+								<input type="text" id="voyage_code" name="voyage_code"  ></input>
+							</label>
+							<label>
 								<span><?php echo yii::t('app','Voyage Name')?>:</span>
 								<input type="text" id="voyage_name" name="voyage_name" ></input>
 							</label>
-							<label>
-								<span><?php echo yii::t('app','Voyage Num')?>:</span>
-								<input type="text" id="voyage_num" name="voyage_num"  ></input>
-							</label>
+							
 						</p>
 						<p>
 							<label >
 								<span><?php echo yii::t('app','Area')?>:</span>
-								<select name="area" id="area">
+								<select name="area" id="area" style="width: 170px;">
 									<?php foreach ($area as $row ){?>
 									<option value="<?php echo $row['area_code'];?>"><?php echo $row['area_name']?></option>
 									<?php } ?>
@@ -103,7 +106,7 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 							</label>
 							<label>
 								<span><?php echo yii::t('app','Cruise')?>:</span>
-								<select id="cruise" name="cruise">
+								<select id="cruise" name="cruise" style="width: 170px;">
 								<?php foreach($cruise as $row) {?>
 									<option value="<?php echo $row['cruise_code']?>"><?php echo $row['cruise_name']?></option>
 								<?php } ?>
@@ -111,22 +114,22 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 							</label>
 						</p>
 						<p>
-							<label >
-								<span><?php echo yii::t('app','Scheduling')?>:</span>
-							</label>
-							<label class="uploadFileBox">
-								<span class="fileName"><?php echo yii::t('app','Pick Up PDF')?>...</span>
-								<a href="#" class="uploadFile">choose<input type="file" name="pdf" id="pdf"></input></a>
-							</label>
-						</p>
-						<p>
 							<label>
 								<span><?php echo yii::t('app','Start Time')?>:</span>
-								<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+								<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("d/m/Y H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',maxDate:'#F{$dp.$D(\'e_time\')}'})" class="Wdate"  ></input>
 							</label>
 							<label>
 								<span><?php echo yii::t('app','End Time')?>:</span>
-								<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+								<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("d/m/Y H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',minDate:'#F{$dp.$D(\'s_time\')}',startDate:'#F{$dp.$D(\'s_time\',{d:+1})}'})" class="Wdate"  ></input>
+							</label>
+						</p>
+						<p>
+							<label class="upload">
+								<span><?php echo yii::t('app','Scheduling')?>:</span>
+								<label class="uploadFileBox">
+									<span class="fileName"><?php echo yii::t('app','Select PDF')?>...</span>
+									<a href="#" class="uploadFile">choose<input type="file" name="pdf" id="pdf"></input></a>
+								</label>
 							</label>
 						</p>
 						<p>
@@ -140,11 +143,11 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Start booking time')?>:</span>
-									<input type="text" id="s_book_time" name="s_book_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+									<input type="text" id="s_book_time" name="s_book_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("d/m/Y H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',maxDate:'#F{$dp.$D(\'e_book_time\')}'})" class="Wdate"  ></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Stop booking time')?>:</span>
-									<input type="text" id="e_book_time" name="e_book_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("Y-m-d H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  ></input>
+									<input type="text" id="e_book_time" name="e_book_time" placeholder="<?php echo yii::t('app','please choose')?>"  readonly value="<?php echo date("d/m/Y H:i:s",time());?>" onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',minDate:'#F{$dp.$D(\'s_book_time\')}',startDate:'#F{$dp.$D(\'s_book_time\',{d:+1})}',maxDate:'#F{$dp.$D(\'e_time\')}'})" class="Wdate"  ></input>
 								</label>
 							</p>
 							<p>
@@ -170,7 +173,7 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 						</div>
 					</div>
 					<div class="btn">
-						<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+						<input type="submit" style="cursor:pointer" value="<?php echo yii::t('app','SAVE')?>"></input>
 						<input class="cancel" type="button" value="<?php echo yii::t('app','CANCEL')?>" ></input>
 					</div>
 				</div>
@@ -284,16 +287,16 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 				<!-- Return route start -->
 				<p>
 					<label>
-						<span><?php echo yii::t('app','Return Route')?>:</span>
-						<select disabled="disabled">
-							<option><?php echo yii::t('app','All')?></option>
-						</select>
+						<span><?php echo yii::t('app','Curr Route')?>:</span>
+						<span style='color:red'>null</span>
 					</label>
 				</p>
 				<p>
 					<label>
-						<span><?php echo yii::t('app','Route Name')?>:</span>
-						<input type="text" disabled="disabled"></input>
+						<span><?php echo yii::t('app','Return Route')?>:</span>
+						<select disabled="disabled" >
+						<option></option>
+						</select>
 					</label>
 				</p>
 				<div class="btn">

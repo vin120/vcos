@@ -14,7 +14,6 @@ use Yii;
  * @property string $end_time
  * @property integer $status
  * @property string $area_code
- * @property string $voyage_num
  * @property string $pdf_path
  * @property string $start_book_time
  * @property string $stop_book_time
@@ -42,7 +41,7 @@ class VCVoyage extends \yii\db\ActiveRecord
             [['start_time', 'end_time', 'start_book_time', 'stop_book_time'], 'safe'],
             [['status', 'ticket_taxes', 'harbour_taxes', 'deposit_ratio'], 'integer'],
             [['ticket_price'], 'number'],
-            [['voyage_code', 'cruise_code', 'area_code', 'voyage_num', 'pdf_path'], 'string', 'max' => 255]
+            [['voyage_code', 'cruise_code', 'area_code', 'pdf_path'], 'string', 'max' => 255]
         ];
     }
 
@@ -59,7 +58,6 @@ class VCVoyage extends \yii\db\ActiveRecord
             'end_time' => Yii::t('app', 'End Time'),
             'status' => Yii::t('app', 'Status'),
             'area_code' => Yii::t('app', 'Area Code'),
-            'voyage_num' => Yii::t('app', 'Voyage Num'),
             'pdf_path' => Yii::t('app', 'Pdf Path'),
             'start_book_time' => Yii::t('app', 'Start Book Time'),
             'stop_book_time' => Yii::t('app', 'Stop Book Time'),

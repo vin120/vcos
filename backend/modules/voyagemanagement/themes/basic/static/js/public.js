@@ -418,6 +418,7 @@ $(document).ready(function(){
 	$('form#voyage_val').submit(function(){
         var a=0;
         var op = $(this).attr('class');
+        var code = $("input[name='voyage_code']").val();
         var data = "<span class='point' >Required fields cannot be empty</span>";
 		var file = $("input[type='file']").val();
         $(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
@@ -437,10 +438,33 @@ $(document).ready(function(){
         
         if(op == 'voyage_add'){
         	if(file == ''){
-        		Alert("Please choose to upload pictures");
+        		Alert("Please choose to upload pdf");
            	   	return false;
         	}
         }
+        
+        var act = (op == 'voyage_edit')?1:2;
+    	if(op == "voyage_edit")
+    		var id = $("input#voyage_id").val();
+    	else 
+    		var id = '';
+    	
+    	 $.ajax({
+		        url:voyage_set_ajax_url,
+		        type:'get',
+		        data:'code='+code+'&act='+act+'&id='+id,
+		        async:false,
+		     	dataType:'json',
+		    	success:function(data){
+		    		if(data==0) a=0;
+		    		else{Alert("Code can't repeat!");a=1;}
+		    	}      
+		   });
+        
+       if(a == 1){
+           return false;
+       }
+        
        
     });
 	
@@ -988,4 +1012,12 @@ function Alert(info){
 	 //$("#promptBox").before(str); 
 	 $(document.body).append(str);
 	 $(document.body).append(str_con);
+}
+
+//09/05/2016 12:12:23
+function createDate(time){
+	var date = time.substr(0,10);
+	var year = date.split('-');
+	date = year[2]+'/'+year[1]+'/'+year[0]+' '+time.substr(11,8);
+	return date;
 }
