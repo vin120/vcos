@@ -104,7 +104,6 @@ class VoyagesetController extends Controller
 			$where_e_time = ['<','a.end_time',$e_time];
 		}
 		
-		
 		$query  = new Query();
 		$query->select(['a.id','a.voyage_code','a.start_time','a.end_time','b.voyage_name'])
 				->from('v_c_voyage a')
@@ -157,6 +156,7 @@ class VoyagesetController extends Controller
 			}
 			
 			$pdf_path = '';
+			
 			if(isset($_FILES['pdf'])){
 				if($_FILES['pdf']['error'] != 4){
 					if($_FILES['pdf']['type'] == 'application/pdf'){

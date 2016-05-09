@@ -78,7 +78,7 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 						'action' => ['voyage_add'],
 						'method'=>'post',
 						'id'=>'voyage_val',
-						'options' => ['class' => 'voyage_add'],
+						'options' => ['class' => 'voyage_add','enctype'=>'multipart/form-data'],
 						'enableClientValidation'=>false,
 						'enableClientScript'=>false
 					]); 

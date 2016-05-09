@@ -8,6 +8,7 @@ ThemeAsset::register($this);
 ThemeAssetDate::register($this);
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use app\modules\voyagemanagement\components\Helper;
 
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
@@ -69,13 +70,13 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			<p>
 				<label>
 					<span><?php echo yii::t('app','Arrival Time')?>:</span>
-					<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>"  value="<?php echo $voyage_port['ETA']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"></input>
+					<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>"  value="<?php echo empty($voyage_port['ETA'])?"":Helper::GetDate($voyage_port['ETA']);?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',maxDate:'#F{$dp.$D(\'e_time\')}'})" class="Wdate"></input>
 				</label>
 			</p>
 			<p>
 				<label>
 					<span><?php echo yii::t('app','Departure Time')?>:</span>
-					<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>"  value="<?php echo $voyage_port['ETD']?>" readonly onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"></input>
+					<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>"  value="<?php echo empty($voyage_port['ETD'])?"":Helper::GetDate($voyage_port['ETD']);?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',minDate:'#F{$dp.$D(\'s_time\')}',startDate:'#F{$dp.$D(\'s_time\',{d:+1})}'})" class="Wdate"></input>
 				</label>
 			</p>
 		</div>
@@ -98,7 +99,7 @@ window.onload = function(){
 		$("#terminal").attr("disabled",'disabled');
 		$("#s_time").attr("disabled",'disabled');
 		$("#e_time").removeAttr('disabled');
-		$("#e_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
+		$("#e_time").val('<?php echo date('d/m/Y H:i:s',time())?>');
 	}else{
 		$("#terminal").removeAttr('disabled');
 		$("#s_time").removeAttr('disabled');
@@ -112,11 +113,11 @@ window.onload = function(){
 			$("#s_time").attr("disabled",'disabled');
 			$("#s_time").val('');
 			$("#e_time").removeAttr('disabled');
-			$("#e_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
+			$("#e_time").val('<?php echo date('d/m/Y H:i:s',time())?>');
 		}else{
 			$("#terminal").removeAttr('disabled');
 			$("#s_time").removeAttr('disabled');
-			$("#s_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
+			$("#s_time").val('<?php echo date('d/m/Y H:i:s',time())?>');
 		}
 	});
 	
@@ -127,7 +128,7 @@ window.onload = function(){
 			$("#e_time").val('');
 		}else{
 			$("#e_time").removeAttr('disabled');
-			$("#e_time").val('<?php echo date('Y-m-d H:i:s',time())?>');
+			$("#e_time").val('<?php echo date('d/m/Y H:i:s',time())?>');
 		}
 	});
 	
