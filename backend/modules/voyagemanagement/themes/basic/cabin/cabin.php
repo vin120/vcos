@@ -80,7 +80,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><?php echo $row['cabin_name'];?></td>
                 <td><?php echo $row['deck_num'];?></td>
                 <td><?php echo $row['max_check_in'];?></td>
-                <td><?php echo $row['ieast_aduits_num'];?></td>
+                <td><?php echo $row['last_aduits_num'];?></td>
                 <td><?php echo $row['status']?yii::t('vcos', 'Avaliable'):yii::t('vcos', 'Unavaliable');?></td>
                 <td class="op_btn">
                     <a href="<?php echo Url::toRoute(['cabin_edit','id'=>$row['id']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
@@ -159,7 +159,7 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['cabin_name']+"</td>";
 	                            str += "<td>"+data[key]['deck_num']+"</td>";
 	                            str += "<td>"+data[key]['max_check_in']+"</td>";
-	                            str += "<td>"+data[key]['ieast_aduits_num']+"</td>";
+	                            str += "<td>"+data[key]['last_aduits_num']+"</td>";
 	                            if(data[key]['status']==1)
 	                            	var status = "Avaliable";
 	                            else if(data[key]['status']==0)

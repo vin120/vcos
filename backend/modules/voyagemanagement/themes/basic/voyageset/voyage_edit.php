@@ -14,6 +14,7 @@ ThemeAssetUpload::register($this);
 
 
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
+$baseUrl_date = $this->assetBundles[ThemeAssetDate::className()]->baseUrl . '/';
 $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . '/';
 
 //$assets = '@app/modules/membermanagement/themes/basic/static';
@@ -108,7 +109,7 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 						'action' => ['voyage_edit'],
 						'method'=>'post',
 						'id'=>'voyage_val',
-						'options' => ['class' => 'voyage_edit'],
+						'options' => ['class' => 'voyage_add','enctype'=>'multipart/form-data'],
 						'enableClientValidation'=>false,
 						'enableClientScript'=>false
 					]); 
@@ -296,6 +297,18 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 			
 				<div class="div_voyage_map">
 				<!-- get data via ajax -->
+				
+					<input type='hidden' name='voyage_map_id' value='' />
+					<input type='hidden' name='map_id' value='' />
+					<img id='ImgPr' src=''>
+					<label class="uploadFileBox">
+						<span class="fileName"><?php echo yii::t('app','Select IMG')?>...</span>
+						<a href="#" class="uploadFile">choose<input type="file" name="photoimg" id="photoimg"></input></a>
+					</label>
+					<div class='btn'>
+					<input type='submit' style='cursor:pointer' value='<?php echo yii::t('app','Upload')?>'></input>
+					</div>
+					
 				</div>
 				<?php 
 					ActiveForm::end();
@@ -305,7 +318,16 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 			
 			<div>
 				<!-- cabin start -->
-				<form id="voyage_cabin_form">
+				<?php
+					$form = ActiveForm::begin([
+						'action' => ['voyage_cabin_save'],
+						'method'=>'post',
+						'id'=>'voyage_cabin_form',
+						'options' => ['class' => 'voyage_cabin'],
+						'enableClientValidation'=>false,
+						'enableClientScript'=>false
+					]); 
+				?>	
 					<div class="search">
 						<!-- get data via ajax -->
 					</div>
@@ -321,8 +343,10 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 							<input id="cabin_left_but" type="button" value=" << "></input>
 						</div>
 						<div class="l selectList">
+						
 							<div class="div_select">
 								<!-- get data via ajax -->
+								
 							</div>
 						</div>
 					</div>
@@ -330,7 +354,9 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 					<div class="btn">
 						<input id="voyage_cabin_save_but" style="cursor:pointer" type="button" value="<?php echo yii::t('app','Save')?>" style=" float: left; margin-left: 20%;"></input>
 					</div>
-				</form>	
+				<?php 
+					ActiveForm::end();
+				?>
 				<!-- cabin end -->
 			</div>
 			
@@ -365,7 +391,9 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 <!-- content end -->
 <script type="text/javascript">
 window.onload = function(){
+	$("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
 
+	
 	//tab voyage port
 	$(document).on('click','#tab_voyage_port',function(){
 		$.ajax({
@@ -433,6 +461,8 @@ window.onload = function(){
         });	
 	});
 
+
+	
 	//tab map
 	$(document).on('click','#tab_voyage_map',function(){
 		$.ajax({
@@ -445,16 +475,13 @@ window.onload = function(){
         		if(data != 0){
 	            	var voyage = data['voyage'];
 	            	var map_result = data['map_result'];
-	            	var str = '';
-	            	str += "<input type='hidden' name='voyage_map_id' value='"+voyage['id']+"' />";
-					str +="<input type='hidden' name='map_id' value='"+map_result['map_id']+"' />";
-					str +="<img id='ImgPr' src='<?php echo $baseUrl.'upload/'?>"+map_result['map_img']+"'>";
-					//str +="<a href='javascript:;' class='file_map'>aaa<input id='photoimg' name='photoimg' type='file'></input></a>";
-					str +="<input id='photoimg' name='photoimg' type='file'></input>";
-					str +="<div class='btn'>";
-					str +="<input type='submit' style='cursor:pointer' value='<?php echo yii::t('app','Upload')?>'></input>";
-					str +="</div>";
-	                $(".div_voyage_map").html(str);
+
+	            	var src = "<?php echo $baseUrl.'upload/'?>"+map_result['map_img'];
+					$("div.div_voyage_map input[name='voyage_map_id']").val(<?php echo $voyage['id']?>);
+					$("div.div_voyage_map input[name='map_id']").val(map_result['map_id']);
+					$("div.div_voyage_map img#ImgPr").attr('src',src);
+
+	            	
 	            }
         	}      
         });	
@@ -479,7 +506,7 @@ window.onload = function(){
 
 	            	//type deck
 	            	var str = '';
-	            	str += "<input type='hidden' name='cabin_voyage_id' value='"+voyage['id']+"' />";
+	            	str += "<input type='hidden' name='cabin_voyage_id' value='<?php echo $voyage['id']?>' />";
 	            	str += "<label>";
 					str += "<span><?php echo yii::t('app','Type')?>:</span>";
 					str += "<select name='cabin_type_id'>";
@@ -513,7 +540,7 @@ window.onload = function(){
 					$.each(cabin_result,function(key){
 						//if(really_arr.indexOf(cabin_result[key]['id'])){
 						if($.inArray(cabin_result[key]['id'], really_arr)==-1){
-							str_no_select += "<li><span><input type='checkbox'  value='"+cabin_result[key]['id']+"'></span><span class='text'>"+cabin_result[key]['cabin_name']+"</span></li>";
+							str_no_select += "<li><span><input type='checkbox'  c_max='"+cabin_result[key]['max_check_in']+"' c_last='"+cabin_result[key]['last_aduits_num']+"'  value='"+cabin_result[key]['id']+"'></span><span class='text'>"+cabin_result[key]['cabin_name']+"</span></li>";
 						}
 					});
 					str_no_select += "</ul>";
@@ -521,13 +548,12 @@ window.onload = function(){
 
 					//select
 					var str_select = '';
-					
 					str_select += "<ul>";
 					str_select += "<li><span><input type='checkbox' id='canbin_check_right'></span></input><span><?php echo yii::t('app','Selected')?></span></li>";
 					str_select += "</ul>";
 					str_select += "<ul id='cabin_right_ul'>";
 					$.each(really_cabin_result,function(key){
-						str_select += "<li><span><input type='checkbox' name='cabin_right_ids[]' value='"+really_cabin_result[key]['cabin_lib_id']+"' ></span><span class='text'>"+really_cabin_result[key]['cabin_name']+"</span></li>";
+						str_select += "<li><span><input type='checkbox' name='cabin_right_ids[]' value='"+really_cabin_result[key]['cabin_lib_id']+"' ><input type='hidden' name='c_id[]' value='"+really_cabin_result[key]['cabin_lib_id']+"' /><input type='hidden' name='c_name[]' value='"+really_cabin_result[key]['cabin_name']+"'><input type='hidden' name='c_max[]' value='"+really_cabin_result[key]['max_check_in']+"' /><input type='hidden' name='c_last[]' value='"+really_cabin_result[key]['last_aduits_num']+"' /></span><span class='text'>"+really_cabin_result[key]['cabin_name']+"</span></li>";
 					});
 					str_select += "</ul>";
 					$(".div_select").html(str_select);
@@ -572,7 +598,7 @@ window.onload = function(){
 	});
 	
 	
-	$("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
+	
 	
 	// 上传文件功能
 	$(".uploadFile").on("change","input[type='file']",function(){
@@ -584,38 +610,17 @@ window.onload = function(){
 	});
 	
 	//船舱保存
-	$("#voyage_cabin_form #voyage_cabin_save_but").on('click',function(){
-			var cabin_type_id = $("#voyage_cabin_form select[name='cabin_type_id']").val();
-			var cabin_deck = $("#voyage_cabin_form select[name='cabin_deck']").val();
-			var voyage_id = $("#voyage_cabin_form input[name='cabin_voyage_id']").val();
-			var cabin_lib_id = '';
-			$("#voyage_cabin_form ul#cabin_right_ul").find("input[type='checkbox']").each(function(e){
-				var id = $(this).val();
-				cabin_lib_id += id+',';
-			});
-
-			if(cabin_lib_id==''){alert("No selected items!");return false;}
-
-			$.ajax({
-		        url:"<?php echo Url::toRoute(['voyage_cabin_save']);?>",
-		        type:'get',
-		        async:false,
-		        data:'cabin_type_id='+cabin_type_id+'&cabin_deck='+cabin_deck+'&voyage_id='+voyage_id+'&cabin_lib_id='+cabin_lib_id,
-		     	dataType:'json',
-		    	success:function(data){
-		    		if(data!=0){
-		    			alert("Save success");
-		    		}else{
-		    			alert("Save failed");
-		    		}
-		    	}      
-		    });
-		
+	$(document).on('click',"#voyage_cabin_form #voyage_cabin_save_but",function(){
+			var length = $("#voyage_cabin_form ul#cabin_right_ul").find("input[type='checkbox']").length;
+			if(length==0){
+				alert("No selected items!");return false;
+				}
+			$("form#voyage_cabin_form").submit(); 
 	});
 
 
 	//航线-》船舱船舱类型改变
-	$("#voyage_cabin_form select[name='cabin_type_id'],#voyage_cabin_form select[name='cabin_deck']").on('change',function(){
+	$(document).on('change',"#voyage_cabin_form select[name='cabin_type_id'],#voyage_cabin_form select[name='cabin_deck']",function(){
 		var type_id = $("#voyage_cabin_form select[name='cabin_type_id']").val();
 		var deck = $("#voyage_cabin_form select[name='cabin_deck']").val();
 		$.ajax({
@@ -631,14 +636,14 @@ window.onload = function(){
 					var str = '';
 					var really_arr = new Array();
 	    			$.each(really_result,function(k){
-	    				str += '<li><span><input value="'+really_result[k]['cabin_lib_id']+'" name="cabin_right_ids[]" type="checkbox"></span><span class="text">'+really_result[k]['cabin_name']+'</span></li>';
+	    				str += '<li><span><input value="'+really_result[k]['cabin_lib_id']+'"  name="cabin_right_ids[]" type="checkbox"><input type="hidden" name="c_id[]" value="'+really_result[k]['cabin_lib_id']+'" /><input type="hidden" name="c_name[]" value="'+really_result[k]['cabin_name']+'" /><input type="hidden" name="c_max[]" value="'+really_result[k]['max_check_in']+'" /><input type="hidden" name="c_last[]" value="'+really_result[k]['last_aduits_num']+'"></span><span class="text">'+really_result[k]['cabin_name']+'</span></li>';
 	    				really_arr.push(really_result[k]['cabin_lib_id']);
 	    			});
 	    			$("#cabin_right_ul").html(str);
 	    			var l_str = '';
 	    			$.each(cabin_lib_result,function(k){
 		    			if($.inArray(cabin_lib_result[k]['id'],really_arr)==-1){
-	    					l_str += '<li><span><input value="'+cabin_lib_result[k]['id']+'" type="checkbox"></span><span class="text">'+cabin_lib_result[k]['cabin_name']+'</span></li>';
+	    					l_str += '<li><span><input value="'+cabin_lib_result[k]['id']+'" c_max="'+cabin_lib_result[k]['max_check_in']+'" c_last="'+cabin_lib_result[k]['last_aduits_num']+'" type="checkbox"></span><span class="text">'+cabin_lib_result[k]['cabin_name']+'</span></li>';
 		    			}
 	    			});
 	    			$("#cabin_left_ul").html(l_str);

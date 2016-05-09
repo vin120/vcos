@@ -69,7 +69,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Ieast Aduits Num')?>:</span>
-					<input type="text" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="min" name="min" value="<?php echo $cabin_result['ieast_aduits_num']?>"></input>
+					<input type="text" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="min" name="min" value="<?php echo $cabin_result['last_aduits_num']?>"></input>
 					
 				</label>
 			</p>

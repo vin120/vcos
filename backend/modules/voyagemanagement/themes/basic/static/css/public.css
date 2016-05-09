@@ -130,7 +130,8 @@ td.op_btn  a:first-child {margin-right:5px;}
 .write select { width: 80px; height: 26px; }
 .write textarea { width: 346px; height: 80px; vertical-align: top;resize:none; }
 /**图片上传按钮**/
-.write .btn_img{position: relative;overflow: hidden;margin-right: 4px;display:inline-block;*display:inline;padding:4px 10px 4px;font-size:14px;line-height:18px;*line-height:20px;color:#fff;text-align:center;vertical-align:middle;cursor:pointer;background-color:#5bb75b;border:1px solid #cccccc;border-color:#e6e6e6 #e6e6e6 #bfbfbf;border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+.write .btn_img{position: relative;overflow: hidden;margin-right: 4px;display:inline-block;*display:inline;padding:4px 10px 4px;font-size:14px;line-height:18px;*line-height:20px;text-align:center;vertical-align:middle;cursor:pointer;background-color:#3f7fcf;border:1px solid #cccccc;border-color:#e6e6e6 #e6e6e6 #bfbfbf;border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+.write .btn_img>span{color:#fff;}
 .write .btn_img input {position: absolute;top: 0; right: 0;margin: 0;border: solid transparent;opacity: 0;filter:alpha(opacity=0); cursor: pointer;}
 
 .write label span.btn_img{width:60px;}

@@ -156,18 +156,24 @@ class VoyagesetController extends Controller
 			}
 			
 			$pdf_path = '';
-			
+			$allowsize = 3*1024*1024;
 			if(isset($_FILES['pdf'])){
-				if($_FILES['pdf']['error'] != 4){
-					if($_FILES['pdf']['type'] == 'application/pdf'){
-						$result=Helper::upload_file('pdf', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'pdf', 3);
-						$pdf_path=date('Ym',time()).'/'.$result['filename'];
-					}else {
-						Helper::show_message('Wrong Format','#');
-						die;
+				if($_FILES['pdf']['error'] != 1){
+					if($_FILES['pdf']['error'] != 4){
+						if($_FILES['pdf']['type'] == 'application/pdf'){
+							$result=Helper::upload_file('pdf', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'pdf', 3);
+							$pdf_path=date('Ym',time()).'/'.$result['filename'];
+						}else {
+							Helper::show_message('Wrong Format','#');
+							die;
+						}
 					}
+				}else{
+					Helper::show_message('You have uploaded file size is more than the size of the server configuration');
+					die;
 				}
 			}
+		
 
 			if($voyage_name != '' && $voyage_code != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != ''){
 				//事务处理
@@ -264,25 +270,28 @@ class VoyagesetController extends Controller
 			}
 			
 			
-			
-			
-// 			$sql = "SELECT pdf_path FROM `v_c_voyage` WHERE id='$voyage_id' ";
-// 			$pdf_path = Yii::$app->db->createCommand($sql)->queryOne()['pdf_path'];
-			
 			$pdf_path = VCVoyage::find()->where(['id'=>$voyage_id])->one()['pdf_path'];
 			
 			
+			$allowsize = 3*1024*1024;
 			if(isset($_FILES['pdf'])){
-				if($_FILES['pdf']['error'] != 4){
-					if($_FILES['pdf']['type'] == 'application/pdf'){
-						$result=Helper::upload_file('pdf', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'pdf', 3);
-						$pdf_path=date('Ym',time()).'/'.$result['filename'];
-					}else{
-						Helper::show_message('Wrong Format',Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
-						die;
+				if($_FILES['pdf']['error'] != 1){
+					if($_FILES['pdf']['error'] != 4){
+						if($_FILES['pdf']['type'] == 'application/pdf'){
+							$result=Helper::upload_file('pdf', Yii::$app->params['img_save_url'].'voyagemanagement/themes/basic/static/upload/'.date('Ym',time()), 'pdf', 3);
+							$pdf_path=date('Ym',time()).'/'.$result['filename'];
+						}else {
+							Helper::show_message('Wrong Format','#');
+							die;
+						}
 					}
+				}else{
+					Helper::show_message('You have uploaded file size is more than the size of the server configuration');
+					die;
 				}
 			}
+			
+			
 			if($voyage_name != '' && $voyage_code != '' && $ticket_price != '' && $ticket_taxes != '' && $harbour_taxes != '' && $deposit_ratio != '' ){
 				//事务
 				$transaction=Yii::$app->db->beginTransaction();
@@ -301,30 +310,19 @@ class VoyagesetController extends Controller
 					$vcvoyage_obj->deposit_ratio = $deposit_ratio;
 					$vcvoyage_obj->save();
 					
-					
 					$vcvoyagei18n_obj = VCVoyageI18n::findOne(['voyage_code'=>$voyage_code]);
 					$vcvoyagei18n_obj->voyage_name = $voyage_name;
 					$vcvoyagei18n_obj->voyage_desc = $desc;
 					$vcvoyagei18n_obj->save();
-					
-					
-// 					$sql = " UPDATE `v_c_voyage` SET `voyage_code`='$voyage_code',`cruise_code`='$cruise_code',`start_time`='$s_time',`end_time`='$e_time',
-// 					`area_code`='$area_code',`voyage_num`='$voyage_num',`pdf_path`='$pdf_path',`start_book_time`='$s_book_time',`stop_book_time`='$e_book_time',
-// 					`ticket_price`='$ticket_price',`ticket_taxes`='$ticket_taxes',`harbour_taxes`='$harbour_taxes',`deposit_ratio`='$deposit_ratio' WHERE id='$voyage_id' ";
-// 					Yii::$app->db->createCommand($sql)->execute();
-
-// 					$sql = " UPDATE `v_c_voyage_i18n` SET `voyage_name`='$voyage_name',`voyage_desc`='$desc' WHERE voyage_code ='$voyage_code'";
-// 					Yii::$app->db->createCommand($sql)->execute();
-					
 				
 					$transaction->commit();
-					Helper::show_message('Save success  ', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
+					Helper::show_message('Save success', Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
 				}catch(Exception $e){
 					$transaction->rollBack();
-					Helper::show_message('Save failed  ',Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
+					Helper::show_message('Save failed',Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
 				}
 			}else{
-				Helper::show_message('Save failed  ',Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
+				Helper::show_message('Save failed',Url::toRoute(['voyage_edit'])."&voyage_id=".$voyage_id);
 			}
 		}
 		
@@ -359,7 +357,6 @@ class VoyagesetController extends Controller
 		$cruise = $query->createCommand()->queryAll();
 		
 		$count = VCVoyagePort::find()->where(['voyage_id'=>$voyage_id])->count();
-
 		
 		return $this->render('voyage_edit',['voyage'=>$voyage,'area'=>$area,'cruise'=>$cruise,'voyage_port_page'=>1,'count'=>$count]);
 	}
@@ -379,7 +376,6 @@ class VoyagesetController extends Controller
 				->all();
 		$voyage_port = $query->createCommand()->queryAll();
 		
-		
 		$query  = new Query();
 		$query->select(['a.port_code','b.port_name'])
 				->from('v_c_port a')
@@ -387,7 +383,6 @@ class VoyagesetController extends Controller
 				->where(['b.i18n'=>'en','a.status'=>'1'])
 				->all();
 		$port = $query->createCommand()->queryAll();
-		
 		
 		foreach($port as $port_row){
 			foreach ($voyage_port as $key => $value ) {
@@ -447,14 +442,6 @@ class VoyagesetController extends Controller
 		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
 		
 		$query  = new Query();
-		$query->select(['id'])
-				->from('v_c_voyage')
-				->where(['id'=>$voyage_id])
-				->one();
-		$voyage = $query->createCommand()->queryOne();
-		
-		
-		$query  = new Query();
 		$query->select(['*'])
 				->from('v_c_voyage_map a')
 				->join('LEFT JOIN','v_c_voyage_map_i18n b','a.id=b.map_id')
@@ -464,7 +451,6 @@ class VoyagesetController extends Controller
 		$map_result = $query->createCommand()->queryOne();
 		
 		$arr = [];
-		$arr['voyage'] = $voyage;
 		$arr['map_result'] = $map_result;
 		if($arr){
 			echo json_encode($arr);
@@ -476,15 +462,6 @@ class VoyagesetController extends Controller
 	//cabin ajax
 	public function actionGet_cabin_ajax()
 	{
-		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
-		
-		$query  = new Query();
-		$query->select(['id'])
-				->from('v_c_voyage')
-				->where(['id'=>$voyage_id])
-				->one();
-		$voyage = $query->createCommand()->queryOne();
-		
 		$query  = new Query();
 		$query->select(['a.id','b.type_name'])
 				->from('v_c_cabin_type a')
@@ -519,7 +496,6 @@ class VoyagesetController extends Controller
 		$cruise_result = $query->createCommand()->queryOne();
 		
 		$arr =  [];
-		$arr['voyage'] = $voyage;
 		$arr['cabin_result'] = $cabin_result;
 		$arr['cabin_type_result'] = $cabin_type_result;
 		$arr['really_cabin_result'] = $really_cabin_result;

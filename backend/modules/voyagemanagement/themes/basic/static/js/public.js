@@ -852,7 +852,7 @@ $(document).ready(function(){
 		}
 		if(op == 'active_config_detail_add'){
 			if(file == ''){
-				Alert("<?php echo yii::t('app','Please choose to upload pictures')?>");
+				Alert("Please choose to upload pictures");
 		   	   	return false;
 			}
 		}
@@ -868,8 +868,10 @@ $(document).ready(function(){
 		$("#cabin_left_ul li").find("input[type='checkbox']:checked").each(function(e){
 			var id = $(this).val();
 			var text = $(this).parent().parent().find("span.text").text();
+			var max = $(this).attr('c_max');
+			var last = $(this).attr('c_last');
 			
-			str += '<li><span><input value="'+id+'" name="cabin_right_ids[]" type="checkbox"></span><span class="text">'+text+'</span></li>';
+			str += '<li><span><input value="'+id+'" name="cabin_right_ids[]" type="checkbox"><input type="hidden" name="c_id[]" value="'+id+'" /><input type="hidden" name="c_name[]" value="'+text+'" /><input type="hidden" name="c_max[]" value="'+max+'" /><input type="hidden" name="c_last[]" value="'+last+'"></span><span class="text">'+text+'</span></li>';
 			$(this).parent().parent().remove();
 		});
 		
@@ -883,9 +885,12 @@ $(document).ready(function(){
 		//获取左边选中值
 		$("#cabin_right_ul li").find("input[type='checkbox']:checked").each(function(e){
 			var id = $(this).val();
+			var max = $(this).parent().find("input[name='c_max']").val();
+			var last = $(this).parent().find("input[name='c_last']").val();
 			var text = $(this).parent().parent().find("span.text").text();
 			
-			str += '<li><span><input value="'+id+'" type="checkbox"></span><span class="text">'+text+'</span></li>';
+			
+			str += '<li><span><input value="'+id+'" c_max="'+max+'" c_last="'+last+'" type="checkbox"></span><span class="text">'+text+'</span></li>';
 			$(this).parent().parent().remove();
 		});
 		
