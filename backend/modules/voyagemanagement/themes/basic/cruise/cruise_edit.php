@@ -83,6 +83,15 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					
 				</label>
 			</p>
+			<p>
+				<label>
+					<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
+					<select name="state" id="state" class='input_select'>
+						<option value='1' <?php echo $cruise_result['status']==1?"selected='selected'":'';?>><?php echo yii::t('app','Avaliable')?></option>
+						<option value='0' <?php echo $cruise_result['status']==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
+					</select>
+				</label>
+			</p>
 			<p style="min-height:130px; ">
 				<label>
 					<span class='max_l' style="float: left;"><?php echo yii::t('app','Cruise Img')?>:</span>
@@ -95,6 +104,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 					</span>
 				 </label>
 			</p>
+			
 			<p style="min-height: 90px;">
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Cruise Desc')?>:</span>
@@ -102,15 +112,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				
 				</label>
 			</p>
-			<p>
-				<label>
-					<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
-					<select name="state" id="state" class='input_select'>
-						<option value='1' <?php echo $cruise_result['status']==1?"selected='selected'":'';?>><?php echo yii::t('app','Avaliable')?></option>
-						<option value='0' <?php echo $cruise_result['status']==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
-					</select>
-				</label>
-			</p>
+			
 			
 		</div>
 		<div class="btn">

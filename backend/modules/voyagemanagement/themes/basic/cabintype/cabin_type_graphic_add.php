@@ -6,9 +6,11 @@ use app\modules\voyagemanagement\themes\basic\myasset\ThemeAsset;
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUpload;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUeditor;
 
 ThemeAsset::register($this);
 ThemeAssetUpload::register($this);
+ThemeAssetUeditor::register($this);
 
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . '/';
@@ -20,6 +22,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 <style>
 	.write label span.btn_img{width:95px;}
 	.write label span.btn_img > span{width:90px;}
+	#desc { display: inline-block; width: 50%; vertical-align: top; }
 </style>
 <!-- content start -->
 <div class="r content" id="user_content">
@@ -33,15 +36,14 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 
 		<?php
 			$form = ActiveForm::begin([
-					'action' => ['cabin_type_graphic_add'],
-					'method'=>'post',
-					'id'=>'cabin_type_graphic_val',
-					'options' => ['class' => 'cabin_type_graphic_add','enctype'=>'multipart/form-data'],
-					'enableClientValidation'=>false,
-					'enableClientScript'=>false
+				'action' => ['cabin_type_graphic_add'],
+				'method'=>'post',
+				'id'=>'cabin_type_graphic_val',
+				'options' => ['class' => 'cabin_type_graphic_add','enctype'=>'multipart/form-data'],
+				'enableClientValidation'=>false,
+				'enableClientScript'=>false
 			]); 
 		?>
-		
 		
 				<div  class="check_save_div">
 				<input type="hidden" name="type_id" id='type_id' value="<?php echo $id;?>" />
@@ -81,6 +83,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 <!-- content end -->
 <script>
 window.onload = function(){
-$("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
+	UE.getEditor('desc');
+	$("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
 }
 </script>

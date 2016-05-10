@@ -35,9 +35,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <tr>
                 <th><input type="checkbox"></input></th>
                 <th><?php echo yii::t('app','No.')?></th>
+                <th><?php echo yii::t('app','Area Code')?></th>
                 <th><?php echo yii::t('app','Area Name')?></th>
                 <th><?php echo yii::t('app','Status')?></th>
-                <!-- <th>Operate</th> -->
+                <th>Operate</th>
             </tr>
             </thead>
             <tbody>
@@ -45,11 +46,13 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <tr>
                 <td><input type="checkbox" name="ids[]" value="<?php echo $row['area_code'];?>"></input></td>
                 <td><?php echo ($key+1);?></td>
+                <td><?php echo $row['area_code'];?></td>
                 <td><?php echo $row['area_name'];?></td>
                 <td><?php echo $row['status']?yii::t('vcos', 'Avaliable'):yii::t('vcos', 'Unavaliable');?></td>
-                <!--<td class="op_btn">
-                     <a class="delete" id="<?php // echo $row['area_code'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a> 
-                </td>-->
+                <td class="op_btn">
+                	<a href="<?php echo Url::toRoute(['area_update','code'=>$row['area_code']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
+                     <a class="delete" id="<?php echo $row['area_code'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a> 
+                </td>
             </tr>
             <?php }?>
             </tbody>
@@ -58,9 +61,10 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		ActiveForm::end(); 
 		?>
         <p class="records"><?php echo yii::t('app','Records')?>:<span><?php echo $area_count;?></span></p>
-       <!--  <div class="btn">
-           <input id="del_submit" type="button" value="Del Selected"></input>
-        </div> -->
+        <div class="btn">
+        	<a href="<?php echo Url::toRoute(['area_update']);?>"><input type="button" value="<?php echo yii::t('app','Add')?>"></input></a>
+            <input id="del_submit" type="button" value="Del Selected"></input>
+        </div> 
         
 <!--         <div class="pageNum"> -->
 <!-- 					<span> -->
@@ -82,7 +86,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 <script type="text/javascript">
 window.onload = function(){ 
-	<?php $area_total = (int)ceil($area_count/10);
+	<?php $area_total = (int)ceil($area_count/2);
 	if($area_total >1){
 	?>
 		$('#area_page_div').jqPaginator({
@@ -110,15 +114,18 @@ window.onload = function(){
 	    	                $.each(data,function(key){
 	                        	str += "<tr>";
 	                            str += "<td><input name='ids[]' type='checkbox' value='"+data[key]['area_code']+"'></input></td>";
+	                            str += "<td>"+(key+1)+"</td>";
+	                            str += "<td>"+data[key]['area_code']+"</td>";
 	                            str += "<td>"+data[key]['area_name']+"</td>";
 	                            if(data[key]['status']==1)
 	                            	var status = "<?php echo yii::t('app','Avaliable')?>";
 	                            else if(data[key]['status']==0)
 	                            	var status = "<?php echo yii::t('app','Unavaliable')?>";
 	                            str += "<td>"+status+"</td>";
-	                           // str += "<td  class='op_btn'>";
-	                           //str += "<a class='delete' id='"+data[key]['area_code']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
-		                        //str += "</td>";
+	                            str += "<td  class='op_btn'>";
+	                            str += '<a href="<?php echo Url::toRoute(['area_update']);?>&code='+data[key]['area_code']+'"><img src="<?=$baseUrl ?>images/write.png"></a>';
+	                            str += "<a class='delete' id='"+data[key]['area_code']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+		                        str += "</td>";
 	                            str += "</tr>";
 	                          });
 	    	                $("table#area_table > tbody").html(str);

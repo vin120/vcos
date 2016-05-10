@@ -5,9 +5,9 @@ $this->title = 'Voyage Management';
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAsset;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-
+use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUeditor;
 ThemeAsset::register($this);
-
+ThemeAssetUeditor::register($this);
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 //$assets = '@app/modules/membermanagement/themes/basic/static';
@@ -22,6 +22,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 	#form input.point { outline-color: red; border: 2px solid red; }
 	#form span.point { width: auto; position: absolute; background: red; padding: 4px 10px; color: #fff; font-weight: bolder; }
     #form span.point:before { content: ""; position: absolute; left: -10px; top: 4px; width: 0; height: 0; border-style: solid; border-width: 5px 10px 5px 0; border-color: transparent red transparent transparent; }
+	#cost_desc { display: inline-block; width: 50%; vertical-align: top; }
 </style>
 <!-- content start -->
 <div class="r content" id="user_content">
@@ -72,6 +73,9 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 <!-- content end -->
 <script type="text/javascript">
 $(function(){
+	UE.getEditor('cost_desc');
+
+	
 	var sur=$("input#cost_desc_text").val();
 	$("textarea#cost_desc").html(sur);
 	$("input[type=text]").each(function(){//聚焦是清除

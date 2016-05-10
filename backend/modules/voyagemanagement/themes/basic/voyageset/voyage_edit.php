@@ -7,11 +7,12 @@ use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetDate;
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUpload;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUeditor;
 
 ThemeAsset::register($this);
 ThemeAssetDate::register($this);
 ThemeAssetUpload::register($this);
-
+ThemeAssetUeditor::register($this);
 
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 $baseUrl_date = $this->assetBundles[ThemeAssetDate::className()]->baseUrl . '/';
@@ -29,7 +30,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 	.write label + label { float: right; margin-right: 15%; }
 	.write label span { width: 140px; }
 	.shortLabel { margin-right: 84px; }
-	.write label textarea { float: left; margin-left: 45%; width: 650px; height: 80px; vertical-align: top; }
+	#desc{ display: inline-block; width: 50%; vertical-align: top; }
 	
 	/*upload*/
 	.write .upload { width: auto; }
@@ -391,6 +392,7 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 <!-- content end -->
 <script type="text/javascript">
 window.onload = function(){
+	UE.getEditor('desc');
 	$("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
 
 	

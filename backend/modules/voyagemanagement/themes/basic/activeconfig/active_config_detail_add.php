@@ -5,9 +5,10 @@ use app\modules\voyagemanagement\themes\basic\myasset\ThemeAsset;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUpload;
-
+use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUeditor;
 ThemeAsset::register($this);
 ThemeAssetUpload::register($this);
+ThemeAssetUeditor::register($this);
 
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . '/';
@@ -15,6 +16,9 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 ?>
 
 
+<style>
+	#detail_desc { display: inline-block; width: 50%; vertical-align: top; }
+</style>
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav"><?php echo yii::t('app','Route Manage')?>&nbsp;&gt;&gt;&nbsp;
@@ -101,7 +105,9 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 
 <script type="text/javascript">
 window.onload = function(){ 
+	UE.getEditor('detail_desc');
 
+	
 	$("input#more_day").on('click',function(){
 		if($(this).is(":checked")){
 			$("select[name='day_to']").removeAttr('disabled');

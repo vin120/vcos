@@ -5,15 +5,20 @@ $this->title = 'Voyage Management';
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAsset;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-
+use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUeditor;
 ThemeAsset::register($this);
-
+ThemeAssetUeditor::register($this);
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
 //$assets = '@app/modules/membermanagement/themes/basic/static';
 //$baseUrl = Yii::$app->assetManager->publish($assets);
 
 ?>
+
+
+<style>
+	#desc { display: inline-block; width: 50%; vertical-align: top; }
+</style>
 <script type="text/javascript">
 var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_check']);?>";
 </script>
@@ -61,12 +66,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 					
 				</label>
 			</p>
-			<p>
-				<label>
-					<span class='max_l'><?php echo yii::t('app','Describe')?>:</span>
-					<textarea id="desc" name="desc"><?php echo $shore_excursion_result['se_info']?></textarea>
-				</label>
-			</p>
+			
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Date')?>:</span>
@@ -91,7 +91,12 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 					</select>
 				</label>
 			</p>
-			
+			<p>
+				<label>
+					<span class='max_l'><?php echo yii::t('app','Describe')?>:</span>
+					<textarea id="desc" name="desc"><?php echo $shore_excursion_result['se_info']?></textarea>
+				</label>
+			</p>
 		</div>
 		<div class="btn">
 				<input style="cursor:pointer" type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
@@ -107,3 +112,9 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 </div>
 <!-- content end -->
 
+<script type="text/javascript">
+window.onload = function(){ 
+	UE.getEditor('desc');
+
+}
+</script>

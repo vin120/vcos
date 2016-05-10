@@ -11,7 +11,6 @@ use app\modules\voyagemanagement\models\VCVoyageI18n;
 use yii\db\Query;
 use app\modules\voyagemanagement\models\VCVoyagePort;
 use app\modules\voyagemanagement\models\VCVoyageCabin;
-use app\modules\voyagemanagement\models\VCVoyageMapI18n;
 
 
 

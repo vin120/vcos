@@ -47,12 +47,12 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 
 		<?php
 			$form = ActiveForm::begin([
-					'action' => ['cruise_add'],
-					'method'=>'post',
-					'id'=>'cruise_val',
-					'options' => ['class' => 'cruise_add','enctype'=>'multipart/form-data'],
-					'enableClientValidation'=>false,
-					'enableClientScript'=>false
+				'action' => ['cruise_add'],
+				'method'=>'post',
+				'id'=>'cruise_val',
+				'options' => ['class' => 'cruise_add','enctype'=>'multipart/form-data'],
+				'enableClientValidation'=>false,
+				'enableClientScript'=>false
 			]); 
 		?>
 		<div>
@@ -78,6 +78,15 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			</p>
 			<p>
 				<label>
+					<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
+					<select name="state" id="state" class='input_select'> 
+						<option value='1'><?php echo yii::t('app','Avaliable')?></option>
+						<option value='0'><?php echo yii::t('app','Unavaliable')?></option>
+					</select>
+				</label>
+			</p>
+			<p>
+				<label>
 					<span class='max_l' style="float: left;"><?php echo yii::t('app','Cruise Img')?>:</span>
 					<span id="img_back" style="width:120px;height:120px;float:left;margin-left:5px;margin-bottom:30px;display:none">
 					<img id="ImgPr" width="120" height="120" src=""/>
@@ -89,21 +98,14 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 					
 				 </label>
 			</p>
+			
 			<p style="clear: both;min-height:90px;">
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Cruise Desc')?>:</span>
 					<textarea id='desc' name='desc'></textarea>
 				</label>
 			</p>
-			<p>
-				<label>
-					<span class='max_l'><?php echo yii::t('app','Status')?>:</span>
-					<select name="state" id="state" class='input_select'> 
-						<option value='1'><?php echo yii::t('app','Avaliable')?></option>
-						<option value='0'><?php echo yii::t('app','Unavaliable')?></option>
-					</select>
-				</label>
-			</p>
+			
 			
 		</div>
 		<div class="btn">

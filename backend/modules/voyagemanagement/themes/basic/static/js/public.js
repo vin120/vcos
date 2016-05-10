@@ -440,6 +440,39 @@ $(document).ready(function(){
 		}
 	});
 	
+	//area添加编辑验证
+	$('form#area_val').submit(function(){
+		var data = "<span class='point' >Required fields cannot be empty</span>";
+		$(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
+    		if($(this).val()==''){
+    			$(this).parent().append(data);
+    			$(this).addClass("point");
+    			a=1;
+    			return false;
+    		}
+       	}); 
+        if(a==1){return false;}
+      
+        var id = $(".check_save_div input[name='id']").val();
+        
+    	 $.ajax({
+		        url:voyage_set_code_check_ajax_url,
+		        type:'get',
+		        data:'code='+code+'&act='+act+'&id='+id,
+		        async:false,
+		     	dataType:'json',
+		    	success:function(data){
+		    		if(data==0) a=0;
+		    		else{Alert("Code can't repeat!");a=1;}
+		    	}      
+		  });
+        
+       if(a == 1){
+           return false;
+       }
+        
+	});
+	
 	
 	//voyage_set添加编辑页面判断voyage_code是否唯一
 	$('form#voyage_val').submit(function(){
