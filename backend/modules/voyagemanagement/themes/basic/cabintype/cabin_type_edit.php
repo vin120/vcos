@@ -134,7 +134,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<?php }?>
 					</div>
 					<div class="btn">
-							<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+							<input style="cursor:pointer" type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
 							<input class="cancel" type="button" value="<?php echo yii::t('app','CANCEL')?>"></input>
 						</div>
 					<?php 
@@ -166,7 +166,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 				                <td><?php echo $row['status']?yii::t('vcos', 'Avaliable'):yii::t('vcos', 'Unavaliable');?></td>
 				                <td class="op_btn">
 				                    <a href="<?php echo Url::toRoute(['cabin_type_graphic_edit','id'=>$row['id']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
-				                    <a class="delete" id="<?php echo $row['id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
+				                    <a class="delete" style="cursor:pointer" id="<?php echo $row['id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
 				                </td>
 				            </tr>
 				            <?php }?>
@@ -223,7 +223,7 @@ window.onload = function(){
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td  class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['cabin_type_graphic_edit']);?>&id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";
-	                            str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+	                            str += "<a class='delete' style='cursor:pointer' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 		                        str += "</td>";
 	                            str += "</tr>";
 	                          });

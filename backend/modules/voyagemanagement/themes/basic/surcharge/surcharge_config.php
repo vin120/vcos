@@ -50,7 +50,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><?php echo \Yii::t('app',$v['cost_price'])?></td>
                 <td class="op_btn">
                     <a href="<?php echo Url::toRoute(['surcharge_option','id'=>$v['id']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
-                    <a class="delete" id="<?php echo $v['id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
+                    <a class="delete" style="cursor:pointer" id="<?php echo $v['id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
                 </td>
             </tr>
          <?php endforeach;?>

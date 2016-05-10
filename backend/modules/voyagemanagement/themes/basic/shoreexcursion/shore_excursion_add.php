@@ -85,7 +85,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 			
 		</div>
 		<div class="btn">
-				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+				<input style="cursor:pointer" type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
 				
 			</div>
 		<?php 

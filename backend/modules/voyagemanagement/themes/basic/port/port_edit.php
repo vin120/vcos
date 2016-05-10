@@ -85,7 +85,7 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 			
 		</div>
 		<div class="btn">
-				<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+				<input style="cursor:pointer" type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
 				
 			</div>
 		<?php 

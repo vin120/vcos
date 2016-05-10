@@ -42,7 +42,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <option value="0" <?php echo $w_state==0?"selected='selected'":'';?>><?php echo yii::t('app','Unavaliable')?></option>
 			</select>
 		</label>
-		<span class="btn"><input type="submit" name="w_submit" value="<?php echo yii::t('app','SEARCH')?>"></input></span>
+		<span class="btn"><input style="cursor:pointer" type="submit" name="w_submit" value="<?php echo yii::t('app','SEARCH')?>"></input></span>
     </div>
     <?php 
 		ActiveForm::end(); 
@@ -80,7 +80,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><?php echo $row['status']?yii::t('vcos', 'Avaliable'):yii::t('vcos', 'Unavaliable');?></td>
                 <td class="op_btn">
                     <a href="<?php echo Url::toRoute(['port_edit','code'=>$row['port_code']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
-                    <a class="delete" id="<?php echo $row['port_code'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
+                    <a class="delete" style="cursor:pointer" id="<?php echo $row['port_code'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
                 </td>
             </tr>
             <?php }?>
@@ -158,7 +158,7 @@ window.onload = function(){
 	                            str += "<td>"+status+"</td>";
 	                            str += "<td class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['port_edit']);?>&code="+data[key]['port_code']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";
-	                            str += "<a class='delete' id='"+data[key]['port_code']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+	                            str += "<a class='delete' style='cursor:pointer' id='"+data[key]['port_code']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 		                        str += "</td>";
 	                            str += "</tr>";
 	                          });

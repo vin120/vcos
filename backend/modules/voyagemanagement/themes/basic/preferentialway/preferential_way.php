@@ -37,7 +37,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <td><?php echo $row['strategy_name'];?></td>
                 <td class="op_btn">
                     <a href="<?php echo Url::toRoute(['preferential_way_edit','id'=>$row['id']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
-                    <a class="delete" id="<?php echo $row['id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
+                    <a class="delete" style="cursor:pointer" id="<?php echo $row['id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
                 </td>
             </tr>
             <?php }?>
@@ -99,7 +99,7 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['strategy_name']+"</td>";
 	                            str += "<td  class='op_btn'>";
 	                            str += "<a href='<?php echo Url::toRoute(['preferential_way_edit']);?>&id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";
-	                            str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+	                            str += "<a class='delete' style='cursor:pointer' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 		                        str += "</td>";
 	                            str += "</tr>";
 	                          });

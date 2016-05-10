@@ -124,7 +124,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<?php }?>
 					</div>
 					<div class="btn">
-							<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+							<input style="cursor:pointer" type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
 							<input class="cancel" type="button" value="<?php echo yii::t('app','CANCEL')?>"></input>
 						</div>
 					<?php 
@@ -150,7 +150,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 					</table>
 					<p class="records"><?php echo yii::t('app','Records')?>:<span>0</span></p>
 					<div class="btn">
-						<input type="button" value="<?php echo yii::t('app','Add')?>" style="background:#ccc;"></input>
+						<input type="button" value="<?php echo yii::t('app','Add')?>" style="background:#ccc;cursor:not-allowed"></input>
 					</div>
 				</div>
 			</div>

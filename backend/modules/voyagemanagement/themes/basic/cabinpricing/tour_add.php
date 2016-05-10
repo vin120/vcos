@@ -75,7 +75,7 @@ var get_tour_data_ajax_url = "<?php echo Url::toRoute(['get_tour_data']);?>";
 					</p>
 			</div>
 		<div class="btn">
-			<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+			<input type="submit" style="cursor:pointer" value="<?php echo yii::t('app','SAVE')?>"></input>
 			<!-- <input class="cancle" type="button" value="<?php // echo yii::t('app','CANCLE')?>"></input> -->
 		</div>
 		<?php 

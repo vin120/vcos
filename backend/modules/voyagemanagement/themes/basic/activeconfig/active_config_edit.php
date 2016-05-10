@@ -57,7 +57,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						</p>
 					</div>
 					<div class="btn">
-						<input type="submit" value="<?php echo yii::t('app','SAVE')?>"></input>
+						<input type="submit" style="cursor:pointer" value="<?php echo yii::t('app','SAVE')?>"></input>
 						<input type="button" class="cancel" value="<?php echo yii::t('app','CLEAN')?>" ></input>
 					</div>
 					<?php 
@@ -98,7 +98,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 								<td><?php //echo //$row['detail_desc']?></td>
 								<td class='op_btn'>
 			                    	<a href="<?php //echo Url::toRoute(['active_config_detail_edit'])."&active_id=".$active['active_id']."&id=".$row['id'];?>"><img src="<?=$baseUrl ?>images/write.png"></a>
-									<a class="delete" id="<?php //echo $row['id'];?>" ><img src="<?=$baseUrl ?>images/delete.png"></a>
+									<a class="delete" style="cursor:pointer" id="<?php //echo $row['id'];?>" ><img src="<?=$baseUrl ?>images/delete.png"></a>
 								</td>
 							</tr>
 							<?php //}?>
@@ -160,7 +160,7 @@ window.onload = function(){
                             str += "<td>"+data[key]['detail_desc']+"</td>";
                             str += "<td  class='op_btn'>";
                             str += "<a href='<?php echo Url::toRoute(['active_config_detail_edit']);?>&active_id="+<?php echo $active['active_id']?>+"&id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";
-                            str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+                            str += "<a class='delete'style='cursor:pointer'  id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 	                        str += "</td>";
                             str += "</tr>";
                           });
@@ -190,7 +190,7 @@ window.onload = function(){
                         str += "<td>"+data[key]['detail_desc']+"</td>";
                         str += "<td  class='op_btn'>";
                         str += "<a href='<?php echo Url::toRoute(['active_config_detail_edit']);?>&active_id="+<?php echo $active['active_id']?>+"&id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";
-                        str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+                        str += "<a class='delete' style='cursor:pointer' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
                         str += "</td>";
                         str += "</tr>";
                       });

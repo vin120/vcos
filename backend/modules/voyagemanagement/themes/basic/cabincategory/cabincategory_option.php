@@ -26,7 +26,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 <!-- content start -->
 <div class="r content" id="user_content">
     <div class="topNav"><?php echo \Yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;
-    <a href="<?php echo Url::toRoute(['shore_excursion']);?>"><?php echo \Yii::t('app','Cabin  Category')?></a></div>
+    <a href="<?php echo Url::toRoute(['cabin_category']);?>"><?php echo \Yii::t('app','Cabin  Category')?></a></div>
     
     <div class="searchResult">
         
@@ -65,7 +65,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 			</p>		
 		</div>
 		<div class="btn">
-				<input type="submit" value="<?php echo \Yii::t('app','SAVE')?>"></input>
+				<input type="submit" style="cursor:pointer" value="<?php echo \Yii::t('app','SAVE')?>"></input>
 				<input class="cancel" type="button" value="<?php echo \Yii::t('app','CANCEL')?>"></input>
 			</div>
 	</form>

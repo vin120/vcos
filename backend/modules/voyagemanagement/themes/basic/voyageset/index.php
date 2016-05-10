@@ -42,7 +42,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		<span><?php echo yii::t('app','End Time')?>:</span>
 			<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo empty($e_time)?"":Helper::GetDate($e_time);?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',minDate:'#F{$dp.$D(\'s_time\')}',startDate:'#F{$dp.$D(\'s_time\',{d:+1})}'})" class="Wdate" ></input>
 		</label>
-		<span class="btn"><input type="submit" value="<?php echo yii::t('app','SEARCH')?>"></input></span>
+		<span class="btn"><input style="cursor:pointer" type="submit" value="<?php echo yii::t('app','SEARCH')?>"></input></span>
 	</div>
 	<?php
 		ActiveForm::end();

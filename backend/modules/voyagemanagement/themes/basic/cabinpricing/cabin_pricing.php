@@ -75,8 +75,8 @@ var get_preferential_policies_data_ajax_url = "<?php echo Url::toRoute(['get_pre
 								<td><?php echo $v['2_empty_bed_preferential']?></td>
 								<td><?php echo $v['3_4_empty_bed_preferential']==0?'--':$v['3_4_empty_bed_preferential'];?></td>
 								<td class="op_btn">
-				                    <a class="cabin_pricing_edit" id="<?php echo $v['id']?>" value="edit"><img src="<?=$baseUrl ?>images/write.png"></a>
-				                    <a class="delete" id="<?php echo $v['id']?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
+				                    <a class="cabin_pricing_edit" style="cursor:pointer" id="<?php echo $v['id']?>" value="edit"><img src="<?=$baseUrl ?>images/write.png"></a>
+				                    <a class="delete" style="cursor:pointer" id="<?php echo $v['id']?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
 				                </td>
 							</tr>
 						<?php }?>
@@ -221,8 +221,8 @@ window.onload = function(){
 							var t_3_data = data[key]['3_4_empty_bed_preferential']==0?'--':data[key]['3_4_empty_bed_preferential'];
 							str += "<td>"+t_3_data+"</td>";
 							str += "<td class='op_btn'>";
-							str += "<a class='cabin_pricing_edit' id='"+data[key]['id']+"' value='edit'><img src='<?=$baseUrl ?>images/write.png'></a>";
-			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";   
+							str += "<a class='cabin_pricing_edit' style='cursor:pointer' id='"+data[key]['id']+"' value='edit'><img src='<?=$baseUrl ?>images/write.png'></a>";
+			                str += "<a class='delete' style='cursor:pointer' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";   
 			                str += "</td></tr>";    
 	                      });
 		                $("table#cabin_pricing_table > tbody").html(str);
@@ -254,8 +254,8 @@ window.onload = function(){
 							str += "<td>"+data[key]['strategy_name']+"</td>";
 		                	str += "<td>"+data[key]['p_price']+"</td>";
 							str += "<td  class='op_btn'>";
-							str += "<a class='preferential_policies_edit' id='"+data[key]['id']+"' value='edit'><img src='<?=$baseUrl ?>images/write.png'></a>";
-			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+							str += "<a class='preferential_policies_edit' style='cursor:pointer' id='"+data[key]['id']+"' value='edit'><img src='<?=$baseUrl ?>images/write.png'></a>";
+			                str += "<a class='delete' style='cursor:pointer' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 			                str += "</td></tr>";
 	                      });
 		                $("table#preferential_policies_table > tbody").html(str);
@@ -285,7 +285,7 @@ window.onload = function(){
 		                	str += "<tr>";
 							str += "<td>"+data[key]['cost_name']+"</td>";
 							str += "<td  class='op_btn'>";
-			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+			                str += "<a class='delete' style='cursor:pointer' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 			                str += "</td></tr>";
 	                      });
 		                $("table#surcharge_table > tbody").html(str);
@@ -315,7 +315,7 @@ window.onload = function(){
 		                	str += "<tr>";
 							str += "<td>"+data[key]['se_name']+"</td>";
 							str += "<td  class='op_btn'>";
-			                str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+			                str += "<a class='delete' style='cursor:pointer' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
 			                str += "</td></tr>";
 
 	                      });

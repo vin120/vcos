@@ -52,7 +52,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						</p>
 					</div>
 					<div class="btn">
-						<input type="submit" value="<?php echo yii::t('app','SAVE')?>" ></input>
+						<input type="submit" style="cursor:pointer" value="<?php echo yii::t('app','SAVE')?>" ></input>
 						<input type="button" class="<?php echo yii::t('app','CANCEL') ?>" value="CLEAN" ></input>
 					</div>
 				<?php 

@@ -35,7 +35,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 								<input type="text" name="class_name" value="<?php echo isset($class_name)?$class_name:''?>">
 							</label>
 							<span class="btn">
-								<input type="submit" value="<?php echo \Yii::t('app','Select')?>"></input>
+								<input type="submit" style="cursor:pointer" value="<?php echo \Yii::t('app','Select')?>"></input>
 								<input type="button"  value="<?php echo \Yii::t('app','Insert')?>" id="cabininsert"></input>
 							</span>
 						</div>
@@ -59,7 +59,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 										<td><?php echo \Yii::t('app',$v['status']==1?'Avaliable':'Unavaliable')?></td>
 										<td>
 											<a href="<?php echo Url::toRoute(['cabincategory_option','class_id'=>$v['class_id']]);?>"><img src="<?=$baseUrl ?>images/write.png"></a>
-											<a class="delete" id="<?php echo $v['class_id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
+											<a class="delete" style="cursor:pointer" id="<?php echo $v['class_id'];?>"><img src="<?=$baseUrl ?>images/delete.png"></a>
 										</td>
 									</tr>
 									<?php endforeach;?>
@@ -117,7 +117,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 								</select>
 							</label>
 							<span class="btn">
-								<input type="submit" id="setup" value="<?php echo \Yii::t('app','Set Up')?>"></input>
+								<input type="submit" style="cursor:pointer" id="setup" value="<?php echo \Yii::t('app','Set Up')?>"></input>
 							</span>
 						</div>
 						</form>
