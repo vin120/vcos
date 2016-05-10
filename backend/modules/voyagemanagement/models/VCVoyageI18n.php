@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "v_c_voyage_i18n".
  *
- * @property string $id
+ * @property integer $id
  * @property string $voyage_code
  * @property string $voyage_name
  * @property string $voyage_desc
@@ -40,11 +40,11 @@ class VCVoyageI18n extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'voyage_code' => 'Voyage Code',
-            'voyage_name' => 'Voyage Name',
-            'voyage_desc' => 'Voyage Desc',
-            'i18n' => 'I18n',
+            'id' => Yii::t('app', 'ID'),
+            'voyage_code' => Yii::t('app', 'Voyage Code'),
+            'voyage_name' => Yii::t('app', 'Voyage Name'),
+            'voyage_desc' => Yii::t('app', 'Voyage Desc'),
+            'i18n' => Yii::t('app', 'I18n'),
         ];
     }
 }

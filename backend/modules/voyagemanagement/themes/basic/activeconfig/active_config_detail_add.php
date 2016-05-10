@@ -67,13 +67,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 				
 				<span class='tips'></span>
 			</p>
-			<p style="clear: both">
-				<label>
-					<span class='max_l'><?php echo yii::t('app','Desc')?>:</span>
-					<textarea id='detail_desc' name='detail_desc' ></textarea>
-				</label>
-				<span class='tips'></span>
-			</p>
+			
 			<p style="min-height: 110px;">
 				<label>
 					<span class='max_l' style="float: left;"><?php echo yii::t('app','Img')?>:</span>
@@ -85,6 +79,13 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 						<input id="photoimg" type="file" name="photoimg" style="width:60px;">
 					</span>
 				 </label>
+				<span class='tips'></span>
+			</p>
+			<p style="clear: both">
+				<label>
+					<span class='max_l'><?php echo yii::t('app','Desc')?>:</span>
+					<textarea id='detail_desc' name='detail_desc' ></textarea>
+				</label>
 				<span class='tips'></span>
 			</p>
 			</div>
