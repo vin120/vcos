@@ -254,6 +254,7 @@ $(document).ready(function(){
         var room_max = $("input#room_max").val();
         var floor = $("input#floor").val();
         var data = "<span class='point' >Required fields cannot be empty</span>";
+        var room_data= "<span class='point' >Room area is not more than 200 ㎡ and the maximum is greater than the minimum</span>";
         
         if(code==''){
         	$("input#code").parent().append(data);
@@ -272,6 +273,11 @@ $(document).ready(function(){
         }
         if(room_min=='' || room_max==''){
         	$("input#room_max").parent().append(data);
+        	$("input#room_max").addClass("point");
+			return false;
+        }
+        if(room_min>=200 || room_max>=200 || room_max<=0 || (room_min>room_max)){
+        	$("input#room_max").parent().append(room_data);
         	$("input#room_max").addClass("point");
 			return false;
         }
@@ -328,8 +334,11 @@ $(document).ready(function(){
 	$('form#cabin_val').submit(function(){
 		var a = 0;
 		var op = $(this).attr('class');
+		var min = $(".check_save_div input[name='min']").val();
+		var max = $(".check_save_div input[name='max']").val();
 		var data = "<span class='point' >Required fields cannot be empty</span>";
-        
+		var live_data = "<span class='point' >Can only enter an integer between 1-4, and the largest in number cannot be less than the minimum number</span>";
+		
 		$(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
     		if($(this).val()==''){
     			$(this).parent().append(data);
@@ -340,6 +349,17 @@ $(document).ready(function(){
        	}); 
 		
         if(a==1){return false;}
+        
+        if(min<1 || min>5 ){
+        	$(".check_save_div input[name='min']").parent().append(live_data);
+        	$(".check_save_div input[name='min']").addClass("point");
+			return false;
+        }
+        if(max<1 || max>5 || (min>max)){
+        	$(".check_save_div input[name='max']").parent().append(live_data);
+        	$(".check_save_div input[name='max']").addClass("point");
+			return false;
+        }
         
         if(op == 'cabin_add'){
 	        if($.trim($(".check_save_div textarea[name='name']").val())==''){
@@ -361,6 +381,7 @@ $(document).ready(function(){
         var desc = $("textarea#desc").val();
         var price = $("input#price").val();
         var data = "<span class='point' >Required fields cannot be empty</span>";
+        var price_data = "<span class='point' >The price is within 1000000</span>";
         
         $(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
     		if($(this).val()==''){
@@ -373,6 +394,12 @@ $(document).ready(function(){
 		
         if(a==1){return false;}
         
+        var reg = /^\d+(\.\d{2})?$/;
+    	if(!reg.test(price) || price>1000000){
+    		$("input#price").parent().append(price_data);
+    		$("input#price").addClass("point");
+			return false;
+    	}
         if(desc==''){
         	$("textarea#desc").parent().append(data);
         	$("textarea#desc").addClass("point");
@@ -419,8 +446,15 @@ $(document).ready(function(){
         var a=0;
         var op = $(this).attr('class');
         var code = $("input[name='voyage_code']").val();
+        var ticket_price = $("input[name='ticket_price']").val();
+        var harbour_taxes = $("input[name='harbour_taxes']").val();
+        var ticket_taxes = $("input[name='ticket_taxes']").val();
+        var deposit_ratio = $("input[name='deposit_ratio']").val();
+        
         var data = "<span class='point' >Required fields cannot be empty</span>";
-		var file = $("input[type='file']").val();
+        var price_data = "<span class='point' >A maximum of millions, and can only keep two decimal places</span>";
+        var t_data = "<span class='point' >Can only input values between 0 and 100</span>";
+        var file = $("input[type='file']").val();
         $(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
     		if($(this).val()==''){
     			$(this).parent().append(data);
@@ -430,11 +464,38 @@ $(document).ready(function(){
     		}
        	}); 
         if(a==1){return false;}
+        
+        var reg = /^\d+(\.\d{2})?$/;
+    	
+    	if(!reg.test(ticket_price) || ticket_price>1000000){
+    		$("input[name='ticket_price']").parent().append(price_data);
+    		$("input[name='ticket_price']").addClass("point");
+			return false;
+    	}
+    	if(ticket_taxes<0 || ticket_taxes>100){
+    		$("input[name='ticket_taxes']").parent().append(t_data);
+    		$("input[name='ticket_taxes']").addClass("point");
+			return false;
+    	}
+    	if(!reg.test(harbour_taxes) || harbour_taxes>1000000){
+    		$("input[name='harbour_taxes']").parent().append(price_data);
+    		$("input[name='harbour_taxes']").addClass("point");
+			return false;
+    	}
+    	if(deposit_ratio<0 || deposit_ratio>100){
+    		$("input[name='deposit_ratio']").parent().append(t_data);
+    		$("input[name='deposit_ratio']").addClass("point");
+			return false;
+    	}
+    	
+        
+        
         if($("textarea[name='desc']").val() == ''){
         	$("textarea[name='desc']").parent().append(data);
         	$("textarea[name='desc']").addClass("point");
 			return false;
         }
+        
         
         if(op == 'voyage_add'){
         	if(file == ''){
@@ -537,15 +598,15 @@ $(document).ready(function(){
 			
 			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">Bed Price:</span>';
 			var bed_price = act=='edit'?pricing_data['bed_price']:'';
-			str_con += '<input style="width:120px" onkeyup="this.value=this.value.replace(/[^0-9.]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9.]/g,\'\')" type="text" value="'+bed_price+'" id="bed_price" name="bed_price" /></label></p>';
+			str_con += '<input style="width:120px" onkeyup="this.value=this.value.replace(/[^0-9.]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9.]/g,\'\')" type="text" value="'+bed_price+'" id="bed_price" name="bed_price" maxlength="7"/></label></p>';
 			
 			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">2th-Bed Sates(%):</span>';
 			var t_2_sates = act=='edit'?pricing_data['2_empty_bed_preferential']:'';
-			str_con += '<input  onkeyup="this.value=this.value.replace(/[^0-9]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9]/g,\'\')" style="width:120px" type="text" value="'+t_2_sates+'" id="t_2_sates" name="t_2_sates" /></label></p>';
+			str_con += '<input  onkeyup="this.value=this.value.replace(/[^0-9]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9]/g,\'\')" style="width:120px" type="text" value="'+t_2_sates+'" id="t_2_sates" name="t_2_sates" maxlength="3" /></label></p>';
 			
 			str_con += '<p><label><span style="width:200px;margin-left:-100px;display:inline-block;text-align:right;">3/4th-Bed Sates(%):</span>';
 			var t_3_sates = act=='edit'?(pricing_data['3_4_empty_bed_preferential']==0?'':pricing_data['3_4_empty_bed_preferential']):'';
-			str_con += '<input style="width:120px"  onkeyup="this.value=this.value.replace(/[^0-9]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9]/g,\'\')" type="text" value="'+t_3_sates+'" disabled="disabled" id="t_3_sates" name="t_3_sates" /></label></p>';
+			str_con += '<input style="width:120px"  onkeyup="this.value=this.value.replace(/[^0-9]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9]/g,\'\')" type="text" value="'+t_3_sates+'" disabled="disabled" id="t_3_sates" name="t_3_sates" maxlength="3" /></label></p>';
 			
 			str_con += '<p class="btn">';
 			var sub_id = act=='edit'?id:0;
@@ -585,8 +646,16 @@ $(document).ready(function(){
 		var sub_id = $(this).attr('id');
 		
 		var data = "<span class='point' >Required fields cannot be empty</span>";
+		var price_data = "<span class='point' >The price is within 1000000</span>";
+		var t_data = "<span class='point' >Can only enter an integer between 0 and 100</span>";
+			
 		if(bed_price==''){
 			$("input[name='bed_price']").parent().append(data);
+			$("input[name='bed_price']").addClass("point");
+			return false;
+		}
+		if(bed_price>1000000){
+			$("input[name='bed_price']").parent().append(price_data);
 			$("input[name='bed_price']").addClass("point");
 			return false;
 		}
@@ -595,8 +664,18 @@ $(document).ready(function(){
 			$("input[name='t_2_sates']").addClass("point");
 			return false;
 		}
+		if(t_2_sates>100){
+			$("input[name='t_2_sates']").parent().append(t_data);
+			$("input[name='t_2_sates']").addClass("point");
+			return false;
+		}
 		if(t_3_sates==''){
 			$("input[name='t_3_sates']").parent().append(data);
+			$("input[name='t_3_sates']").addClass("point");
+			return false;
+		}
+		if(t_3_sates>100){
+			$("input[name='t_3_sates']").parent().append(t_data);
 			$("input[name='t_3_sates']").addClass("point");
 			return false;
 		}
@@ -693,7 +772,7 @@ $(document).ready(function(){
 			
 			str_con += '<p><label><span style="width:128px;margin-left:-100px;display:inline-block;text-align:right;">Preferential(%):</span>';
 			var price = act=='edit'?policies_data['p_price']:'';
-			str_con += '<input onkeyup="this.value=this.value.replace(/[^0-9]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9]/g,\'\')" style="width:120px" type="text" value="'+price+'" id="price" name="price" /></label></p>';
+			str_con += '<input maxlength="3" onkeyup="this.value=this.value.replace(/[^0-9]/g,\'\')"  onafterpaste="this.value=this.value.replace(/[^0-9]/g,\'\')" style="width:120px" type="text" value="'+price+'" id="price" name="price" /></label></p>';
 			
 			str_con += '<p class="btn">';
 			var sub_id = act=='edit'?id:0;
@@ -725,8 +804,15 @@ $(document).ready(function(){
 		var sub_id = $(this).attr('id');
 		
 		var data = "<span class='point' >Required fields cannot be empty</span>";
+		var t_data = "<span class='point' >Can only enter an integer between 0 and 100</span>";
+		
 		if(price==''){
 			$("input[name='price']").parent().append(data);
+			$("input[name='price']").addClass("point");
+			return false;
+		}
+		if(price>100){
+			$("input[name='price']").parent().append(t_data);
 			$("input[name='price']").addClass("point");
 			return false;
 		}
@@ -985,7 +1071,27 @@ $(document).ready(function(){
 	});
 	
 	
-	
+	/*
+	//价格小数点限制
+	$(".price_data").on('keyup', function (event) {
+	    var $amountInput = $(this);
+	    //响应鼠标事件，允许左右方向键移动 
+	    event = window.event || event;
+	    if (event.keyCode == 37 | event.keyCode == 39) {
+	        return;
+	    }
+	    //先把非数字的都替换掉，除了数字和. 
+	    $amountInput.val($amountInput.val().replace(/[^\d.]/g, "").
+	        //只允许一个小数点              
+	        replace(/^\./g, "").replace(/\.{2,}/g, ".").
+	        //只能输入小数点后两位
+	        replace(".", "$#$").replace(/\./g, "").replace("$#$", ".").replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'));
+	            });
+	$(".price_data").on('blur', function () {
+	    var $amountInput = $(this);
+	    //最后一位是小数点的话，移除
+	    $amountInput.val(($amountInput.val().replace(/\.$/g, "")));
+	});*/
 	
 	
 	
@@ -1018,6 +1124,7 @@ function Alert(info){
 	 $(document.body).append(str);
 	 $(document.body).append(str_con);
 }
+
 
 //09/05/2016 12:12:23
 function createDate(time){

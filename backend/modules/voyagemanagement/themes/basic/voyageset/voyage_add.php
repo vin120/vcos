@@ -87,11 +87,11 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 						<p>
 							<label>
 								<span><?php echo yii::t('app','Voyage Code')?>:</span>
-								<input type="text" id="voyage_code" name="voyage_code"  ></input>
+								<input type="text" id="voyage_code" name="voyage_code" maxlength="16" ></input>
 							</label>
 							<label>
 								<span><?php echo yii::t('app','Voyage Name')?>:</span>
-								<input type="text" id="voyage_name" name="voyage_name" ></input>
+								<input type="text" id="voyage_name" name="voyage_name" maxlength="16" ></input>
 							</label>
 							
 						</p>
@@ -153,21 +153,21 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Ticket Price')?>:</span>
-									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="ticket_price" name="ticket_price"></input>
+									<input type="text" onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9.]/g,'')" id="ticket_price" name="ticket_price" maxlength="10"></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Ticket Taxes')?>:</span>
-									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="ticket_taxes" name="ticket_taxes" maxlength="9"></input>
+									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="ticket_taxes" name="ticket_taxes" maxlength="3"></input>
 								</label>
 							</p>
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Harbour Taxes')?>:</span>
-									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="harbour_taxes" name="harbour_taxes" maxlength="9" ></input>
+									<input type="text" onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9.]/g,'')" id="harbour_taxes" name="harbour_taxes" maxlength="10" ></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Deposit ratio')?>:</span>
-									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="deposit_ratio" name="deposit_ratio" maxlength="9" ></input>
+									<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="deposit_ratio" name="deposit_ratio" maxlength="3" ></input>
 								</label>
 							</p>
 						</div>
@@ -228,7 +228,10 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 				<!-- voyage map start -->
 				<div>
 					<img id="ImgPr" src="">
-					<input id="photoimg" type="file" disabled="disabled"></input>
+					<label class="uploadFileBox" >
+						<span class="fileName"><?php echo yii::t('app','Select IMG')?>...</span>
+						<a href="#"  class="uploadFile">choose<input type="file" disabled="disabled" name="photoimg" id="photoimg"></input></a>
+					</label>
 					<div class="btn">
 						<input type="button" value="Upload" style="background: #ccc;cursor:not-allowed" ></input>
 					</div>

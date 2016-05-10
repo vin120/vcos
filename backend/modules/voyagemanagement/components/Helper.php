@@ -4,6 +4,8 @@ namespace app\modules\voyagemanagement\components;
 
 use Yii;
 use yii\web\Controller;
+$assets = '@app/modules/membermanagement/themes/basic/static';
+$baseUrl = Yii::$app->assetManager->publish($assets);
 
 class Helper extends Controller
 {
@@ -92,10 +94,28 @@ class Helper extends Controller
 	#promptBox {
     position: absolute;
     top: 30%;
-    left: 50%;
-    width: 200px;
+    left: 40%;
+    width: 300px;
     font: 14px Arial;
     }
+    .btn input:last-child {
+    background-color: #ffb752;
+    border: medium none;
+    color: #fff;
+    cursor: pointer;
+	}
+    
+	#promptBox p {
+	    text-align: center;
+	}
+    .ui-dialog {
+    background: #fff none repeat scroll 0 0;
+    left: 525px;
+    padding: 0;
+    position: absolute;
+    top: 200px;
+    z-index: 1050 !important;
+	}
     .pop-ups {
     position: fixed;
     border: 1px solid #e0e9f4;
@@ -106,11 +126,23 @@ class Helper extends Controller
 	div {
     display: block;
 	}
+	.ui-widget-overlay {
+	background: rgba(0, 0, 0, 0.25);
+	opacity: 1 !important;
+	filter: alpha(opacity = 100) !important;
+	z-index: 1040 !important;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%
+	}
+	
+	.ui-front{z-index: 100;}
 		</style>
 		<div class='ui-widget-overlay ui-front'></div>
 		<div id="promptBox" class="pop-ups write ui-dialog">
 		<h3><?php echo yii::t('app','Prompt')?></h3>
-		<span class="op"><a class="close r"></a></span>
 		<p><?php echo yii::t('app',$info)?></p>
 		<p class="btn">
 		<input type="button" style="margin-right:0;padding: 4px 10px;" onclick="showmessage();" class="cancel_but" value="<?php echo yii::t('app','Ok')?>"></input>
@@ -149,15 +181,16 @@ class Helper extends Controller
 		</script>";
 	}
 	
-	//2015-12-14 12:23:34
+	//return 2015-12-14 12:23:34
 	public static function GetCreateTime($time){//时间格式转换
 		$time = explode(' ', $time);
 		$year = explode('/', $time[0]);
 		$date = $year[2].'-'.$year[1].'-'.$year[0].' '.$time[1];
+		
 		return $date;
 	}
 	
-	//09/05/2016 12:23:13
+	//return 09/05/2016 12:23:13
 	public static function GetDate($time){
 		$time = explode(' ', $time);
 		$year = explode('-', $time[0]);

@@ -42,7 +42,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						<p>
 							<label>
 								<span><?php echo yii::t('app','Name')?>:</span>
-								<input type="text" id="name" name="name" value="<?php echo $active['name'] ?>"></input>
+								<input type="text" maxlength="16" id="name" name="name" value="<?php echo $active['name'] ?>"></input>
 								<input type="hidden" id="active_id" name="active_id" value="<?php echo $active['active_id']?>" ></input>
 							</label>
 						</p>

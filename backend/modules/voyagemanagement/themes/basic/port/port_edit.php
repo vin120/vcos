@@ -43,14 +43,14 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Port Code')?>:</span>
-					<input type="text" id='code' name='code' value="<?php echo $port_result['port_code']?>"></input>
+					<input type="text" maxlength="16" id='code' name='code' value="<?php echo $port_result['port_code']?>"></input>
 					
 				</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Port Code(2 character)')?>:</span>
-					<input type="text" id="code_chara" name="code_chara" value="<?php echo $port_result['port_short_code']?>"></input>
+					<input type="text" maxlength="2" id="code_chara" name="code_chara" value="<?php echo $port_result['port_short_code']?>"></input>
 					
 				</label>
 			</p>
@@ -67,7 +67,7 @@ var port_ajax_url = "<?php echo Url::toRoute(['port_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Port Name')?>:</span>
-					<input type="text" id="name" name="name" value="<?php echo $port_result['port_name']?>"></input>
+					<input type="text" id="name" maxlength="16" name="name" value="<?php echo $port_result['port_name']?>"></input>
 					
 				</label>
 				

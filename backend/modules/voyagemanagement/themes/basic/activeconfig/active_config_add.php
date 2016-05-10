@@ -38,7 +38,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 						<p>
 							<label>
 								<span> <?php echo yii::t('app','Name')?>:</span>
-								<input type="text" id="name"  name="name"></input>
+								<input maxlength="16" type="text" id="name"  name="name"></input>
 							</label>
 						</p>
 						<p>

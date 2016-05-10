@@ -40,7 +40,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Strategy Name')?>:</span>
-					<input type="text" id='name' name='name' value="<?php echo $way_result['strategy_name']?>"></input>
+					<input type="text" maxlength="16" id='name' name='name' value="<?php echo $way_result['strategy_name']?>"></input>
 					
 				</label>
 				<span class='tips'></span>

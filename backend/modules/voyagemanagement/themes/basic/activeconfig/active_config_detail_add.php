@@ -58,7 +58,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Title')?>:</span>
-					<input type="text" id='detail_title' name='detail_title' ></input>
+					<input type="text" maxlength="16" id='detail_title' name='detail_title' ></input>
 				</label>
 				
 				<span class='tips'></span>

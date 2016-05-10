@@ -32,7 +32,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 	<div class="search">
 		<label>
 			<span><?php echo yii::t('app','Voyage Name')?>:</span>
-			<input type="text" id="voyage_name" name="voyage_name" value="<?php echo $voyage_name ?>"></input>
+			<input type="text" maxlength="16" id="voyage_name" name="voyage_name" value="<?php echo $voyage_name ?>"></input>
 		</label>
 		<label>
 			<span><?php echo yii::t('app','Start Time')?>:</span>

@@ -52,14 +52,14 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Cabin Type Code')?>:</span>
-								<input type="text" id='code' name='code' value="<?php echo $cabin_type_result['type_code']?>"></input>
+								<input type="text" maxlength="16" id='code' name='code' value="<?php echo $cabin_type_result['type_code']?>"></input>
 								
 							</label>
 						</p>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Cabin Type Name')?>:</span>
-								<input type="text" id="name" name="name" value="<?php echo $cabin_type_result['type_name']?>"></input>
+								<input type="text" maxlength="16" id="name" name="name" value="<?php echo $cabin_type_result['type_name']?>"></input>
 								
 							</label>
 						</p>
@@ -90,14 +90,14 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Room Area')?>:</span>
 								<?php $room = explode('-', $cabin_type_result['room_area']);?>
-								<input type="text" id="room_min" name="room_min" style="width:35px" value="<?php echo $room[0];?>" /> -
-								<input type="text" id="room_max" name="room_max" style="width:35px" value="<?php echo $room[1];?>" /><?php echo yii::t('app','㎡')?>
+								<input type="text" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="room_min"  maxlength="3" name="room_min" style="width:35px" value="<?php echo $room[0];?>" /> -
+								<input type="text" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="room_max" maxlength="3" name="room_max" style="width:35px" value="<?php echo $room[1];?>" /><?php echo yii::t('app','㎡')?>
 							</label>
 						</p>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Floor')?>:</span>
-								<input type="text" id='floor' name='floor' value="<?php echo $cabin_type_result['floor']?>" ></input>
+								<input type="text" id='floor' maxlength="16" name='floor' value="<?php echo $cabin_type_result['floor']?>" ></input>
 								
 							</label>
 						</p>

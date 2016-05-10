@@ -54,7 +54,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Deck Num')?>:</span>
-					<input type="text" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="deck" name="deck" value="<?php echo $cabin_result['deck_num']?>"></input>
+					<input type="text" maxlength="2" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="deck" name="deck" value="<?php echo $cabin_result['deck_num']?>"></input>
 					
 				</label>
 			</p>
@@ -62,14 +62,14 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Max Check In')?>:</span>
-					<input type="text" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="max" name="max" value="<?php echo $cabin_result['max_check_in']?>"></input>
+					<input type="text" maxlength="1" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="max" name="max" value="<?php echo $cabin_result['max_check_in']?>"></input>
 					
 				</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Ieast Aduits Num')?>:</span>
-					<input type="text" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="min" name="min" value="<?php echo $cabin_result['last_aduits_num']?>"></input>
+					<input type="text" maxlength="1" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" id="min" name="min" value="<?php echo $cabin_result['last_aduits_num']?>"></input>
 					
 				</label>
 			</p>

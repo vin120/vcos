@@ -124,7 +124,7 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 							</label>
 							<label>
 								<span><?php echo yii::t('app','Voyage Name')?>:</span>
-								<input type="text" id="voyage_name" name="voyage_name" value="<?php echo $voyage['voyage_name']?>"></input>
+								<input type="text" id="voyage_name" name="voyage_name" value="<?php echo $voyage['voyage_name']?>" maxlength="16" ></input>
 							</label>
 							
 						</p>
@@ -186,21 +186,21 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Ticket Price')?>:</span>
-									<input type="text" id="ticket_price"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="ticket_price" value="<?php echo $voyage['ticket_price']?>" ></input>
+									<input class="price_data" type="text" id="ticket_price"  onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9.]/g,'')" name="ticket_price" value="<?php echo $voyage['ticket_price']?>" maxlength="10"></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Ticket Taxes')?>:</span>
-									<input type="text" id="ticket_taxes"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="ticket_taxes" value="<?php echo $voyage['ticket_taxes']?>" maxlength="9" ></input>
+									<input type="text" id="ticket_taxes"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="ticket_taxes" value="<?php echo $voyage['ticket_taxes']?>" maxlength="3" ></input>
 								</label>
 							</p>
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Harbour Taxes')?>:</span>
-									<input type="text" id="harbour_taxes" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  name="harbour_taxes" value="<?php echo $voyage['harbour_taxes']?>" maxlength="9"></input>
+									<input class="price_data" type="text" id="harbour_taxes" onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9.]/g,'')"  name="harbour_taxes" value="<?php echo $voyage['harbour_taxes']?>" maxlength="10"></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Deposit ratio')?>:</span>
-									<input type="text" id="deposit_ratio" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="deposit_ratio" value="<?php echo $voyage['deposit_ratio']?>" maxlength="9" ></input>
+									<input type="text" id="deposit_ratio" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="deposit_ratio" value="<?php echo $voyage['deposit_ratio']?>" maxlength="3" ></input>
 								</label>
 							</p>
 						</div>

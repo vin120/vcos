@@ -47,14 +47,14 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Cabin Type Code')?>:</span>
-								<input type="text" id='code' name='code'></input>
+								<input type="text" maxlength="16" id='code' name='code'></input>
 								
 							</label>
 						</p>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Cabin Type Name')?>:</span>
-								<input type="text" id="name" name="name"></input>
+								<input type="text" maxlength="16" id="name" name="name"></input>
 								
 							</label>
 						</p>
@@ -84,14 +84,14 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Room Area')?>:</span>
-								<input type="text" id="room_min" name="room_min" style="width:35px" /> -
-								<input type="text" id="room_max" name="room_max" style="width:35px" /><font style="margin-left: 5px;" class='cabin_type_room_span'><?php echo yii::t('app','㎡')?></font>
+								<input type="text" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="3" id="room_min" name="room_min" style="width:35px" /> -
+								<input type="text" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="3" id="room_max"  name="room_max" style="width:35px" /><font style="margin-left: 5px;" class='cabin_type_room_span'><?php echo yii::t('app','㎡')?></font>
 							</label>
 						</p>
 						<p>
 							<label>
 								<span class='max_l'><?php echo yii::t('app','Floor')?>:</span>
-								<input type="text" id='floor' name='floor'></input>
+								<input type="text" maxlength="16" id='floor' name='floor'></input>
 								
 							</label>
 						</p>

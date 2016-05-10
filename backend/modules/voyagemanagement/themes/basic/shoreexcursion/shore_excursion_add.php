@@ -42,21 +42,21 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Tour Code')?>:</span>
-					<input type="text" id='code' name='code'></input>
+					<input type="text" maxlength="16" id='code' name='code'></input>
 					
 				</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Tour Name')?>:</span>
-					<input type="text" id="name" name="name"></input>
+					<input type="text" maxlength="16" id="name" name="name"></input>
 					
 				</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Price')?>:</span>
-					<input type="text" id="price" name="price" onkeyup="value=value.replace(/[^\d.]/g,'')" onafterpaste="value=value.replace(/[^\d.]/g,'')"></input>
+					<input type="text" maxlength="10" id="price" name="price" onkeyup="value=value.replace(/[^\d.]/g,'')" onafterpaste="value=value.replace(/[^\d.]/g,'')"></input>
 					
 				</label>
 			</p>

@@ -29,11 +29,11 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
     <div class="search" >
     	<label>
             <span><?php echo yii::t('app','Cruise Code')?>:</span>
-            <input type="text" name="w_code" id="w_code" value="<?php echo $w_code;?>"></input>
+            <input type="text" name="w_code" id="w_code" value="<?php echo $w_code;?>" maxlength="16"></input>
         </label>
         <label>
             <span><?php echo yii::t('app','Cruise Name')?>:</span>
-            <input type="text" name="w_name" id="w_name" value="<?php echo $w_name;?>"></input>
+            <input type="text" name="w_name" id="w_name" value="<?php echo $w_name;?>" maxlength="16"></input>
         </label>
         <label>
             <span><?php echo yii::t('app','Status')?>:</span>

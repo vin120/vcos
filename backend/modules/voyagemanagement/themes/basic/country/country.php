@@ -30,11 +30,11 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 				<p>
 					<label>
 						<span><?php echo yii::t('app','Country Name')?>:</span>
-						<input type="text" name="w_c_name" value="<?php echo $w_c_name;?>"></input>
+						<input type="text" name="w_c_name" maxlength="16" value="<?php echo $w_c_name;?>"></input>
 					</label>
 					<label>
 						<span><?php echo yii::t('app','Area Name')?>:</span>
-						<input type="text" name="w_a_name" value="<?php echo $w_a_name;?>"></input>
+						<input type="text" name="w_a_name" maxlength="16" value="<?php echo $w_a_name;?>"></input>
 					</label>
 					<label>
 						<span><?php echo yii::t('app','Status')?>:</span>
@@ -48,11 +48,11 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 				<p>
 					<label>
 						<span><?php echo yii::t('app','Code(2 characters)')?>:</span>
-						<input type="text" name="w_2_code" value="<?php echo $w_2_code;?>"></input>
+						<input type="text" maxlength="2" name="w_2_code" value="<?php echo $w_2_code;?>"></input>
 					</label>
 					<label>
 						<span><?php echo yii::t('app','Code(3 characters)')?>:</span>
-						<input type="text" name="w_3_code" value="<?php echo $w_3_code;?>"></input>
+						<input type="text" maxlength="3" name="w_3_code" value="<?php echo $w_3_code;?>"></input>
 					</label>
 					<span class="btn"><input style="cursor:pointer" type="submit" name="w_submit" value="<?php echo yii::t('app','SEARCH')?>"></input></span>
 				</p>

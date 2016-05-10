@@ -4,11 +4,14 @@ $this->title = 'Voyage Management';
 
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAsset;
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUpload;
+use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUeditor;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 ThemeAsset::register($this);
 ThemeAssetUpload::register($this);
+ThemeAssetUeditor::register($this);
+
 
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . '/';
@@ -28,9 +31,10 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
     #cruise_val label.error:before { content: ""; position: absolute; left: -10px; top: 4px; width: 0; height: 0; border-style: solid; border-width: 5px 10px 5px 0; border-color: transparent #fe5d5d transparent transparent; }
     #cruise_val input.point { outline-color: #fe5d5d; border: 2px solid #fe5d5d; }
     #cruise_val textarea.point { outline-color: #fe5d5d; border: 2px solid #fe5d5d; }
+    #desc { display: inline-block; width: 50%; vertical-align: top; }
 </style>
 <script type="text/javascript">
-var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
+	var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 </script>
 
 <!-- content start -->
@@ -45,12 +49,12 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 
 		<?php
 			$form = ActiveForm::begin([
-					'action' => ['cruise_edit','code'=>$cruise_result['cruise_code']],
-					'method'=>'post',
-					'id'=>'cruise_val',
-					'options' => ['class' => 'cruise_edit','enctype'=>'multipart/form-data'],
-					'enableClientValidation'=>false,
-					'enableClientScript'=>false
+				'action' => ['cruise_edit','code'=>$cruise_result['cruise_code']],
+				'method'=>'post',
+				'id'=>'cruise_val',
+				'options' => ['class' => 'cruise_edit','enctype'=>'multipart/form-data'],
+				'enableClientValidation'=>false,
+				'enableClientScript'=>false
 			]); 
 		?>
 		
@@ -59,21 +63,23 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Cruise Code')?>:</span>
-					<input type="text" id='code' name='code' value="<?php echo $cruise_result['cruise_code']?>"></input>
+					<input type="text" id='code' maxlength="16" name='code' value="<?php echo $cruise_result['cruise_code']?>"></input>
 					
 				</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Cruise Name')?>:</span>
-					<input type="text" id="name" name="name" value="<?php echo $cruise_result['cruise_name']?>"></input>
-					
+					<input type="text" id="name" maxlength="16" name="name" value="<?php echo $cruise_result['cruise_name']?>"></input>
+					<script id="container" name="content" type="text/plain">
+        			
+    				</script>
 				</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Deck Number')?>:</span>
-					<input type="text" id='number'  name='number' value="<?php echo $cruise_result['deck_number']?>"></input>
+					<input type="text" id='number' maxlength="2" name='number' value="<?php echo $cruise_result['deck_number']?>"></input>
 					
 				</label>
 			</p>
@@ -92,7 +98,8 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p style="min-height: 90px;">
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Cruise Desc')?>:</span>
-					<textarea id='desc' name='desc'><?php echo $cruise_result['cruise_desc']?></textarea>
+					<textarea id='desc' name="desc"><?php echo $cruise_result['cruise_desc']?></textarea>
+				
 				</label>
 			</p>
 			<p>
@@ -120,6 +127,8 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 <!-- content end -->
 <script>
 window.onload = function(){
+UE.getEditor('desc');
+	
 $("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
 $("input[type=text]").each(function(){//聚焦是清除
 	$(this).focus(function(){
@@ -139,8 +148,11 @@ $("input[type=text]").each(function(){//聚焦是清除
      var code = $("input#code").val();
      var name = $("input#name").val();
      var number = $("input#number").val();
-     var desc = $.trim($("textarea#desc").val());
+     var desc = UE.getEditor('desc').getContentTxt();
+     
      var data = "<span class='point' ><?php echo yii::t('app','Required fields cannot be empty ')?></span>";
+     var deck_data = "<span class='point' ><?php echo yii::t('app','Only the value of the input 1-20 ')?></span>";
+     
      $("input[type='text']").each(function(e){	//如果文本框为空值			
  		if($(this).val()==''){
  			$(this).parent().append(data);
@@ -148,15 +160,19 @@ $("input[type=text]").each(function(){//聚焦是清除
  			a=1;
  			return false;
  		}
-    	}); 
+    }); 
  	if(a==1){return false;}
-    	if(desc == ''){
-    		$("textarea#desc").parent().append(data);
-    		$("textarea#desc").addClass("point");
- 			return false;
-    	}
-     if(code!='' && number!='' && name!='' && desc!=''){
-     		var id = $("input#id").val();
+ 	if(number>20 || number<=0){
+    	$("input#number").parent().append(deck_data);
+    	$("input#number").addClass("point");
+		return false;
+	}
+    if(desc == ''){
+    	Alert("<?php echo yii::t('app','Description cannot be empty')?>");
+ 		return false;
+    }
+    if(code!='' && number!='' && name!='' && desc!=''){
+   		var id = $("input#id").val();
      	
      	 $.ajax({
  		        url:cruise_ajax_url,

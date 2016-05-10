@@ -44,20 +44,20 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Tour Code')?>:</span>
-					<input type="text" id='code' name='code' value="<?php echo $shore_excursion_result['se_code']?>"></input>
+					<input type="text" maxlength="16" id='code' name='code' value="<?php echo $shore_excursion_result['se_code']?>"></input>
 					
 				</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Tour Name')?>:</span>
-					<input type="text" id="name" name="name" value="<?php echo $shore_excursion_result['se_name']?>"></input>
+					<input type="text" maxlength="16" id="name" name="name" value="<?php echo $shore_excursion_result['se_name']?>"></input>
 				</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Price')?>:</span>
-					<input type="text" id="price" name="price" onkeyup="value=value.replace(/[^\d.]/g,'')" onafterpaste="value=value.replace(/[^\d.]/g,'')" value="<?php echo $shore_excursion_result['price']?>"></input>
+					<input type="text" maxlength="10" id="price" name="price" onkeyup="value=value.replace(/[^\d.]/g,'')" onafterpaste="value=value.replace(/[^\d.]/g,'')" value="<?php echo $shore_excursion_result['price']?>"></input>
 					
 				</label>
 			</p>

@@ -48,7 +48,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
             <!-- 一级 -->
             <ul>
                 <li class="open">
-                    <a href="<?php echo Url::toRoute(['default/index']);?>"><img src="<?=$baseUrl ?>images/routeManage_icon.png"><?= \Yii::t('app', 'Voyage Manage') ?><i></i></a>
+                    <a><img src="<?=$baseUrl ?>images/routeManage_icon.png"><?= \Yii::t('app', 'Voyage Manage') ?><i></i></a>
                 </li>
                 <!-- 二级 -->
                 <ul>

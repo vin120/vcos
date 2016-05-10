@@ -23,7 +23,7 @@ jQuery.fn.extend({
 	            if (this.value) {
 	            	
 	                if (!RegExp("\.(" + opts.ImgType.join("|") + ")$", "i").test(this.value.toLowerCase())) {
-	                    alert("选择文件错误,图片类型必须是" + opts.ImgType.join("，") + "中的一种");
+	                    alert("Select the file error, image type must be" + opts.ImgType.join("，") + "One of the");
 	                    this.value = "";
 	                    return false;
 	                }

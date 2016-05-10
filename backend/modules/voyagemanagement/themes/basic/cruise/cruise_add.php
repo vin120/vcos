@@ -6,9 +6,11 @@ use app\modules\voyagemanagement\themes\basic\myasset\ThemeAsset;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUpload;
+use app\modules\voyagemanagement\themes\basic\myasset\ThemeAssetUeditor;
 
 ThemeAsset::register($this);
 ThemeAssetUpload::register($this);
+ThemeAssetUeditor::register($this);
 
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . '/';
@@ -31,6 +33,7 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
     #cruise_val label.error:before { content: ""; position: absolute; left: -10px; top: 4px; width: 0; height: 0; border-style: solid; border-width: 5px 10px 5px 0; border-color: transparent #fe5d5d transparent transparent; }
     #cruise_val input.point { outline-color: #fe5d5d; border: 2px solid #fe5d5d; }
     #cruise_val textarea.point { outline-color: #fe5d5d; border: 2px solid #fe5d5d; }
+    #desc { display: inline-block; width: 50%; vertical-align: top; }
 </style>
 <!-- content start -->
 <div class="r content" id="user_content">
@@ -56,20 +59,20 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Cruise Code')?>:</span>
-					<input type="text" id='code' name='code' />
+					<input type="text" id='code' name='code' maxlength="16"/>
 					</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Cruise Name')?>:</span>
-					<input type="text" id="name" name="name" />
+					<input type="text" id="name" name="name" maxlength="16"/>
 					
 				</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Deck Number')?>:</span>
-					<input type="text"  id='number' name='number'  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+					<input type="text" maxlength="2"  id='number' name='number'  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
 					
 				</label>
 			</p>
@@ -119,6 +122,9 @@ var cruise_ajax_url = "<?php echo Url::toRoute(['cruise_code_check']);?>";
 
 <script>
 window.onload = function(){
+	UE.getEditor('desc');
+	
+
 $("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
 
 $("input[type=text]").each(function(){//聚焦是清除
@@ -142,6 +148,10 @@ $('form#cruise_val').submit(function(){
     var file = $("input[type='file']").val();
     var number = $("input#number").val();
     var data = "<span class='point' ><?php echo yii::t('app','Required fields cannot be empty ')?></span>";
+    var deck_data = "<span class='point' ><?php echo yii::t('app','Only the value of the input 1-20 ')?></span>";
+    var desc = UE.getEditor('desc').getContentTxt();
+
+    
     $("input[type=text]").each(function(e){	//如果文本框为空值			
 		if($(this).val()==''){
 			$(this).parent().append(data);
@@ -151,6 +161,11 @@ $('form#cruise_val').submit(function(){
 		}
    	}); 
     if(a==1){return false;}
+    if(number>20 || number<=0){
+    	$("input#number").parent().append(deck_data);
+    	$("input#number").addClass("point");
+		return false;
+        }
    	if(desc == ''){
    		$("textarea#desc").parent().append(data);
    		$("textarea#desc").addClass("point");

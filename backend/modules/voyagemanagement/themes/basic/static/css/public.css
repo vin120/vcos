@@ -137,8 +137,8 @@ td.op_btn  a:first-child {margin-right:5px;}
 .write label span.btn_img{width:60px;}
 .write label span.btn_img > span{width:60px;}
 
-.write  div { padding: 20px; }
-.write  div:not(.btn) { border: 1px solid #e0e9f4; }
+.write > div { padding: 20px; }
+.write > div:not(.btn) { border: 1px solid #e0e9f4; }
 .write input[type='text'], .write input[type='password']{ width: 160px; height: 20px; }
 
 
@@ -185,6 +185,11 @@ td.op_btn  a:first-child {margin-right:5px;}
 
 .pop-ups > span.op {cursor:pointer;position:inherit;top:20px;right:20px;display: inline-block; width: 28px; height: 28px; margin-top: -4px; background: url(img/lg_close.png) no-repeat; }
 .cancel_but{margin-left:10px;}
+
+
+
+/*****百度编辑器样式********/
+.edui-default td {border:0px;}
 
 
 

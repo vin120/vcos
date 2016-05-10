@@ -57,7 +57,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					<p>
 						<label>
 							<span class='max_l'><?php echo yii::t('app','Deck Num')?>:</span>
-							<input type="text" id="deck" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')"></input>
+							<input type="text" maxlength="2" id="deck" maxlength="9" name="deck" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')"></input>
 							
 						</label>
 					</p>
@@ -65,14 +65,14 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					<p>
 						<label>
 							<span class='max_l'><?php echo yii::t('app','Max Check In')?>:</span>
-							<input type="text" id="max" maxlength="9" name="max" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')"></input>
+							<input type="text" id="max" maxlength="1" name="max" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')"></input>
 							
 						</label>
 					</p>
 					<p>
 						<label>
 							<span class='max_l'><?php echo yii::t('app','Ieast Aduits Num')?>:</span>
-							<input type="text" id="min" maxlength="9" name="min" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')"></input>
+							<input type="text" id="min" maxlength="1" name="min" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')"></input>
 							
 						</label>
 					</p>

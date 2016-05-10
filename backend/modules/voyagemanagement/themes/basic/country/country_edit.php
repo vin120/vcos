@@ -50,7 +50,7 @@ var ajax_url = "<?php echo Url::toRoute(['country_code_check']);?>";
 			<p>
 			<label>
 				<span class='max_l'><?php echo yii::t('app','Country Name')?>:</span>
-				<input type="text" id="name" name="name" value="<?php echo $country_result['country_name']?>"></input>
+				<input type="text" maxlength="16" id="name" name="name" value="<?php echo $country_result['country_name']?>"></input>
 			</label>
 			</p>
 			<p>
@@ -75,13 +75,13 @@ var ajax_url = "<?php echo Url::toRoute(['country_code_check']);?>";
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Code(2 characters)')?>:</span>
-					<input type="text"  id='code' name='code' maxlength="2" value="<?php echo $country_result['country_code']?>"></input>
+					<input type="text" maxlength="2" id='code' name='code' maxlength="2" value="<?php echo $country_result['country_code']?>"></input>
 				</label>
 			</p>
 			<p>
 				<label>
 					<span class='max_l'><?php echo yii::t('app','Code(3 characters)')?>:</span>
-					<input type="text" id="code_chara" maxlength="3" name="code_chara" value="<?php echo $country_result['counry_short_code']?>"></input>
+					<input type="text" maxlength="3" id="code_chara" maxlength="3" name="code_chara" value="<?php echo $country_result['counry_short_code']?>"></input>
 				</label>
 			</p>
 		</div>
