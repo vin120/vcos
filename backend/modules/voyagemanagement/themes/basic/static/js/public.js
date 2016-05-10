@@ -450,7 +450,7 @@ $(document).ready(function(){
     		var id = '';
     	
     	 $.ajax({
-		        url:voyage_set_ajax_url,
+		        url:voyage_set_code_check_ajax_url,
 		        type:'get',
 		        data:'code='+code+'&act='+act+'&id='+id,
 		        async:false,

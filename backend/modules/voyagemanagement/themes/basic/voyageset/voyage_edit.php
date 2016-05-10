@@ -109,7 +109,7 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 						'action' => ['voyage_edit'],
 						'method'=>'post',
 						'id'=>'voyage_val',
-						'options' => ['class' => 'voyage_add','enctype'=>'multipart/form-data'],
+						'options' => ['class' => 'voyage_edit','enctype'=>'multipart/form-data'],
 						'enableClientValidation'=>false,
 						'enableClientScript'=>false
 					]); 
@@ -306,8 +306,8 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 						<a href="#" class="uploadFile">choose<input type="file" name="photoimg" id="photoimg"></input></a>
 					</label>
 					<div class='btn'>
-					<input type='submit' style='cursor:pointer' value='<?php echo yii::t('app','Upload')?>'></input>
-					</div>
+					<input type='submit' style="cursor:pointer" style='cursor:pointer' value='<?php echo yii::t('app','Upload')?>'></input>
+					</div>	
 					
 				</div>
 				<?php 
@@ -415,7 +415,7 @@ window.onload = function(){
                         str += "<td>"+etd+"</td>";
                         str += "<td  class='op_btn'>";
                         str += "<a href='<?php echo Url::toRoute(['voyage_port_edit']);?>&voyage_id="+<?php echo $voyage['id']?>+"&port_id="+data[key]['id']+"'><img src='<?=$baseUrl ?>images/write.png'></a>";
-                        str += "<a class='delete' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
+                        str += "<a class='delete' style='cursor:pointer' id='"+data[key]['id']+"'><img src='<?=$baseUrl ?>images/delete.png'></a>";
                         str += "</td>";
                         str += "</tr>";
                       });
@@ -473,7 +473,6 @@ window.onload = function(){
         	success:function(data){
             	var str = '';
         		if(data != 0){
-	            	var voyage = data['voyage'];
 	            	var map_result = data['map_result'];
 
 	            	var src = "<?php echo $baseUrl.'upload/'?>"+map_result['map_img'];
@@ -498,7 +497,7 @@ window.onload = function(){
             	var str = '';
             	var i = 0;
         		if(data != 0){
-            		var voyage = data['voyage'];
+            		
 	            	var cabin_result = data['cabin_result'];
 	            	var cabin_type_result = data['cabin_type_result'];
 	            	var really_cabin_result = data['really_cabin_result'];
