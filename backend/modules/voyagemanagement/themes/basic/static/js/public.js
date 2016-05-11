@@ -313,15 +313,15 @@ $(document).ready(function(){
 	//cabintype->graphic
 	$('form#cabin_type_graphic_val').submit(function(){
         var op = $(this).attr('class');
-        var desc = $("textarea#desc").val();
+        var desc = UE.getEditor('desc').getContentTxt();
         var file = $("input[type='file']").val();
         var data = "<span class='point' >Required fields cannot be empty</span>";
         
         if(desc==''){
-        	$("textarea#desc").parent().append(data);
-        	$("textarea#desc").addClass("point");
+        	Alert("Description cannot be empty");
 			return false;
 		}
+   
         
     	if(op != 'cabin_type_graphic_edit'){
     		if(file==''){Alert("Please choose to upload pictures");
@@ -378,11 +378,10 @@ $(document).ready(function(){
         var op = $(this).attr('class');
         var code = $("input#code").val();
         var name = $("input#name").val();
-        var desc = $("textarea#desc").val();
+        var desc = UE.getEditor('desc').getContentTxt();
         var price = $("input#price").val();
         var data = "<span class='point' >Required fields cannot be empty</span>";
         var price_data = "<span class='point' >The price is within 1000000</span>";
-        
         $(".check_save_div input[type=text]").each(function(e){	//如果文本框为空值			
     		if($(this).val()==''){
     			$(this).parent().append(data);
@@ -401,8 +400,7 @@ $(document).ready(function(){
 			return false;
     	}
         if(desc==''){
-        	$("textarea#desc").parent().append(data);
-        	$("textarea#desc").addClass("point");
+        	Alert("Description cannot be empty");
 			return false;
 		}
         
@@ -523,12 +521,16 @@ $(document).ready(function(){
     	
         
         
-        if($("textarea[name='desc']").val() == ''){
-        	$("textarea[name='desc']").parent().append(data);
-        	$("textarea[name='desc']").addClass("point");
+//        if($("textarea[name='desc']").val() == ''){
+//        	$("textarea[name='desc']").parent().append(data);
+//        	$("textarea[name='desc']").addClass("point");
+//			return false;
+//        }
+    	var desc = UE.getEditor('desc').getContentTxt();
+	    if(desc == '') {
+	    	Alert("Description cannot be empty");
 			return false;
-        }
-        
+		}
         
         if(op == 'voyage_add'){
         	if(file == ''){
@@ -895,7 +897,7 @@ $(document).ready(function(){
 	    			$.each(tour_result,function(k){
 	    				if($.inArray(tour_result[k]['id'], really_arr)==-1){
 		    				str += '<span style="display: block;height:30px;text-align:left;width:200px;">';
-		    				str += '<input style="margin-right:10px;" type="checkbox" name="su[]" value="'+tour_result[k]['id']+'" />';
+		    				str += '<input style="margin-right:10px;" type="checkbox" name="tour[]" value="'+tour_result[k]['id']+'" />';
 		    				str += tour_result[k]['se_name'];
 		    				str += '</span>';
 	    				}
@@ -955,7 +957,7 @@ $(document).ready(function(){
 	$("form#active_config_detail_val").submit(function(){
 		var op = $(this).attr('class');
 		var detail_title = $("input[name='detail_title']").val();
-		var detail_desc = $("textarea[name='detail_desc']").val();
+		var detail_desc = UE.getEditor('detail_desc').getContentTxt();
 		var file = $("input[type='file']").val();
 		var data = "<span class='point' >Required fields cannot be empty</span>";
        
@@ -964,16 +966,15 @@ $(document).ready(function(){
 			$("input[name='detail_title']").addClass("point");
 			return false;
 		}
-		if(detail_desc==''){
-			$("textarea[name='detail_desc']").parent().append(data);
-			$("textarea[name='detail_desc']").addClass("point");
-			return false;
-		}
 		if(op == 'active_config_detail_add'){
 			if(file == ''){
 				Alert("Please choose to upload pictures");
 		   	   	return false;
 			}
+		}
+		if(detail_desc ==''){
+			Alert("Description cannot be empty");
+			return false;
 		}
 	});
 	
@@ -1098,7 +1099,8 @@ $(document).ready(function(){
 	// tab功能
 	$("body").on("click",".tab_title li",function(){
 		var index = $(".tab_title li").index($(this));
-		$(".tab .active").removeClass("active");
+		$(".tab_title > .active").removeClass("active");
+		$(".tab_content > .active").removeClass("active");
 		$(this).addClass("active");
 		$($(".tab_content > div")[index]).addClass("active");
 	});

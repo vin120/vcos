@@ -40,7 +40,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 				<label>
 				<span class='max_l'><?php echo \Yii::t('app','Surcharge Name:')?></span>
 				<input type="text" id='cost_name' name='cost_name' value="<?php echo isset($surchargeinfo[0]['cost_name'])?$surchargeinfo[0]['cost_name']:''?>"></input>		
-					<span class="point" ><?php echo yii::t('app','Surcharge Name cannot be empty ')?></span>
+					<span class="point" style="display: none"><?php echo yii::t('app','Surcharge Name cannot be empty ')?></span>
 				</label>
 				<span class='tips'></span>
 				</p>
@@ -48,7 +48,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 				<label>
 					<span class='max_l'><?php echo \Yii::t('app','Surcharge Price:')?></span>
 					<input type="text" id="cost_price" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="cost_price" value="<?php echo isset($surchargeinfo[0]['cost_price'])?$surchargeinfo[0]['cost_price']:''?>"></input>
-					<span class="point" ><?php echo yii::t('app','Surcharge Price must be number ')?></span>
+					<span class="point" style="display: none"><?php echo yii::t('app','Surcharge Price must be number ')?></span>
 				</label>
 				<span class='tips'></span>
 			</p>
@@ -74,7 +74,6 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 <script type="text/javascript">
 $(function(){
 	UE.getEditor('cost_desc');
-
 	
 	var sur=$("input#cost_desc_text").val();
 	$("textarea#cost_desc").html(sur);
@@ -84,26 +83,35 @@ $(function(){
 			$(this).removeClass("point");
 		});
 	});
-	 $("span[class=point]").each(function (index){
+	$("span[class=point]").each(function (index){
 		$(this).css("display","none");
 	}); 
-	  $("input[type=submit]").click(function(){
-		  var t=0;
-		  $("input[type=text]").each(function(){	//如果文本框为空值			
-				if($(this).val()==''){
-					$(this).next().css("display","");
-					$(this).addClass("point");
-					
-					}
-	       			}); 
-			$("input[type=text]").each(function (index){
-				if($(this).prop("class")=="point"){
-					t=1;
-				}
-	    		}); 
-			if(t==1){
-    			return false;
-	    		} 
-		  });
+	
+	$("input[type=submit]").click(function(){
+		var t=0;
+		
+		$("input[type=text]").each(function(){	//如果文本框为空值			
+			if($(this).val()==''){
+				$(this).next().css("display","");
+				$(this).addClass("point");
+			}
+	 	}); 
+		$("input[type=text]").each(function (index){
+			if($(this).prop("class")=="point"){
+				t=1;
+			}
+	    });
+	    
+		var cost_desc = UE.getEditor('cost_desc').getContentTxt();
+	    if(cost_desc == '') {
+	    	Alert("<?php echo yii::t('app','Description cannot be empty')?>");
+			return false;
+		}
+		
+		if(t==1){
+    		return false;
+	    } 
+	});
+
 });
 </script>

@@ -28,7 +28,7 @@ class CountryController extends Controller
 	
 			//return $this->redirect(['country']);
 		}
-		if($_POST){
+		if(isset($_POST['ids'])){
 			$ids = implode('\',\'', $_POST['ids']);
 			$sql = "DELETE FROM `v_c_country` WHERE country_code in ('$ids')";
 			$count = Yii::$app->db->createCommand($sql)->execute();
@@ -47,26 +47,26 @@ class CountryController extends Controller
 		$w_state = 2;
 		$w_2_code = '';
 		$w_3_code = '';
-		if(isset($_GET['w_submit'])){
-			$w_c_name = isset($_GET['w_c_name'])?$_GET['w_c_name']:'';
-			$w_a_name = isset($_GET['w_a_name'])?$_GET['w_a_name']:'';
-			$w_state = isset($_GET['w_state'])?$_GET['w_state']:2;
-			$w_2_code = isset($_GET['w_2_code'])?$_GET['w_2_code']:'';
-			$w_3_code = isset($_GET['w_3_code'])?$_GET['w_3_code']:'';
+		if(isset($_POST['w_submit'])){
+			$w_c_name = isset($_POST['w_c_name'])?$_POST['w_c_name']:'';
+			$w_a_name = isset($_POST['w_a_name'])?$_POST['w_a_name']:'';
+			$w_state = isset($_POST['w_state'])?$_POST['w_state']:2;
+			$w_2_code = isset($_POST['w_2_code'])?$_POST['w_2_code']:'';
+			$w_3_code = isset($_POST['w_3_code'])?$_POST['w_3_code']:'';
 			if($w_c_name!=''){
-				$where .= "b.country_name='{$w_c_name}' AND ";
+				$where .= "b.country_name like '%{$w_c_name}%' AND ";
 			}
 			if($w_a_name!=''){
-				$where .= "c.area_name='{$w_a_name}' AND ";
+				$where .= "c.area_name like '%{$w_a_name}%' AND ";
 			}
 			if($w_state!=2){
 				$where .= "a.status=".$w_state." AND ";
 			}
 			if($w_2_code!=''){
-				$where .= "a.country_code='{$w_2_code}' AND ";
+				$where .= "a.country_code like '%{$w_2_code}%' AND ";
 			}
 			if($w_3_code!=''){
-				$where .= "a.counry_short_code='{$w_3_code}' AND ";
+				$where .= "a.counry_short_code like '%{$w_3_code}%' AND ";
 			}
 			$where = trim($where,'AND ');
 		}
@@ -185,19 +185,19 @@ class CountryController extends Controller
 		$w_2_code = isset($_GET['w_2_code'])?$_GET['w_2_code']:'';
 		$w_3_code = isset($_GET['w_3_code'])?$_GET['w_3_code']:'';
 		if($w_c_name!=''){
-			$where .= "b.country_name='{$w_c_name}' AND ";
+			$where .= "b.country_name like '%{$w_c_name}%' AND ";
 		}
 		if($w_a_name!=''){
-			$where .= "c.area_name='{$w_a_name}' AND ";
+			$where .= "c.area_name like '%{$w_a_name}%' AND ";
 		}
 		if($w_state!=2){
 			$where .= "a.status=".$w_state." AND ";
 		}
 		if($w_2_code!=''){
-			$where .= "a.country_code='{$w_2_code}' AND ";
+			$where .= "a.country_code like '%{$w_2_code}%' AND ";
 		}
 		if($w_3_code!=''){
-			$where .= "a.counry_short_code='{$w_3_code}' AND ";
+			$where .= "a.counry_short_code like '%{$w_3_code}%' AND ";
 		}
 		$where = trim($where,'AND ');
 		

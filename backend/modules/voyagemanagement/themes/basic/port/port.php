@@ -20,7 +20,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
     <div class="topNav"><?php echo yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;<a href="#"><?php echo yii::t('app','Port')?></a></div>
     <?php
 		$form = ActiveForm::begin([
-			'method'=>'get',
+			'method'=>'post',
 			'enableClientValidation'=>false,
 			'enableClientScript'=>false
 		]); 

@@ -91,9 +91,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 			</div>
 			<div class="btn">
 				<input type="submit" style="cursor:pointer" style="cursor:pointer" value="<?php echo yii::t('app','SAVE')?>"></input>
-				
 			</div>
-		
 		<?php 
 			ActiveForm::end(); 
 		?>
@@ -108,7 +106,7 @@ $baseUrl_upload = $this->assetBundles[ThemeAssetUpload::className()]->baseUrl . 
 window.onload = function(){ 
 	UE.getEditor('detail_desc');
 
-	
+
 	$("input#more_day").on('click',function(){
 		if($(this).is(":checked")){
 			$("select[name='day_to']").removeAttr('disabled');

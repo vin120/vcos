@@ -43,10 +43,22 @@ class CabincategoryController extends Controller
 		/*船舱归类  */
 		$classsql="select * from v_c_cabin_big_class_i18n where i18n='en'";
 		$typesql="select *,ct.id from (v_c_cabin_type_i18n cti left join v_c_cabin_type ct on ct.type_code=cti.type_code left join v_c_cabin_category cc on cc.cabin_type_id=ct.id) left join v_c_cabin_big_class_i18n cbi on cbi.class_id=cc.class_id where  cti.i18n='en'";
+		$classify_name=isset($_POST['classify_name'])?$_POST['classify_name']:'';
+		$t=isset($_POST['t'])?$_POST['t']:'';
+		if ($t==1){
+			if ($classify_name!=''){
+				$typesql .= " AND (cti.type_name LIKE '%{$classify_name}%')";
+			}
+		}
+		$typesql.="  order by cti.id ";
 		$typedata = \Yii::$app->db->createCommand($typesql)->queryAll();
 		$classinfo = \Yii::$app->db->createCommand($classsql)->queryAll();
 		$data['typedata']=$typedata;
 		$data['classinfo']=$classinfo;
+		if ($t==1){
+		$data['t']=$t;
+		$data['classify_name']=$classify_name;
+		}
 		return $this->render("cabin_category",$data);
 	}
 	public function actionCabincategory_option(){
@@ -96,10 +108,6 @@ class CabincategoryController extends Controller
 			$sqldata .= " AND (cti.type_name LIKE '%{$type_name}%')";
 		}
 		$data= \Yii::$app->db->createCommand($sqldata)->queryAll();
-		foreach ($data as $k=>$v){
-			$v['type_name']=\Yii::t('app',$v['type_name']);
-			$v['class_name']=\Yii::t('app',$v['class_name']);
-		}
 		echo json_encode($data);
 	}
 	public function actionSettypeclass(){//船舱归类设置分类
@@ -135,6 +143,22 @@ class CabincategoryController extends Controller
 		/* $sqldata="select * from (v_c_cabin_type_i18n cti left join v_c_cabin_type ct on ct.type_code=cti.type_code left join v_c_cabin_category cc on cc.cabin_type_id=ct.id) left join v_c_cabin_big_class_i18n cbi on cbi.class_id=cc.class_id where  cti.i18n='en'";
 		$data= \Yii::$app->db->createCommand($sqldata)->queryAll();
 		echo json_encode($data);  */
+	}
+	public function actionGet_cabinclass_page(){
+		$typeclass_name=isset($_POST['typeclass_name'])?$_POST['typeclass_name']:'';
+		$pag =isset($_POST['num'])?$_POST['num']==1?0:($_POST['num']-1)*7:0;
+		$sqldata="select *,ct.id from (v_c_cabin_type_i18n cti left join v_c_cabin_type ct on ct.type_code=cti.type_code left join v_c_cabin_category cc on cc.cabin_type_id=ct.id) left join v_c_cabin_big_class_i18n cbi on cbi.class_id=cc.class_id where  cti.i18n='en'";
+		if ($typeclass_name!=''){
+			$sqldata .= " AND (cti.type_name LIKE '%{$typeclass_name}%')";
+		}
+		$sqldata.=" order by cti.id limit $pag,7";
+		$result = Yii::$app->db->createCommand($sqldata)->queryAll();
+		
+		if($result){
+			echo json_encode($result);
+		}  else {
+			echo 0;
+		}
 	}
 	
 }

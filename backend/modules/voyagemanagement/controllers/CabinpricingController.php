@@ -292,6 +292,7 @@ class CabinpricingController extends Controller
 	public function actionTour_add(){
 		$db = Yii::$app->db;
 		if($_POST){
+			//var_dump($_POST);exit;
 			$voyage_code = isset($_POST['voyage'])?$_POST['voyage']:0;
 			$tour = isset($_POST['tour'])?$_POST['tour']:'';
 			$data = '';

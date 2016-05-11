@@ -25,7 +25,7 @@ class CruiseController extends Controller
 				Helper::show_message('Delete failed ');
 			}
 		}
-		if($_POST){
+		if(isset($_POST['ids'])){
 			$ids = implode('\',\'', $_POST['ids']);
 			$sql = "DELETE FROM `v_cruise` WHERE cruise_code in ('$ids')";
 			$count = Yii::$app->db->createCommand($sql)->execute();
@@ -42,16 +42,16 @@ class CruiseController extends Controller
 		$w_code = '';
 		$w_name = '';
 		$w_state = 2;
-		if(isset($_GET['w_submit'])){
-			$w_code = isset($_GET['w_code'])?$_GET['w_code']:'';
-			$w_name = isset($_GET['w_name'])?$_GET['w_name']:'';
-			$w_state = isset($_GET['w_state'])?$_GET['w_state']:2;
+		if(isset($_POST['w_submit'])){
+			$w_code = isset($_POST['w_code'])?$_POST['w_code']:'';
+			$w_name = isset($_POST['w_name'])?$_POST['w_name']:'';
+			$w_state = isset($_POST['w_state'])?$_POST['w_state']:2;
 			
 			if($w_code!=''){
-				$where .= "a.cruise_code='{$w_code}' AND ";
+				$where .= "a.cruise_code like '%{$w_code}%' AND ";
 			}
 			if($w_name!=''){
-				$where .= "b.cruise_name='{$w_name}' AND ";
+				$where .= "b.cruise_name like '%{$w_name}%' AND ";
 			}
 			if($w_state!=2){
 				$where .= "a.status=".$w_state." AND ";
@@ -190,10 +190,10 @@ class CruiseController extends Controller
 		$w_state = isset($_GET['w_state'])?$_GET['w_state']:2;
 		$where = '';
 		if($w_code!=''){
-			$where .= "a.cruise_code='{$w_code}' AND ";
+			$where .= "a.cruise_code like '%{$w_code}%' AND ";
 		}
 		if($w_name!=''){
-			$where .= "b.cruise_name='{$w_name}' AND ";
+			$where .= "b.cruise_name like '%{$w_name}%' AND ";
 		}
 		if($w_state!=2){
 			$where .= "a.status=".$w_state." AND ";

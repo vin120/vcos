@@ -169,7 +169,7 @@ $("input[type=text]").each(function(){//聚焦是清除
     	$("input#number").addClass("point");
 		return false;
 	}
-    if(desc == ''){
+ 	if(desc == ''){
     	Alert("<?php echo yii::t('app','Description cannot be empty')?>");
  		return false;
     }

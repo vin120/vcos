@@ -150,11 +150,11 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 						<p>
 							<label>
 								<span><?php echo yii::t('app','Start Time')?>:</span>
-								<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo empty($voyage['start_time'])?"":Helper::GetDate($voyage['start_time']);?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',maxDate:'#F{$dp.$D(\'e_time\')}'})" class="Wdate"  ></input>
+								<input type="text" id="s_time" name="s_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo empty($voyage['start_time'])?date('d/m/Y H:i:s',strtotime('+3 month')):Helper::GetDate($voyage['start_time']);?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',maxDate:'#F{$dp.$D(\'e_time\')}'})" class="Wdate"  ></input>
 							</label>
 							<label>
 								<span><?php echo yii::t('app','End Time')?>:</span>
-								<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo empty($voyage['end_time'])?"":Helper::GetDate($voyage['end_time']);?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',minDate:'#F{$dp.$D(\'s_time\')}',startDate:'#F{$dp.$D(\'s_time\',{d:+1})}'})" class="Wdate"  ></input>
+								<input type="text" id="e_time" name="e_time" placeholder="<?php echo yii::t('app','please choose')?>" value="<?php echo empty($voyage['end_time'])?date('d/m/Y H:i:s',strtotime('+4 month')):Helper::GetDate($voyage['end_time']);?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',minDate:'#F{$dp.$D(\'s_time\')}',startDate:'#F{$dp.$D(\'s_time\',{d:+1})}'})" class="Wdate"  ></input>
 							</label>
 						</p>
 						<p>
@@ -177,11 +177,11 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 							<p>
 								<label>
 									<span><?php echo yii::t('app','Start booking time')?>:</span>
-									<input type="text" id="s_book_time" name="s_book_time" placeholder="please choose" value="<?php echo empty($voyage['start_book_time'])?"":Helper::GetDate($voyage['start_book_time']); ?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',maxDate:'#F{$dp.$D(\'e_book_time\')}'})" class="Wdate" ></input>
+									<input type="text" id="s_book_time" name="s_book_time" placeholder="please choose" value="<?php echo empty($voyage['start_book_time'])?date('d/m/Y H:i:s',time()):Helper::GetDate($voyage['start_book_time']); ?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',maxDate:'#F{$dp.$D(\'e_book_time\')}'})" class="Wdate" ></input>
 								</label>
 								<label>
 									<span><?php echo yii::t('app','Stop booking time')?>:</span>
-									<input type="text" id="e_book_time" name="e_book_time" placeholder="please choose" value="<?php echo empty($voyage['stop_book_time'])?"":Helper::GetDate($voyage['stop_book_time']); ?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',minDate:'#F{$dp.$D(\'s_book_time\')}',startDate:'#F{$dp.$D(\'s_book_time\',{d:+1})}',maxDate:'#F{$dp.$D(\'e_time\')}'})" class="Wdate"  ></input>
+									<input type="text" id="e_book_time" name="e_book_time" placeholder="please choose" value="<?php echo empty($voyage['stop_book_time'])?date('d/m/Y H:i:s',strtotime('+3 month')):Helper::GetDate($voyage['stop_book_time']); ?>" readonly onfocus="WdatePicker({dateFmt:'dd/MM/yyyy HH:mm:ss ',lang:'en',minDate:'#F{$dp.$D(\'s_book_time\')}',startDate:'#F{$dp.$D(\'s_book_time\',{d:+1})}',maxDate:'#F{$dp.$D(\'s_time\')}'})" class="Wdate"  ></input>
 								</label>
 							</p>
 							<p>
@@ -395,7 +395,11 @@ window.onload = function(){
 	UE.getEditor('desc');
 	$("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
 
-	
+	if(desc == ''){
+    	Alert("<?php echo yii::t('app','Description cannot be empty')?>");
+ 		return false;
+    }
+    
 	//tab voyage port
 	$(document).on('click','#tab_voyage_port',function(){
 		$.ajax({

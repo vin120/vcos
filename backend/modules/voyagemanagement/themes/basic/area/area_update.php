@@ -41,8 +41,8 @@ var area_ajax_url = "<?php echo Url::toRoute(['area_code_check']);?>";
 					'enableClientScript'=>false
 			]); 
 		?>
-		<input type="text" name="id" id="id" value="<?php echo empty($result)?'':$result['id'];?>" />
-					<input type="text" name="old_code" id="old_code" value="<?php echo empty($result)?'':$result['area_code'];?>" />
+					<input type="hidden" name="id" id="id" value="<?php echo empty($result)?'':$result['id'];?>" />
+					<input type="hidden" name="old_code" id="old_code" value="<?php echo empty($result)?'':$result['area_code'];?>" />
 				<div class="check_save_div">
 					
 					<p>

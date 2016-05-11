@@ -33,7 +33,7 @@ class CabintypeController extends Controller
 				Helper::show_message('Delete failed ');
 			}
 		}
-		/*if($_POST){
+		/*if(isset($_POST['ids'])){
 			$ids = implode('\',\'', $_POST['ids']);
 			$sql = "DELETE FROM `v_c_cabin_type` WHERE type_code in ('$ids')";
 			$count = Yii::$app->db->createCommand($sql)->execute();
@@ -49,11 +49,11 @@ class CabintypeController extends Controller
 		$w_name = '';
 		$w_state = 2;
 		
-		if(isset($_GET['w_submit'])){
-			$w_name = isset($_GET['w_name'])?$_GET['w_name']:'';
-			$w_state = isset($_GET['w_state'])?$_GET['w_state']:2;
+		if(isset($_POST['w_submit'])){
+			$w_name = isset($_POST['w_name'])?$_POST['w_name']:'';
+			$w_state = isset($_POST['w_state'])?$_POST['w_state']:2;
 			if($w_name!=''){
-				$where .= "b.type_name='{$w_name}' AND ";
+				$where .= "b.type_name like '%{$w_name}%' AND ";
 			}
 			if($w_state!=2){
 				$where .= "a.type_status=".$w_state." AND ";
@@ -76,7 +76,7 @@ class CabintypeController extends Controller
 		$w_state = isset($_GET['w_state'])?$_GET['w_state']:2;
 		$where = '';
 		if($w_name!=''){
-			$where .= "b.type_name='{$w_name}' AND ";
+			$where .= "b.type_name like '%{$w_name}%' AND ";
 		}
 		if($w_state!=2){
 			$where .= "a.type_status=".$w_state." AND ";
@@ -156,52 +156,6 @@ class CabintypeController extends Controller
 	public function actionCabin_type_edit(){
 		$db = Yii::$app->db;
 		$old_code=$_GET['code'];
-		if($_POST){
-			
-			$att_str = '';
-			$att = isset($_POST['att'])?$_POST['att']:'';
-			$code = isset($_POST['code'])?addslashes($_POST['code']):'';
-			$cruise_code = Yii::$app->params['cruise_code'];
-			$state = isset($_POST['state'])?$_POST['state']:'0';
-			$name = isset($_POST['name'])?addslashes($_POST['name']):'';
-			$live_number = isset($_POST['live_number'])?$_POST['live_number']:'';
-			$beds = isset($_POST['beds'])?$_POST['beds']:'';
-			$room_min = isset($_POST['room_min'])?$_POST['room_min']:'';
-			$room_max = isset($_POST['room_max'])?$_POST['room_max']:'';
-			$floor = isset($_POST['floor'])?$_POST['floor']:'';
-			$location = isset($_POST['location'])?$_POST['location']:'';
-			$room_area = $room_min.'-'.$room_max;
-			 
-			//事务处理
-			$transaction=$db->beginTransaction();
-			try{
-				$sql = "SELECT id FROM `v_c_cabin_type` WHERE type_code='$old_code'";
-				$id = Yii::$app->db->createCommand($sql)->queryOne();
-				$sql = "DELETE FROM `v_c_cabin_type_attr_relation` WHERE type_id=".$id['id'];
-				Yii::$app->db->createCommand($sql)->execute();
-				if($att!=''){
-					foreach ($att as $k=>$v){
-						if($v!=0)
-							$att_str .= '('.$id['id'].','.$v.'),';
-					}
-					$att_str = trim($att_str,',');
-					$sql = "INSERT INTO `v_c_cabin_type_attr_relation` (type_id,type_attr_id) VALUES ".$att_str;
-					Yii::$app->db->createCommand($sql)->execute();
-				}
-				$sql = "UPDATE `v_c_cabin_type` set type_code='$code',live_number='$live_number',room_area='$room_area',beds='$beds',location='$location',cruise_code='$cruise_code',type_status='$state' WHERE type_code='$old_code'";
-				Yii::$app->db->createCommand($sql)->execute();
-				$sql = "UPDATE `v_c_cabin_type_i18n` set type_code='$code',type_name='$name',floor='$floor',i18n='en' WHERE type_code='$old_code'";
-				Yii::$app->db->createCommand($sql)->execute();
-				
-				$transaction->commit();
-				Helper::show_message('Save success  ', Url::toRoute(['cabin_type_edit','code'=>$code]));
-			}catch(Exception $e){
-				$transaction->rollBack();
-				Helper::show_message('Save failed  ','#');
-			}
-		}
-	
-	
 		$sql = "SELECT a.*,b.type_name,b.floor,b.i18n FROM `v_c_cabin_type` a LEFT JOIN `v_c_cabin_type_i18n` b ON a.type_code=b.type_code WHERE b.i18n='en' AND a.type_code = '$old_code'";
 		$result = Yii::$app->db->createCommand($sql)->queryOne();
 		$sql = "SELECT * FROM `v_c_cabin_type_attr_relation` WHERE type_id=".$result['id'];
@@ -213,6 +167,53 @@ class CabintypeController extends Controller
 		$sql = "SELECT a.*,b.graphic_desc,b.graphic_img FROM `v_c_cabin_type_graphic` a LEFT JOIN `v_c_cabin_type_graphic_i18n` b ON a.id=b.graphic_id WHERE b.i18n='en' AND a.type_id=".$result['id']." Limit 2 ";
 		$graphic_result = Yii::$app->db->createCommand($sql)->queryAll();
 		return $this->render("cabin_type_edit",['graphic_pag'=>1,'cabin_type_graphic_count'=>$graphic_count,'graphic_result'=>$graphic_result,'type_attr'=>$type_attr,'cabin_type_result'=>$result,'att_result'=>$att_result]);
+	}
+	
+	//cabin_type_save_edit
+	public function actionCabin_type_save_edit(){
+		$db = Yii::$app->db;
+		$old_code=$_GET['code'];
+		$att_str = '';
+		$att = isset($_POST['att'])?$_POST['att']:'';
+		$code = isset($_POST['code'])?addslashes($_POST['code']):'';
+		$cruise_code = Yii::$app->params['cruise_code'];
+		$state = isset($_POST['state'])?$_POST['state']:'0';
+		$name = isset($_POST['name'])?addslashes($_POST['name']):'';
+		$live_number = isset($_POST['live_number'])?$_POST['live_number']:'';
+		$beds = isset($_POST['beds'])?$_POST['beds']:'';
+		$room_min = isset($_POST['room_min'])?$_POST['room_min']:'';
+		$room_max = isset($_POST['room_max'])?$_POST['room_max']:'';
+		$floor = isset($_POST['floor'])?$_POST['floor']:'';
+		$location = isset($_POST['location'])?$_POST['location']:'';
+		$room_area = $room_min.'-'.$room_max;
+		
+		//事务处理
+		$transaction=$db->beginTransaction();
+		try{
+			$sql = "SELECT id FROM `v_c_cabin_type` WHERE type_code='$old_code'";
+			$id = Yii::$app->db->createCommand($sql)->queryOne();
+			$sql = "DELETE FROM `v_c_cabin_type_attr_relation` WHERE type_id=".$id['id'];
+			Yii::$app->db->createCommand($sql)->execute();
+			if($att!=''){
+				foreach ($att as $k=>$v){
+					if($v!=0)
+						$att_str .= '('.$id['id'].','.$v.'),';
+				}
+				$att_str = trim($att_str,',');
+				$sql = "INSERT INTO `v_c_cabin_type_attr_relation` (type_id,type_attr_id) VALUES ".$att_str;
+				Yii::$app->db->createCommand($sql)->execute();
+			}
+			$sql = "UPDATE `v_c_cabin_type` set type_code='$code',live_number='$live_number',room_area='$room_area',beds='$beds',location='$location',cruise_code='$cruise_code',type_status='$state' WHERE type_code='$old_code'";
+			Yii::$app->db->createCommand($sql)->execute();
+			$sql = "UPDATE `v_c_cabin_type_i18n` set type_code='$code',type_name='$name',floor='$floor',i18n='en' WHERE type_code='$old_code'";
+			Yii::$app->db->createCommand($sql)->execute();
+		
+			$transaction->commit();
+			Helper::show_message('Save success  ', Url::toRoute(['cabin_type_edit','code'=>$code]));
+		}catch(Exception $e){
+			$transaction->rollBack();
+			Helper::show_message('Save failed  ','#');
+		}
 	}
 	
 	

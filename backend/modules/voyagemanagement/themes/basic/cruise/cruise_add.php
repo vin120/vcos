@@ -169,8 +169,7 @@ $('form#cruise_val').submit(function(){
 		return false;
         }
    	if(desc == ''){
-   		$("textarea#desc").parent().append(data);
-   		$("textarea#desc").addClass("point");
+   		Alert("<?php echo yii::t('app','Description cannot be empty')?>");
 		return false;
    	}
    	if(file==''){

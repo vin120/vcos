@@ -39,7 +39,7 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 
 					<?php
 						$form = ActiveForm::begin([
-								'action' => ['cabin_type_edit','code'=>$cabin_type_result['type_code']],
+								'action' => ['cabin_type_save_edit','code'=>$cabin_type_result['type_code']],
 								'method'=>'post',
 								'id'=>'cabin_type_val',
 								'options' => ['class' => 'cabin_type_edit'],

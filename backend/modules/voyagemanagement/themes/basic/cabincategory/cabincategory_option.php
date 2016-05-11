@@ -39,7 +39,7 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 				<label>
 				<span class='max_l'><?php echo \Yii::t('app','Cabin Name:')?></span>
 				<input type="text" id='class_name' name='class_name' value="<?php echo isset($data[0]['class_name'])?$data[0]['class_name']:''?>"></input>		
-					<span class="point" ><?php echo yii::t('app','Cabin Name cannot be empty ')?></span>
+					<span class="point" style="display: none"><?php echo yii::t('app','Cabin Name cannot be empty ')?></span>
 				</label>
 				<span class='tips'></span>
 				</p>
@@ -47,8 +47,8 @@ var shore_excursion_ajax_url = "<?php echo Url::toRoute(['shore_excursion_code_c
 				<label>
 					<span class='max_l'><?php echo \Yii::t('app','Reference Price:')?></span>
 					<input type="text" id="price"  name="price" value="<?php echo isset($data[0]['price'])?$data[0]['price']:''?>"></input>
-					<span class="point" ><?php echo yii::t('vcos','Cabin Price  cannot be empty ')?></span>
-					<span class="point" id="spanprice" ><?php echo yii::t('app','Cabin Price   must be Num or only two decimal ')?></span>
+					<span class="point" style="display: none"><?php echo yii::t('vcos','Cabin Price  cannot be empty ')?></span>
+					<span class="point" id="spanprice" style="display: none"><?php echo yii::t('app','Cabin Price   must be Num or only two decimal ')?></span>
 				</label>
 				<span class='tips'></span>
 			</p>

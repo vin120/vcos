@@ -21,7 +21,7 @@ class CabinController extends Controller
 				Helper::show_message('Delete failed ');
 			}
 		}
-		if($_POST){
+		if(isset($_POST['ids'])){
 			$ids = implode('\',\'', $_POST['ids']);
 			$sql = "DELETE FROM `v_c_cabin_lib` WHERE id in ('$ids')";
 			$count = Yii::$app->db->createCommand($sql)->execute();
@@ -37,15 +37,15 @@ class CabinController extends Controller
 		$w_name = '';
 		$w_p_name = '';
 		$w_state = 2;
-		if(isset($_GET['w_submit'])){
-			$w_name = isset($_GET['w_name'])?$_GET['w_name']:'';
-			$w_p_name = isset($_GET['w_p_name'])?$_GET['w_p_name']:'';
-			$w_state = isset($_GET['w_state'])?$_GET['w_state']:2;
+		if(isset($_POST['w_submit'])){
+			$w_name = isset($_POST['w_name'])?$_POST['w_name']:'';
+			$w_p_name = isset($_POST['w_p_name'])?$_POST['w_p_name']:'';
+			$w_state = isset($_POST['w_state'])?$_POST['w_state']:2;
 			if($w_name!=''){
-				$where .= "a.cabin_name='{$w_name}' AND ";
+				$where .= "a.cabin_name like '%{$w_name}%' AND ";
 			}
 			if($w_p_name!=''){
-				$where .= "c.type_name='{$w_p_name}' AND ";
+				$where .= "c.type_name like '%{$w_p_name}%' AND ";
 			}
 			if($w_state!=2){
 				$where .= "a.status=".$w_state." AND ";
@@ -149,10 +149,10 @@ class CabinController extends Controller
 		$w_state = isset($_GET['w_state'])?$_GET['w_state']:2;
 		$where = '';
 		if($w_name!=''){
-			$where .= "a.cabin_name='{$w_name}' AND ";
+			$where .= "a.cabin_name like '%{$w_name}%' AND ";
 		}
 		if($w_p_name!=''){
-			$where .= "c.type_name='{$w_p_name}' AND ";
+			$where .= "c.type_name like '%{$w_p_name}%' AND ";
 		}
 		if($w_state!=2){
 			$where .= "a.status=".$w_state." AND ";

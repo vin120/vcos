@@ -21,7 +21,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
     <div class="topNav"><?php echo \Yii::t('app','Voyage Manage')?>&nbsp;&gt;&gt;&nbsp;<a href="#"><?php echo \Yii::t('app','Cabin  Category')?></a></div>
    <div class="tab">
 				<ul class="tab_title">
-				<?php $t=isset($_GET['t'])?$_GET['t']:0?>
+				<?php $t=isset($_GET['t'])?$_GET['t']:(isset($t)?$t:0)?>
 					<li <?php echo $t!=1?"class='active'":''?> id="bigclass"><?php echo \Yii::t('app','Big Class')?></li>
 					<li <?php echo  $t==1?"class='active'":''?>><?php echo \Yii::t('app','Cabin Classified')?></li>
 				
@@ -35,8 +35,8 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 								<input type="text" name="class_name" value="<?php echo isset($class_name)?$class_name:''?>">
 							</label>
 							<span class="btn">
-								<input type="submit" style="cursor:pointer" value="<?php echo \Yii::t('app','Select')?>"></input>
-								<input type="button"  value="<?php echo \Yii::t('app','Insert')?>" id="cabininsert"></input>
+								<input type="submit" style="cursor:pointer" value="<?php echo \Yii::t('app','SEARCH')?>"></input>
+								
 							</span>
 						</div>
 						<div class="searchResult">
@@ -67,22 +67,28 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 							</table>
 							 <p class="records"><?php echo yii::t('app', 'Records:')?><span><?php echo $maxcount;?></span></p>
 						</div>
-						
+							<div class="btn">
+							<input type="button"  value="<?php echo \Yii::t('app','Add')?>" id="cabininsert"></input>
+							</div>
 					        <input type='hidden' name='page' value="<?php echo $page;?>">
 					        <input type='hidden' name='isPage' value="1">
 					        <div class="center" id="cabinpage"> </div>
 					        </form>
 					</div>
 					<div  <?php echo  $t==1?"class='active'":''?>>
+					
+					<form method="post">
 					<div class="search">
 							<label>
 								<span><?php echo \Yii::t('app','Cabin Type:')?></span>
-								<input type="text" name="class_name" id="typeclass_name">
+								<input type="hidden" name='t' value="1">
+								<input type="text" name="classify_name" id="typeclass_name" value="<?php echo isset($classify_name)?$classify_name:''?>">
 							</label>
 							<span class="btn">
-								<input type="button" value="<?php echo \Yii::t('app','Select')?>" onclick="cabintypeselect();"></input>
+								<input type="submit" value="<?php echo \Yii::t('app','SEARCH')?>" ></input>
 							</span>
 						</div>
+						</form>
 						<div>
 						<form method="post" action="<?php echo Url::toRoute(['settypeclass'])?>">
 							<table id="type_config_table">
@@ -106,7 +112,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 								</tbody>
 							</table>
 							<p class="records"><?php echo \Yii::t('app','Records:')?><span><?php echo sizeof($typedata)?></span></p>
-							
+								 <div  class="pageNum" id="type_config_page_div"> </div>
 							<div class="search">
 							<label>
 								<span><?php echo \Yii::t('app','Classify:')?></span>
@@ -116,6 +122,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 								<?php endforeach;?>
 								</select>
 							</label>
+						
 							<span class="btn">
 								<input type="submit" style="cursor:pointer" id="setup" value="<?php echo \Yii::t('app','Set Up')?>"></input>
 							</span>
@@ -217,7 +224,49 @@ function cabintypeselect() {//ajax提交查询数据
 // };
 window.onload = function(){ 
 
-	
+	<?php $type_config_total = (int)ceil(sizeof($typedata)/7);
+	if ($type_config_total==0){
+		$type_config_total=1;
+	}
+	?>
+		$('#type_config_page_div').jqPaginator({
+		    totalPages: <?php echo $type_config_total;?>,
+		    visiblePages: 5,
+		    currentPage: 1,
+		    wrapper:'<ul class="pagination" style="display: inline-flex;"></ul>',
+		    first: '<li class="first"><a href="javascript:void(0);"><?php echo \Yii::t('app','First')?></a></li>',
+		    prev: '<li class="prev"><a href="javascript:void(0);">«</a></li>',
+		    next: '<li class="next"><a href="javascript:void(0);">»</a></li>',
+		    last: '<li class="last"><a href="javascript:void(0);"><?php echo \Yii::t('app','Last')?></a></li>',
+		    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+		    onPageChange: function (num, type) {
+		    	var this_page = $("input#type_config_page").val();
+		    	var typeclass_name=$("input#typeclass_name").val();
+		    	if(this_page==num){$("input#type_config_page").val('fail');return false;}
+		    	$.ajax({
+	                url:"<?php echo Url::toRoute(['get_cabinclass_page']);?>",
+	                type:'POST',
+	                data:{num:num,typeclass_name:typeclass_name},
+	             	dataType:'json',
+	            	success:function(data){
+	                	var str = '';
+	            		if(data != 0){
+	    	                $.each(data,function(key){
+	                        	str += "<tr>";
+	                            str += "<td><input type='checkbox' name=checkbox[]  class='checkbox' value='"+data[key]['id']+"'></input></td>";
+	                            str += "<td>"+data[key]['type_name']+"</td>";
+	                            str += "<td>"+data[key]['live_number']+"</td>";  
+	                            str += "<td>"+data[key]['class_name']+"</td>";
+	                            str += "</tr>";
+	                          });
+	    	                $("table#type_config_table > tbody").html(str);
+	    	            }
+	            	}      
+	            });
+	    	
+	       	// $('#text').html('当前第' + num + '页');
+	    	}
+		  });
 	/* 获取参数 */
 	//分页
 	var page = <?php echo $page;?>;
