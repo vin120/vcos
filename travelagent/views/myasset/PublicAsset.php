@@ -21,6 +21,7 @@ class PublicAsset extends AssetBundle
         'js/jquery-2.2.3.min.js',
         'js/My97DatePicker/WdatePicker.js',
         'js/public.js',
+    	'js/jqPaginator.js',
     	
     ];
 
