@@ -158,15 +158,17 @@ class CabintypeController extends Controller
 		$old_code=$_GET['code'];
 		$sql = "SELECT a.*,b.type_name,b.floor,b.i18n FROM `v_c_cabin_type` a LEFT JOIN `v_c_cabin_type_i18n` b ON a.type_code=b.type_code WHERE b.i18n='en' AND a.type_code = '$old_code'";
 		$result = Yii::$app->db->createCommand($sql)->queryOne();
-		$sql = "SELECT * FROM `v_c_cabin_type_attr_relation` WHERE type_id=".$result['id'];
-		$att_result = Yii::$app->db->createCommand($sql)->queryAll();
-		$sql = "SELECT a.*,b.att_name FROM `v_c_cabin_type_attr` a LEFT JOIN `v_c_cabin_type_attr_i18n` b ON a.id=b.att_id WHERE b.i18n='en'";
+		
+		$sql = "SELECT a.*,b.att_name,c.type_id FROM `v_c_cabin_type_attr` a 
+		LEFT JOIN `v_c_cabin_type_attr_i18n` b ON a.id=b.att_id 
+		LEFT JOIN `v_c_cabin_type_attr_relation` c ON a.id=c.type_attr_id AND c.type_id=".$result['id']."
+		WHERE b.i18n='en'";
 		$type_attr = Yii::$app->db->createCommand($sql)->queryAll();
 		
 		$graphic_count = VCCabinTypeGraphic::find()->andWhere(['type_id' => $result['id']])->count('id');;
 		$sql = "SELECT a.*,b.graphic_desc,b.graphic_img FROM `v_c_cabin_type_graphic` a LEFT JOIN `v_c_cabin_type_graphic_i18n` b ON a.id=b.graphic_id WHERE b.i18n='en' AND a.type_id=".$result['id']." Limit 2 ";
 		$graphic_result = Yii::$app->db->createCommand($sql)->queryAll();
-		return $this->render("cabin_type_edit",['graphic_pag'=>1,'cabin_type_graphic_count'=>$graphic_count,'graphic_result'=>$graphic_result,'type_attr'=>$type_attr,'cabin_type_result'=>$result,'att_result'=>$att_result]);
+		return $this->render("cabin_type_edit",['graphic_pag'=>1,'cabin_type_graphic_count'=>$graphic_count,'graphic_result'=>$graphic_result,'type_attr'=>$type_attr,'cabin_type_result'=>$result]);
 	}
 	
 	//cabin_type_save_edit

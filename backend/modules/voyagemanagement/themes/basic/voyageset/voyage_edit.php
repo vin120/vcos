@@ -394,11 +394,6 @@ var  voyage_set_code_check_ajax_url = "<?php echo Url::toRoute(['voyage_set_code
 window.onload = function(){
 	UE.getEditor('desc');
 	$("#photoimg").uploadPreview({ Img: "ImgPr", Width: 120, Height: 120 });
-
-	if(desc == ''){
-    	Alert("<?php echo yii::t('app','Description cannot be empty')?>");
- 		return false;
-    }
     
 	//tab voyage port
 	$(document).on('click','#tab_voyage_port',function(){

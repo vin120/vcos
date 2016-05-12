@@ -119,16 +119,13 @@ var cabin_type_ajax_url = "<?php echo Url::toRoute(['cabin_type_code_check']);?>
 								</select>
 							</label>
 						</p>
-						<?php $arr = array(); foreach ($att_result as $k=>$v){
-							$arr[$k] = $v['type_attr_id'];
-							
-						}?>
+						
 						<?php foreach($type_attr as $k=>$val){?>
 						<p>
 							<label>
 								<span class='max_l'><?php echo $val['att_name']?>:</span>
-								<input type="radio" name="att[<?php echo $k;?>]" id="att[<?php echo $k;?>]" value="<?php echo $val['id']?>" <?php echo in_array($val['id'], $arr)?"checked='checked'":'';?>/> <?php echo yii::t('app','Y')?>
-								<input <?php echo in_array($val['id'], $arr)?'':"checked='checked'";?> type="radio" name="att[<?php echo $k;?>]" id="att[<?php echo $k;?>]" value="0" /> <?php echo yii::t('app','N')?>
+								<input type="radio" name="att[<?php echo $k;?>]" id="att[<?php echo $k;?>]" value="<?php echo $val['id']?>" <?php echo !empty($val['type_id'])?"checked='checked'":'';?>/> <?php echo yii::t('app','Y')?>
+								<input <?php echo !empty($val['type_id'])?'':"checked='checked'";?> type="radio" name="att[<?php echo $k;?>]" id="att[<?php echo $k;?>]" value="0" /> <?php echo yii::t('app','N')?>
 							</label>
 						</p>
 						<?php }?>

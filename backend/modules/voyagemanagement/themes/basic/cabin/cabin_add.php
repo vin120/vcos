@@ -35,7 +35,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 					'action' => ['cabin_add'],
 					'method'=>'post',
 					'id'=>'cabin_val',
-					'options' => ['class' => 'cbain_add'],
+					'options' => ['class' => 'cabin_add'],
 					'enableClientValidation'=>false,
 					'enableClientScript'=>false
 			]); 
