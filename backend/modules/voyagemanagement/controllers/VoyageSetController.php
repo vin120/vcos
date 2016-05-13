@@ -53,7 +53,7 @@ class VoyagesetController extends Controller
 		}
 		
 		$query  = new Query();
-		$query->select(['a.id','a.voyage_code','a.start_time','a.end_time','b.voyage_name'])
+		$voyage = $query->select(['a.id','a.voyage_code','a.start_time','a.end_time','b.voyage_name'])
 				->from('v_c_voyage a')
 				->join('LEFT JOIN','v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
 				->where(['b.i18n'=>'en'])
@@ -62,7 +62,6 @@ class VoyagesetController extends Controller
 				->andWhere($where_e_time)
 				->limit(2)
 				->all();
-		$voyage = $query->createCommand()->queryAll();
 		
 		
 		
@@ -104,7 +103,7 @@ class VoyagesetController extends Controller
 		}
 		
 		$query  = new Query();
-		$query->select(['a.id','a.voyage_code','a.start_time','a.end_time','b.voyage_name'])
+		$result = $query->select(['a.id','a.voyage_code','a.start_time','a.end_time','b.voyage_name'])
 				->from('v_c_voyage a')
 				->join('LEFT JOIN','v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
 				->where(['b.i18n'=>'en'])
@@ -114,7 +113,6 @@ class VoyagesetController extends Controller
 				->offset($pag)
 				->limit(2)
 				->all();
-		$result = $query->createCommand()->queryAll();
 		
 
 		if($result){
@@ -216,21 +214,19 @@ class VoyagesetController extends Controller
 		}
 
 		$query  = new Query();
-		$query->select(['a.area_code','b.area_name'])
+		$area = $query->select(['a.area_code','b.area_name'])
 				->from('v_c_area a')
 				->join('LEFT JOIN','v_c_area_i18n b','a.area_code=b.area_code')
 				->where(['b.i18n'=>'en','a.status'=>'1'])
 				->all();
-		$area = $query->createCommand()->queryAll();
 		
 		
 		$query  = new Query();
-		$query->select(['a.cruise_code','b.cruise_name'])
+		$cruise = $query->select(['a.cruise_code','b.cruise_name'])
 				->from('v_cruise a')
 				->join('LEFT JOIN','v_cruise_i18n b','a.cruise_code=b.cruise_code')
 				->where(['b.i18n'=>'en','a.status'=>'1'])
 				->all();
-		$cruise = $query->createCommand()->queryAll();
 
 		return $this->render('voyage_add',['area'=>$area,'cruise'=>$cruise]);
 	}
@@ -330,30 +326,27 @@ class VoyagesetController extends Controller
 		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
 		
 		$query  = new Query();
-		$query->select(['a.*','b.voyage_name','b.voyage_desc'])
+		$voyage = $query->select(['a.*','b.voyage_name','b.voyage_desc'])
 				->from('v_c_voyage a')
 				->join('LEFT JOIN','v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
 				->where(['a.id'=>$voyage_id,'b.i18n'=>'en','a.status'=>'1'])
 				->one();
-		$voyage = $query->createCommand()->queryOne();
 		
 		
 		$query  = new Query();
-		$query->select(['a.area_code','b.area_name'])
+		$area = $query->select(['a.area_code','b.area_name'])
 				->from('v_c_area a')
 				->join('LEFT JOIN','v_c_area_i18n b','a.area_code=b.area_code')
 				->where(['b.i18n'=>'en','a.status'=>'1'])
 				->all();
-		$area = $query->createCommand()->queryAll();
 		
 
 		$query  = new Query();
-		$query->select(['a.cruise_code','b.cruise_name'])
+		$cruise = $query->select(['a.cruise_code','b.cruise_name'])
 				->from('v_cruise a')
 				->join('LEFT JOIN','v_cruise_i18n b','a.cruise_code=b.cruise_code')
 				->where(['b.i18n'=>'en','a.status'=>'1'])
 				->all();
-		$cruise = $query->createCommand()->queryAll();
 		
 		$count = VCVoyagePort::find()->where(['voyage_id'=>$voyage_id])->count();
 		
@@ -368,20 +361,18 @@ class VoyagesetController extends Controller
 		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
 		
 		$query  = new Query();
-		$query->select(['*'])
+		$voyage_port = $query->select(['*'])
 				->from('v_c_voyage_port')
 				->where(['voyage_id'=>$voyage_id])
 				->limit(2)
 				->all();
-		$voyage_port = $query->createCommand()->queryAll();
 		
 		$query  = new Query();
-		$query->select(['a.port_code','b.port_name'])
+		$port = $query->select(['a.port_code','b.port_name'])
 				->from('v_c_port a')
 				->join('LEFT JOIN','v_c_port_i18n b','a.port_code=b.port_code')
 				->where(['b.i18n'=>'en','a.status'=>'1'])
 				->all();
-		$port = $query->createCommand()->queryAll();
 		
 		foreach($port as $port_row){
 			foreach ($voyage_port as $key => $value ) {
@@ -405,24 +396,22 @@ class VoyagesetController extends Controller
 	{
 		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
 		
-		$query  = new Query();
+		$active_result = $query  = new Query();
 				$query->select(['a.active_id','b.name'])
 				->from('v_c_active a')
 				->join('LEFT JOIN','v_c_active_i18n b','a.active_id=b.active_id')
 				->where(['a.status'=>1,'b.i18n'=>'en'])
 				->all();
-		$active_result = $query->createCommand()->queryAll();
 		
 		
 		$query  = new Query();
-		$query->select(['a.id','c.name'])
+		$curr_active_result = $query->select(['a.id','c.name'])
 				->from('v_c_voyage_active a')
 				->leftJoin('v_c_active b','a.curr_active_id=b.active_id')
 				->leftJoin('v_c_active_i18n c','b.active_id=c.active_id')
 				->where(['b.status'=>1,'c.i18n'=>'en','a.voyage_id'=>$voyage_id])
 				->limit(1)
 				->one();
-		$curr_active_result = $query->createCommand()->queryOne();
 		
 		$arr = [];
 		$arr['active'] = $active_result;
@@ -441,13 +430,12 @@ class VoyagesetController extends Controller
 		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
 		
 		$query  = new Query();
-		$query->select(['*'])
+		$map_result = $query->select(['*'])
 				->from('v_c_voyage_map a')
 				->join('LEFT JOIN','v_c_voyage_map_i18n b','a.id=b.map_id')
 				->where(['a.voyage_id'=>$voyage_id])
 				->limit(1)
 				->one();
-		$map_result = $query->createCommand()->queryOne();
 		
 		
 		$arr = [];
@@ -463,36 +451,32 @@ class VoyagesetController extends Controller
 	public function actionGet_cabin_ajax()
 	{
 		$query  = new Query();
-		$query->select(['a.id','b.type_name'])
+		$cabin_type_result = $query->select(['a.id','b.type_name'])
 				->from('v_c_cabin_type a')
 				->join('LEFT JOIN','v_c_cabin_type_i18n b','a.type_code=b.type_code')
 				->where(['b.i18n'=>'en','a.type_status'=>'1'])
 				->all();
-		$cabin_type_result = $query->createCommand()->queryAll();
 		
 		$query  = new Query();
-		$query->select(['id','cabin_name','max_check_in','last_aduits_num'])
+		$cabin_result = $query->select(['id','cabin_name','max_check_in','last_aduits_num'])
 				->from('v_c_cabin_lib')
 				->where(['status'=>1,'cabin_type_id'=>$cabin_type_result[0]['id'],'deck_num'=>1])
 				->all();
-		$cabin_result = $query->createCommand()->queryAll();
 		
 		$query  = new Query();
-		$query->select(['cabin_lib_id','cabin_name','max_check_in','last_aduits_num'])
+		$really_cabin_result = $query->select(['cabin_lib_id','cabin_name','max_check_in','last_aduits_num'])
 				->from('v_c_voyage_cabin')
 				->where(['deck_num'=>1,'cabin_type_id'=>$cabin_type_result[0]['id']])
 				->all();
-		$really_cabin_result = $query->createCommand()->queryAll();
 		
 		$cruise_code = Yii::$app->params['cruise_code'];
 		
 		
 		$query  = new Query();
-		$query->select(['deck_number'])
+		$cruise_result = $query->select(['deck_number'])
 				->from('v_cruise')
 				->where(['cruise_code'=>$cruise_code])
 				->one();
-		$cruise_result = $query->createCommand()->queryOne();
 		
 		$arr =  [];
 		$arr['cabin_result'] = $cabin_result;
@@ -513,22 +497,20 @@ class VoyagesetController extends Controller
 		$voyage_id = isset($_GET['voyage_id'])?$_GET['voyage_id'] : '';
 		
 		$query  = new Query();
-		$query->select(['a.id','c.voyage_name'])
+		$curr_return_voyage_result = $query->select(['a.id','c.voyage_name'])
 				->from('v_c_return_voyage a')
 				->leftJoin('v_c_voyage b','a.return_voyage_id=b.id')
 				->leftJoin('v_c_voyage_i18n c','b.voyage_code=c.voyage_code')
 				->where(['b.status'=>1,'c.i18n'=>'en','a.voyage_id'=>$voyage_id])
 				->limit(1)
 				->one();
-		$curr_return_voyage_result = $query->createCommand()->queryOne();
 		
 		$query  = new Query();
-		$query->select(['a.id','b.voyage_name'])
+		$voyage_return = $query->select(['a.id','b.voyage_name'])
 				->from('v_c_voyage a')
 				->leftJoin('v_c_voyage_i18n b','a.voyage_code=b.voyage_code')
 				->where(['a.status'=>1,'b.i18n'=>'en'])
 				->all();
-		$voyage_return = $query->createCommand()->queryAll();
 		
 		$arr = [];
 		$arr['curr_return_voyage_result'] = $curr_return_voyage_result;
@@ -550,22 +532,20 @@ class VoyagesetController extends Controller
 		
 		
 		$query  = new Query();
-		$query->select(['*'])
+		$result = $query->select(['*'])
 				->from('v_c_voyage_port')
 				->where(['voyage_id'=>$voyage_id])
 				->offset($pag)
 				->limit(2)
 				->all();
-		$result = $query->createCommand()->queryAll();
 		
 		
 		$query  = new Query();
-		$query->select(['a.port_code','b.port_name'])
+		$port = $query->select(['a.port_code','b.port_name'])
 				->from('v_c_port a')
 				->leftJoin('v_c_port_i18n b','a.port_code=b.port_code')
 				->where(['a.status'=>1,'b.i18n'=>'en'])
 				->all();
-		$port = $query->createCommand()->queryAll();
 		
 		
 		foreach($port as $port_row){
@@ -651,12 +631,11 @@ class VoyagesetController extends Controller
 		}
 		
 		$query  = new Query();
-		$query->select(['a.port_code','b.port_name'])
+		$port = $query->select(['a.port_code','b.port_name'])
 				->from('v_c_port a')
 				->join('LEFT JOIN','v_c_port_i18n b','a.port_code=b.port_code')
 				->where(['a.status'=>1,'b.i18n'=>'en'])
 				->all();
-		$port = $query->createCommand()->queryAll();
 
 		return $this->render('voyage_port_add',['port'=>$port,'voyage'=>$voyage]);
 	}
@@ -715,12 +694,11 @@ class VoyagesetController extends Controller
 		}
 
 		$query  = new Query();
-		$query->select(['a.port_code','b.port_name'])
+		$port = $query->select(['a.port_code','b.port_name'])
 				->from('v_c_port a')
 				->join('LEFT JOIN','v_c_port_i18n b','a.port_code=b.port_code')
 				->where(['a.status'=>1,'b.i18n'=>'en'])
 				->all();
-		$port = $query->createCommand()->queryAll();
 
 		return $this->render('voyage_port_edit',['port'=>$port,'voyage'=>$voyage,'voyage_port'=>$voyage_port]);
 	}
@@ -772,18 +750,16 @@ class VoyagesetController extends Controller
 		$deck = isset($_GET['deck'])?$_GET['deck']:'';
 		
 		$query  = new Query();
-		$query->select(['id','cabin_name','max_check_in','last_aduits_num'])
+		$cabin_result = $query->select(['id','cabin_name','max_check_in','last_aduits_num'])
 				->from('v_c_cabin_lib')
 				->where(['status'=>1,'cabin_type_id'=>$type_id,'deck_num'=>$deck])
 				->all();
-		$cabin_result = $query->createCommand()->queryAll();
 		
 		$query  = new Query();
-		$query->select(['cabin_lib_id','cabin_name','max_check_in','last_aduits_num'])
+		$really_cabin_result = $query->select(['cabin_lib_id','cabin_name','max_check_in','last_aduits_num'])
 				->from('v_c_voyage_cabin')
 				->where(['cabin_status'=>1,'cabin_type_id'=>$type_id,'deck_num'=>$deck])
 				->all();
-		$really_cabin_result = $query->createCommand()->queryAll();
 		
 		$result_arr = array();
 		$result_arr['cabin_lib'] = $cabin_result;

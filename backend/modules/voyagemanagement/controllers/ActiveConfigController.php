@@ -32,13 +32,12 @@ class ActiveconfigController extends Controller
 		}
 		
 		$query  = new Query();
-		$query->select(['v_c_active.*','v_c_active_i18n.name','v_c_active_i18n.i18n'])
+		$actives = $query->select(['v_c_active.*','v_c_active_i18n.name','v_c_active_i18n.i18n'])
 				->from('v_c_active')
 				->join('LEFT JOIN','v_c_active_i18n','v_c_active.active_id=v_c_active_i18n.active_id')
 				->where(['v_c_active_i18n.i18n'=>'en'])
 				->limit(2)
 				->all();
-		$actives = $query->createCommand()->queryAll();
 				
 		$count = VCActive::find()->count();
 		return $this->render("active_config",['actives'=>$actives,'count'=>$count,'active_page'=>1]);
@@ -51,14 +50,13 @@ class ActiveconfigController extends Controller
 		$pag = isset($_GET['pag']) ? $_GET['pag']==1 ? 0 :($_GET['pag']-1) * 2 : 0;
 		
 		$query  = new Query();
-		$query->select(['a.*','b.name'])
+		$result = $query->select(['a.*','b.name'])
 				->from('v_c_active a')
 				->join('LEFT JOIN','v_c_active_i18n b','a.active_id=b.active_id')
 				->where(['b.i18n'=>'en'])
 				->offset($pag)
 				->limit(2)
 				->all();
-		$result = $query->createCommand()->queryAll();
 
 		if($result){
 			echo json_encode($result);
@@ -73,14 +71,13 @@ class ActiveconfigController extends Controller
 		$pag = isset($_GET['pag']) ? $_GET['pag']==1 ? 0 :($_GET['pag']-1) * 2 : 0;
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
 		$query  = new Query();
-		$query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
+		$result = $query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
 				->from('v_c_active_detail a')
 				->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
 				->where(['b.i18n'=>'en','a.active_id'=>$active_id])
 				->offset($pag)
 				->limit(2)
 				->all();
-		$result = $query->createCommand()->queryAll();
 
 		if($result){
 			echo json_encode($result);
@@ -129,12 +126,11 @@ class ActiveconfigController extends Controller
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
 		
 		$query  = new Query();
-		$query->select(['a.active_id','a.status','b.name'])
+		$active = $query->select(['a.active_id','a.status','b.name'])
 				->from('v_c_active a')
 				->join('LEFT JOIN','v_c_active_i18n b','a.active_id=b.active_id')
 				->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
 				->one();
-		$active = $query->createCommand()->queryOne();
 		$count = VCActiveDetail::find()->where(['active_id'=>$active_id])->count();
 		
 		
@@ -166,13 +162,12 @@ class ActiveconfigController extends Controller
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
 		
 		$query  = new Query();
-		$query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
+		$active_detail = $query->select(['a.id','a.day_from','a.day_to','b.detail_title','b.detail_desc'])
 				->from('v_c_active_detail a')
 				->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
 				->where(['a.active_id'=>$active_id,'b.i18n'=>'en'])
 				->limit(2)
 				->all();
-		$active_detail = $query->createCommand()->queryAll();
 		echo json_encode($active_detail);
 	}
 	
@@ -238,12 +233,11 @@ class ActiveconfigController extends Controller
 		$active_id = isset($_GET['active_id']) ? $_GET['active_id'] : '';
 		
 		$query  = new Query();
-		$query->select(['a.id','a.active_id','a.day_from','a.day_to','a.detail_img','b.detail_title','b.detail_desc'])
+		$active_detail = $query->select(['a.id','a.active_id','a.day_from','a.day_to','a.detail_img','b.detail_title','b.detail_desc'])
 				->from('v_c_active_detail a')
 				->join('LEFT JOIN','v_c_active_detail_i18n b','a.id=b.active_detail_id')
 				->where(['a.id'=>$id,'b.i18n'=>'en','a.active_id'=>$active_id])
 				->one();
-		$active_detail = $query->createCommand()->queryOne();
 
 		if(isset($_POST)){
 			$day_from = isset($_POST['day_from']) ? $_POST['day_from'] : '';

@@ -26,35 +26,38 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 		<!-- 请用ajax提交 -->
 		<div class="pBox search">
 			<label>
-				<span>Sailing Date:</span>
+				<span><?php echo yii::t('app','Sailing Date')?>:</span>
 				<span>
-					<input type="text" class="Wdate"></input>
+					<input type="text" class="Wdate" id="sailing_date" name="sailing_date"></input>
+					<input type="hidden" id="sailing_date_hidden" value=""></input>
 				</span>
 			</label>
 			<label>
-				<span>Route Name:</span>
+				<span><?php echo yii::t('app','Route Name')?>:</span>
 				<span>
-					<input type="text"></input>
+					<input type="text" id="route_name" name="route_name"></input>
+					<input type="hidden" id="route_name_hidden" value=""></input>
 				</span>
 			</label>
 			<label>
-				<span>Route ID:</span>
+				<span><?php echo yii::t('app','Route Code')?>:</span>
 				<span>
-					<input type="text"></input>
+					<input type="text" id="route_code" name="route_code"></input>
+					<input type="hidden" id="route_code_hidden" value=""></input>
 				</span>
 			</label>
-			<input type="button" value="SEARCH" class="btn1"></input>
+			<input type="submit" id="search" value="SEARCH" class="btn1"></input>
 		</div>
 		<div class="pBox">
 			<table id="booking_ticke_table">
 			<input type="hidden" id="booking_ticke_page" value="<?php echo $booking_ticke_pag;?>" />
 				<thead>
 					<tr>
-						<th>Route Code</th>
-						<th>Price</th>
-						<th>Sailing Date</th>
-						<th>Return Date</th>
-						<th>Route Date</th>
+						<th><?php echo yii::t('app','Route Code')?></th>
+						<th><?php echo yii::t('app','Price')?></th>
+						<th><?php echo yii::t('app','Sailing Date')?></th>
+						<th><?php echo yii::t('app','Return Date')?></th>
+						<th><?php echo yii::t('app','Route Name')?></th>
 						<!-- <th>Shore Excursions</th>
 						<th>Departure Port</th> -->
 						<th>Operation</th>
@@ -73,7 +76,7 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 				<?php }?>
 				</tbody>
 			</table>
-			<p class="records">Records:<span><?php echo $count;?></span></p>
+			<p class="records"><?php echo yii::t('app','Records')?>:<span id="count"><?php echo $count?></span></p>
 			<div class="center" id="booking_ticke_page_div"> </div>
 		</div>
 	</div>
@@ -81,12 +84,63 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 <!-- main content end -->
 
 <script type="text/javascript">
-window.onload = function(){ 
-	<?php $booking_total = (int)ceil($count/2);
-	if($booking_total >1){
-	?>
+window.onload = function(){
+var count_page =  $("#count").html();	
+get_page(count_page);
+
+$("#search").click(function(){
+	var sailing_date = $("#sailing_date").val();
+	var route_name = $("#route_name").val();
+	var route_code = $("#route_code").val();
+	
+	$("#sailing_date_hidden").val(sailing_date);
+    $("#route_name_hidden").val(route_name);
+	$("#route_code_hidden").val(route_code);
+	
+	$.ajax({
+		url:"<?php echo Url::toRoute(['booking_ticket_search']);?>",
+		type:'post',
+		data:'sailing_date='+sailing_date+"&route_name="+route_name+"&route_code="+route_code,
+		dataType:'json',
+		success:function(data){
+			if(data != 0){
+				var tmp = "{{each voyage}}"+
+				"<tr>"+
+					"<td>{{$value.voyage_code}}</td>"+
+					"<td>{{$value.ticket_price}}</td>"+
+					"<td>{{$value.start_time}}</td>"+
+					"<td>{{$value.end_time}}</td>"+
+					"<td>{{$value.voyage_name}}</td>"+
+					"<td><button code='{{$value.voyage_code}}' class='btn1'> <img src='<?php echo $baseUrl;?>images/right.png'>"+
+					"</button>"+
+					"</td>"+
+					"{{/each}}";
+				var render = template.compile(tmp);
+				var html = render({voyage:data});
+	            $("table#booking_ticke_table > tbody").html(html);
+	            $("#count").html(data['count']);
+	            get_page(data['count']);
+			}else{
+				$("table#booking_ticke_table > tbody").html('');
+			}
+		}
+	});
+});
+
+
+
+	$(document).on('click',"#booking_ticke_table button.btn1",function(){
+		var voyage_code = $(this).parent().finc
+	});
+
+}
+
+
+function get_page(count){
+	var booking_total = parseInt(Math.ceil(count/2));
+	if(booking_total >1){
 		$('#booking_ticke_page_div').jqPaginator({
-		    totalPages: <?php echo $booking_total;?>,
+		    totalPages: booking_total,
 		    visiblePages: 5,
 		    currentPage: 1,
 		    wrapper:'<ul class="pagination"></ul>',
@@ -98,48 +152,42 @@ window.onload = function(){
 		    onPageChange: function (num, type) {
 		    	var this_page = $("input#booking_ticke_page").val();
 		    	if(this_page==num){$("input#booking_ticke_page").val('fail');return false;}
-
-		    	var w_code = "<?php //echo $w_code;?>";
-		    	var w_name = "<?php //echo $w_name;?>";
-		    	var w_state = "<?php //echo $w_state;?>";
-		    	/*
-		    	var where_data = "&w_code="+w_code+"&w_name="+w_name+"&w_state="+w_state; 
-		    	*/
-		    	$.ajax({
-	                url:"<?php echo Url::toRoute(['get_booking_ticke_page']);?>",
-	                type:'get',
-	                data:'pag='+num,
-	             	dataType:'json',
-	            	success:function(data){
-	                	var str = '';
-	            		if(data != 0){
-	    	                $.each(data,function(key){
-								
-	                        	str += "<tr>";
-	                            str += "<td>"+data[key]['voyage_code']+"</td>";
-	                            str += "<td>"+data[key]['ticket_price']+"</td>";
-	                            str += "<td>"+data[key]['start_time']+"</td>";
-	                            str += "<td>"+data[key]['end_time']+"</td>";
-	                            str += "<td>"+data[key]['voyage_name']+"</td>";
-	                            str += "<td><button code='"+data[key]['voyage_code']+"' class='btn1'><img src='<?=$baseUrl ?>images/right.png'></button></td>";
-	                            str += "</tr>";
-	                          });
-	    	                $("table#booking_ticke_table > tbody").html(str);
-	    	            }
-	            	}      
-	            });
-	    	
-	       	// $('#text').html('当前第' + num + '页');
-	    	}
+	
+		    	var sailing_date_hidden = $("#sailing_date_hidden").val();
+		    	var route_name_hidden = $("#route_name_hidden").val();
+		    	var route_code_hidden = $("#route_code_hidden").val();
+			    var where_data = "&sailing_date_hidden="+sailing_date_hidden+"&route_name_hidden="+route_name_hidden+"&route_code_hidden="+route_code_hidden; 
+			    	
+			    $.ajax({
+					url:"<?php echo Url::toRoute(['get_booking_ticke_page']);?>",
+		          	type:'post',
+		           	data:'pag='+num+where_data,
+		           	dataType:'json',
+		           	success:function(data){
+		            	var str = '';
+		            	if(data != 0){
+		            		var tmp = "{{each voyage}}"+
+		        				"<tr>"+
+		        				"<td>{{$value.voyage_code}}</td>"+
+		        				"<td>{{$value.ticket_price}}</td>"+
+		        				"<td>{{$value.start_time}}</td>"+
+		        				"<td>{{$value.end_time}}</td>"+
+		        				"<td>{{$value.voyage_name}}</td>"+
+		        				"<td><button code='{{$value.voyage_code}}' class='btn1'><img src='<?php echo $baseUrl;?>images/right.png'>"+
+		        				"</button>"+
+		        				"</td>"+
+		        				"{{/each}}";
+							var render = template.compile(tmp);
+							var html = render({voyage:data});
+		    	         	$("table#booking_ticke_table > tbody").html(html);
+		    	     	}
+		          	}
+		      	});
+			}
 		});
-	<?php }?>
-
-
-
-	$(document).on('click',"#booking_ticke_table button.btn1",function(){
-		var voyage_code = $(this).parent().finc
-		});
-
+	}else{
+		$('#booking_ticke_page_div').html('');
+	}
 }
 </script>
 
