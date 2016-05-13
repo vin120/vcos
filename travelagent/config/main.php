@@ -12,6 +12,33 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'travelagent\controllers',
     'components' => [
+    		
+    	'assetManager' => [
+    		'hashCallback' => function ($path) {
+    			if (!function_exists('_myhash_')) {
+    				function _myhash_($path) {
+    					if (is_dir($path)) {
+    						$handle = opendir($path);
+    						$hash = '';
+    						while (false !== ($entry = readdir($handle))) {
+    							if ($entry === '.' || $entry === '..') {
+    								continue;
+    							}
+    							$entry = $path . '/' . $entry;
+    							$hash .= _myhash_($entry);
+    						}
+    						$result = sprintf('%x', crc32($hash . Yii::getVersion()));
+    					} else {
+    						$result = sprintf('%x', crc32(filemtime($path) . Yii::getVersion()));
+    					}
+    					return $result;
+    				}
+    			} 
+    			return _myhash_($path);
+    			}
+    		],
+    		
+    		
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,

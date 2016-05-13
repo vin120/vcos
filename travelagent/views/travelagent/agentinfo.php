@@ -53,26 +53,26 @@ AgentinfoAsset::register($this);
             </ul>
         </div>
         <div class="btnBox2">
-            <input type="button" value="Change Login Password" class="btn2"></input>
+            <input type="button" value="Change Login Password" id="login_passwordclick" class="btn2"></input>
             <input type="button" value="Change Payment Password" class="btn2" id="paymentpassword"></input>
         </div>
     </div>
+    <!-- 修改支付密码弹出框  -->
     <div class="shadow"></div>
 	<div class="popups" id="alertpaymentpassword">
 		<h3>Add<a href="#" class="close r">&#10006;</a></h3>
 		<div class="pBox">
 			<input type="hidden" id="url" value="<?php echo Url::toRoute(['checkpassword']);?>"></input>
 			<div>
-				<label id="pay_password">
+				<label class="pay" id="pay_password">
 					<span>Old Password:</span>
 					<span>
-						<input type="password" name="pay_password" id="aa"></input>
-						
+					<input type="password" name="pay_password"></input>
 					</span>
 				</label>
 			</div>
 			<div>
-				<label>
+				<label class="pay">
 					<span>New Password:</span>
 					<span>
 						<input type="password" name="newpay_password"></input>
@@ -80,7 +80,7 @@ AgentinfoAsset::register($this);
 				</label>
 			</div>
 			<div>
-				<label>
+				<label class="pay" id="renewpay_passwordlabel">
 					<span>RePassword:</span>
 					<span>
 						<input type="password" name="renewpay_password"></input>
@@ -88,11 +88,48 @@ AgentinfoAsset::register($this);
 				</label>
 			</div>
 			<div class="btnBox2">
-				<input type="button" value="SUBMIT" class="btn1"></input>
+			   <input type='hidden' value="<?php echo Url::toRoute(['submitpaypassword']);?>" id="paysubmiturl">
+				<input type="submit" value="SUBMIT" id="pay_passwordsubmit" class="btn1"></input>
+				<input type="button" value="CANCEL" class="btn2"></input>
+			</div>
+		</div>
+	</div>
+	<!-- 修改登陆密码弹出框 -->
+	<div class="popups" id="alertloginpassword">
+		<h3>Add<a href="#" class="close r">&#10006;</a></h3>
+		<div class="pBox">
+			<input type="hidden" id="loginurl" value="<?php echo Url::toRoute(['checkloginpassword']);?>"></input>
+			<div>
+				<label class="login" id="login_password">
+					<span>Old Password1:</span>
+					<span>
+					<input type="password" name="login_password"></input>
+					</span>
+				</label>
+			</div>
+			<div>
+				<label class="login">
+					<span>New Password1:</span>
+					<span>
+						<input type="password" name="newlogin_password"></input>
+					</span>
+				</label>
+			</div>
+			<div>
+				<label class="login" id="renewlogin_passwordlabel">
+					<span>RePassword1:</span>
+					<span>
+						<input type="password" name="renewlogin_password"></input>
+					</span>
+				</label>
+			</div>
+			<div class="btnBox2">
+			   <input type='hidden' value="<?php echo Url::toRoute(['submitloginpassword']);?>" id="loginsubmiturl">
+				<input type="submit" value="SUBMIT" id="login_passwordsubmit" class="btn1"></input>
 				<input type="button" value="CANCEL" class="btn2"></input>
 			</div>
 		</div>
 	</div>
 </div>
-
+ <input type='hidden' value="<?php echo Url::toRoute(['agentinfo']);?>" id="locationurl">
 <!-- main content end -->

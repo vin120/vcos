@@ -23,60 +23,60 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
     <a href="#"><?php echo yii::t('app','Booking Ticke')?></a>
     </div>
     <div id="mainContent_content">
-				<!-- 请用ajax提交 -->
-				<div class="pBox search">
-					<label>
-						<span>Sailing Date:</span>
-						<span>
-							<input type="text" class="Wdate"></input>
-						</span>
-					</label>
-					<label>
-						<span>Route Name:</span>
-						<span>
-							<input type="text" name="name" id='name' maxlength="16"></input>
-						</span>
-					</label>
-					<label>
-						<span>Route Code:</span>
-						<span>
-							<input type="text" name="code" id="code" maxlength="16"></input>
-						</span>
-					</label>
-					<input type="button" value="SEARCH" class="btn1"></input>
-				</div>
-				<div class="pBox">
-					<table id="booking_ticke_table">
-					<input type="hidden" id="booking_ticke_page" value="<?php echo $booking_ticke_pag;?>" />
-						<thead>
-							<tr>
-								<th>Route Code</th>
-								<th>Price</th>
-								<th>Sailing Date</th>
-								<th>Return Date</th>
-								<th>Route Date</th>
-								<!-- <th>Shore Excursions</th>
-								<th>Departure Port</th> -->
-								<th>Operation</th>
-							</tr>
-						</thead>
-						<tbody>
-						<?php foreach ($result as $v){?>
-							<tr>
-								<td><?php echo $v['voyage_code']?></td>
-								<td><?php echo $v['ticket_price']?></td>
-								<td><?php echo $v['start_time']?></td>
-								<td><?php echo $v['end_time']?></td>
-								<td><?php echo $v['voyage_name']?></td>
-								<td><button class="btn1"><img src="<?=$baseUrl ?>images/right.png"></button></td>
-							</tr>
-						<?php }?>
-						</tbody>
-					</table>
-					<p class="records">Records:<span><?php echo $count;?></span></p>
-					<div class="center" id="booking_ticke_page_div"> </div>
-				</div>
-			</div>
+		<!-- 请用ajax提交 -->
+		<div class="pBox search">
+			<label>
+				<span>Sailing Date:</span>
+				<span>
+					<input type="text" class="Wdate"></input>
+				</span>
+			</label>
+			<label>
+				<span>Route Name:</span>
+				<span>
+					<input type="text"></input>
+				</span>
+			</label>
+			<label>
+				<span>Route ID:</span>
+				<span>
+					<input type="text"></input>
+				</span>
+			</label>
+			<input type="button" value="SEARCH" class="btn1"></input>
+		</div>
+		<div class="pBox">
+			<table id="booking_ticke_table">
+			<input type="hidden" id="booking_ticke_page" value="<?php echo $booking_ticke_pag;?>" />
+				<thead>
+					<tr>
+						<th>Route Code</th>
+						<th>Price</th>
+						<th>Sailing Date</th>
+						<th>Return Date</th>
+						<th>Route Date</th>
+						<!-- <th>Shore Excursions</th>
+						<th>Departure Port</th> -->
+						<th>Operation</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php foreach ($result as $v){?>
+					<tr>
+						<td><?php echo $v['voyage_code']?></td>
+						<td><?php echo $v['ticket_price']?></td>
+						<td><?php echo $v['start_time']?></td>
+						<td><?php echo $v['end_time']?></td>
+						<td><?php echo $v['voyage_name']?></td>
+						<td><button class="btn1"><img src="<?=$baseUrl ?>images/right.png"></button></td>
+					</tr>
+				<?php }?>
+				</tbody>
+			</table>
+			<p class="records">Records:<span><?php echo $count;?></span></p>
+			<div class="center" id="booking_ticke_page_div"> </div>
+		</div>
+	</div>
 </div>
 <!-- main content end -->
 
@@ -106,7 +106,7 @@ window.onload = function(){
 		    	var where_data = "&w_code="+w_code+"&w_name="+w_name+"&w_state="+w_state; 
 		    	*/
 		    	$.ajax({
-	                url:"<?php echo Url::toRoute(['get_cruise_page']);?>",
+	                url:"<?php echo Url::toRoute(['get_booking_ticke_page']);?>",
 	                type:'get',
 	                data:'pag='+num,
 	             	dataType:'json',
@@ -121,10 +121,10 @@ window.onload = function(){
 	                            str += "<td>"+data[key]['start_time']+"</td>";
 	                            str += "<td>"+data[key]['end_time']+"</td>";
 	                            str += "<td>"+data[key]['voyage_name']+"</td>";
-	                            str += "<td><button class='btn1'><img src='<?=$baseUrl ?>images/right.png'></button></td>";
+	                            str += "<td><button code='"+data[key]['voyage_code']+"' class='btn1'><img src='<?=$baseUrl ?>images/right.png'></button></td>";
 	                            str += "</tr>";
 	                          });
-	    	                $("table#cruise_table > tbody").html(str);
+	    	                $("table#booking_ticke_table > tbody").html(str);
 	    	            }
 	            	}      
 	            });
@@ -136,7 +136,9 @@ window.onload = function(){
 
 
 
-	$(document).on('click',"#booking_ticke_table",function(){});
+	$(document).on('click',"#booking_ticke_table button.btn1",function(){
+		var voyage_code = $(this).parent().finc
+		});
 
 }
 </script>
