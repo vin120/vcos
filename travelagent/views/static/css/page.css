@@ -85,10 +85,15 @@
 #personalCenter #info li span:first-child { display: inline-block; width: 160px; line-height: 30px; text-align: right; }
 #personalCenter #info li span:last-child { color: #666; }
 #personalCenter .btnBox2 { margin-top: 30px; }
-#personalCenter #alertpaymentpassword { width: 360px; }
+#personalCenter #alertpaymentpassword { width: 400px; }
 #personalCenter #alertpaymentpassword .pBox div { margin-bottom: 20px; }
-#personalCenter #alertpaymentpassword label span { width: 120px; text-align: right; }
+#personalCenter #alertpaymentpassword label span:first-child { width: 120px; text-align: right; }
 #personalCenter #alertpaymentpassword .btnBox2 { margin-bottom: 0; }
+/* 登陆密码修改 */
+#personalCenter #alertloginpassword { width: 400px; }
+#personalCenter #alertloginpassword .pBox div { margin-bottom: 20px; }
+#personalCenter #alertloginpassword label span:first-child { width: 120px; text-align: right; }
+#personalCenter #alertloginpassword .btnBox2 { margin-bottom: 0; }
 
 /*剩余舱房*/
 #remainingCabin label { margin-right: 20px; }

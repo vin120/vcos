@@ -9,11 +9,11 @@ $(document).ready(function() {
 	$("#pay_password span").find("em").remove();
 	$("#pay_password").removeClass("wrongBox");*/
 		$("label.pay input").focus(function(){//聚焦时清除提示
-			console.log(123);
 			$(this).siblings("em").remove();
 			$(this).parents("label.pay").removeClass("wrongBox"); 
 		});
-      
+	
+	var p=1;
     $("#pay_passwordsubmit").click(function(){//按提交按钮
     	var t=1;
     	var renewpay_password=$("input[name=renewpay_password]").val();//验证新密码和确认密码
@@ -34,7 +34,7 @@ $(document).ready(function() {
     			t=0;
     		}
     	});
-    	if(t==1){
+    	if(t==1&&p==1){
     	  var newpay_password = $("input[name=newpay_password]").val(); 
           var url=$("#paysubmiturl").val();
           var locationurl=$("#locationurl").val();
@@ -100,11 +100,13 @@ $(document).ready(function() {
 	                	if(!$("#pay_password").hasClass("wrongBox")){
 	                	$("#pay_password").addClass("wrongBox");
 	                	$("#pay_password span").eq(1).append("<em>Please Input Correct Password...</em>");
-	                 		}
+	                	p=0;
+	                 	}
 		                 }
 	                 else{
 	                	$("#pay_password span").find("em").remove();
-	                	$("#pay_password").removeClass("wrongBox"); 
+	                	$("#pay_password").removeClass("wrongBox");
+	                	p=1;
 	                 }
                  });
 			//alert(tt);
@@ -146,8 +148,10 @@ $(document).ready(function() {
     			}
     			t=0;
     		}
+    		
     	});
-    	if(t==1){
+    	
+    	if(t==1&&p==1){
     	  var newpay_password = $("input[name=newlogin_password]").val(); 
           var url=$("#loginsubmiturl").val();
           var locationurl=$("#locationurl").val();
@@ -214,11 +218,13 @@ $(document).ready(function() {
 	                	if(!$("#login_password").hasClass("wrongBox")){
 	                	$("#login_password").addClass("wrongBox");
 	                	$("#login_password span").eq(1).append("<em>Please Input Correct Password...</em>");
-	                 		}
+	                	p=0;	
+	                	}
 		                 }
 	                 else{
 	                	$("#login_password span").find("em").remove();
 	                	$("#login_password").removeClass("wrongBox"); 
+	                	p=1;
 	                 }
                  });
 			//alert(tt);

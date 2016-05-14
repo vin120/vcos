@@ -31,16 +31,18 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 					</tr>
 				</thead>
 				<tbody>
+				<?php foreach($order as $key=>$value):?>
 					<tr>
-						<td>1</td>
-						<td>20151212001</td>
-						<td>CTS1212-105</td>
-						<td>烟台-仁川(过夜)-烟台，3晚4天游</td>
-						<td>￥20000</td>
-						<td>2015-12-12 10:12:24</td>
-						<td>Finished</td>
+						<td><?php echo $key+1?></td>
+							<td><?php echo $value['order_serial_number']?></td>
+							<td><?php echo $value['voyage_code']?></td>
+							<td><?php echo $value['voyage_name']?></td>
+							<td>￥<?php echo $value['total_pay_price']?></td>
+							<td><?php echo $value['create_order_time']?></td>
+							<td><?php echo $value['pay_status'] == 0 ? yii::t('app','To Be Paid') : yii::t('app','Finished')  ?></td>
 						<td><button class="btn1"><img src="<?=$baseUrl?>images/return.png"></button></td>
 					</tr>
+				<?php endforeach;?>
 				</tbody>
 			</table>
 		</div>

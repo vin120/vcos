@@ -5,51 +5,57 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 use travelagent\views\myasset\PublicAsset;
-use travelagent\views\myasset\AgentinfoAsset;
-
+use travelagent\views\myasset\MemberinfoAsset;
 PublicAsset::register($this);
-AgentinfoAsset::register($this);
+MemberinfoAsset::register($this);
 $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 ?>
-
+<!-- 常量中英文切换 -->
+<input type="hidden" value="<?php echo \Yii::t('app','First')?>" id="pagefirst"/>
+<input type="hidden" value="<?php echo \Yii::t('app','Last')?>" id="pagelast"/>
 <!-- main content start -->
 <div id="orderCenter" class="mainContent">
 			<div id="topNav">
-				Agent Ticketing
+				<?php echo \Yii::t('app','Agent Ticketing')?>
 				<span>>></span>
-				<a href="#">Order Center</a>
+				<a href="#"><?php echo \Yii::t('app','MemberShip')?></a>
 			</div>
 			<div id="mainContent_content">
 				<!-- 请用ajax提交 -->
+			    <input type="hidden" id="datacount" value="<?php echo isset($datacount)?$datacount:''?>">
+				<input type="hidden" id="p" value="0">
+				<input type="hidden" id="page_url" value="<?php echo Url::toRoute(['get_member_page']);?>">
+				<input type="hidden" value="<?php echo $baseUrl?>" id="baseurl">
+				<input type="hidden" value="<?php echo Url::toRoute(['get_member_serch']);?>" id="serchurl">
 				<div class="pBox search">
 					<p>
 						<label>
-							<span>Name:</span>
+							<span><?php echo \Yii::t('app','Name')?>:</span>
 							<span>
-							<input type="text" name="full_name">
+							<input type="text" name="full_name" >
 							</span>
 						</label>
 						<label>
-							<span>PassportNum:</span>
+							<span><?php echo \Yii::t('app','PassportNum')?>:</span>
 							<input name="passport_num" type="text"></input>
 						</label>
-						<input type="button" value="SEARCH" class="btn1"></input>
+						<input type="button" value="<?php echo \Yii::t('app','SEARCH')?>" id="searchmember" class="btn1"></input>
 					</p>
-					
+				
 				</div>
 				<div class="pBox">
 					<table id="member_page_table">
 						<thead>
 							<tr>
-								<th>No.</th>
-								<th>Name</th>
-								<th>Gender</th>
-								<th>Birthday</th>
-								<th>PassportNum</th>
-								<th>DateExpire</th>
-								<th>Email</th>
-								<th>Phone</th>
-								<th>Operation</th>
+								<th><?php echo \Yii::t('app','No.')?></th>
+								<th><?php echo \Yii::t('app','Name')?></th>
+								<th><?php echo \Yii::t('app','Gender')?></th>
+								<th><?php echo \Yii::t('app','Birthday')?></th>
+								<th><?php echo \Yii::t('app','PassportNum')?></th>
+								<th><?php echo \Yii::t('app','DateExpire')?></th>
+								<th><?php echo \Yii::t('app','Email')?></th>
+								<th><?php echo \Yii::t('app','Phone')?></th>
+								<th><?php echo \Yii::t('app','Operation')?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -71,64 +77,9 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 							<?php endforeach;?>
 						</tbody>
 					</table>
-					<div id="member_page_div"></div>
+					<div class="center" id="member_page_div"></div>
 				</div>
 			</div>
 		</div>
 <!-- main content end -->
-<script type="text/javascript">
-window.onload = function(){ 
-<?php $total = (int)ceil($count/2);
-	if($total >1){
-?>
-	$('#member_page_div').jqPaginator({
-	    totalPages: <?php echo $total;?>,
-	    visiblePages: 5,
-	    currentPage: 1,
-	    wrapper:'<ul class="pagination"></ul>',
-	    first: '<li class="first"><a href="javascript:void(0);">First</a></li>',
-	    prev: '<li class="prev"><a href="javascript:void(0);">«</a></li>',
-	    next: '<li class="next"><a href="javascript:void(0);">»</a></li>',
-	    last: '<li class="last"><a href="javascript:void(0);">Last</a></li>',
-	    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
-	    onPageChange: function (num, type) {
-	    	var this_page = $("input#pag").val();
-	    	if(this_page==num){$("input#pag").val('fail');return false;}
-
-	    	
-	    	$.ajax({
-                url:"<?php echo Url::toRoute(['get_booking_ticke_page']);?>",
-                type:'get',
-                data:'pag='+num,
-             	dataType:'json',
-            	success:function(data){
-                	var str = '';
-            		if(data != 0){
-    	                $.each(data,function(key){
-							
-                        	str += "<tr>";
-                            str += "<td>"+data[key]['voyage_code']+"</td>";
-                            str += "<td>"+data[key]['ticket_price']+"</td>";
-                            str += "<td>"+data[key]['start_time']+"</td>";
-                            str += "<td>"+data[key]['end_time']+"</td>";
-                            str += "<td>"+data[key]['voyage_name']+"</td>";
-                            str += "<td><button code='"+data[key]['voyage_code']+"' class='btn1'><img src='<?=$baseUrl ?>images/right.png'></button></td>";
-                            str += "</tr>";
-                          });
-    	                $("table#member_page_table > tbody").html(str);
-    	            }
-            	}      
-            });
-    	
-       	// $('#text').html('当前第' + num + '页');
-    	}
-	});
-	<?php }?>
-
-
-
-
-	
-}
-</script>
 		

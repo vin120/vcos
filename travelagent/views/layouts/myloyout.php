@@ -64,8 +64,8 @@ $controller = Yii::$app->controller->id;
                     <li<?= $controller=='bookingticket'? ' class="active"':'' ?>><a href="<?php echo Url::toRoute(['bookingticke/booking_ticke']);?>"><?= \Yii::t('app', 'Booking Ticke') ?></a></li>
                     <li<?= $controller=='ticketcenter'? ' class="active"':'' ?>><a href="<?php echo Url::toRoute(['ticketcenter/ticket_center']);?>"><?= \Yii::t('app', 'Ticket Center') ?></a></li>
                     <li<?= $controller=='returningticket'? ' class="active"':'' ?>><a href="<?php echo Url::toRoute(['returningticket/returning_ticket']);?>"><?= \Yii::t('app', 'Returning Ticke') ?></a></li>
-                    <li<?= $controller=='remainingcabin'? ' class="active"':'' ?>><a href="<?php echo Url::toRoute(['port/port']);?>"><?= \Yii::t('app', 'Remaining Cabin') ?></a></li>
-                     <li<?= $controller=='remainingcabin'? ' class="active"':'' ?>><a href="<?php echo Url::toRoute(['membership/memberinfo']);?>"><?= \Yii::t('app', 'Membership') ?></a></li>
+                    <li<?= $controller=='remainingcabin'? ' class="active"':'' ?>><a href="<?php echo Url::toRoute(['remainingcabin/remaininginfo']);?>"><?= \Yii::t('app', 'Remaining Cabin') ?></a></li>
+                     <li<?=$controller=='membership'? ' class="active"':'' ?>><a href="<?php echo Url::toRoute(['membership/memberinfo']);?>"><?= \Yii::t('app', 'Membership') ?></a></li>
                   </ul>
             </ul>
             <div class="extendBtn">

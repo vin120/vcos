@@ -71,7 +71,7 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 						<td><?php echo $v['start_time']?></td>
 						<td><?php echo $v['end_time']?></td>
 						<td><?php echo $v['voyage_name']?></td>
-						<td><button class="btn1"><img src="<?=$baseUrl ?>images/right.png"></button></td>
+						<td><a href="<?php echo Url::toRoute(['input_mode'])?>&code=<?php echo $v['voyage_code']?>"><button class="btn1" code="<?php echo $v['voyage_code']?>"><img src="<?=$baseUrl ?>images/right.png"></button></td>
 					</tr>
 				<?php }?>
 				</tbody>
@@ -85,49 +85,47 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 
 <script type="text/javascript">
 window.onload = function(){
-var count_page =  $("#count").html();	
-get_page(count_page);
-
-$("#search").click(function(){
-	var sailing_date = $("#sailing_date").val();
-	var route_name = $("#route_name").val();
-	var route_code = $("#route_code").val();
+	var count_page =  $("#count").html();	
+	get_page(count_page);
 	
-	$("#sailing_date_hidden").val(sailing_date);
-    $("#route_name_hidden").val(route_name);
-	$("#route_code_hidden").val(route_code);
-	
-	$.ajax({
-		url:"<?php echo Url::toRoute(['booking_ticket_search']);?>",
-		type:'post',
-		data:'sailing_date='+sailing_date+"&route_name="+route_name+"&route_code="+route_code,
-		dataType:'json',
-		success:function(data){
-			if(data != 0){
-				var tmp = "{{each voyage}}"+
-				"<tr>"+
-					"<td>{{$value.voyage_code}}</td>"+
-					"<td>{{$value.ticket_price}}</td>"+
-					"<td>{{$value.start_time}}</td>"+
-					"<td>{{$value.end_time}}</td>"+
-					"<td>{{$value.voyage_name}}</td>"+
-					"<td><button code='{{$value.voyage_code}}' class='btn1'> <img src='<?php echo $baseUrl;?>images/right.png'>"+
-					"</button>"+
-					"</td>"+
-					"{{/each}}";
-				var render = template.compile(tmp);
-				var html = render({voyage:data});
-	            $("table#booking_ticke_table > tbody").html(html);
-	            $("#count").html(data['count']);
-	            get_page(data['count']);
-			}else{
-				$("table#booking_ticke_table > tbody").html('');
+	$("#search").click(function(){
+		var sailing_date = $("#sailing_date").val();
+		var route_name = $("#route_name").val();
+		var route_code = $("#route_code").val();
+		
+		$("#sailing_date_hidden").val(sailing_date);
+	    $("#route_name_hidden").val(route_name);
+		$("#route_code_hidden").val(route_code);
+		
+		$.ajax({
+			url:"<?php echo Url::toRoute(['booking_ticket_search']);?>",
+			type:'post',
+			data:'sailing_date='+sailing_date+"&route_name="+route_name+"&route_code="+route_code,
+			dataType:'json',
+			success:function(data){
+				if(data != 0){
+					var tmp = "{{each voyage}}"+
+					"<tr>"+
+						"<td>{{$value.voyage_code}}</td>"+
+						"<td>{{$value.ticket_price}}</td>"+
+						"<td>{{$value.start_time}}</td>"+
+						"<td>{{$value.end_time}}</td>"+
+						"<td>{{$value.voyage_name}}</td>"+
+						"<td><a href='<?php echo Url::toRoute(['input_mode'])?>&code={{$value.voyage_code}}'><button code='{{$value.voyage_code}}' class='btn1'> <img src='<?php echo $baseUrl;?>images/right.png'>"+
+						"</button>"+
+						"</td>"+
+						"{{/each}}";
+					var render = template.compile(tmp);
+					var html = render({voyage:data});
+		            $("table#booking_ticke_table > tbody").html(html);
+		            $("#count").html(data['count']);
+		            get_page(data['count']);
+				}else{
+					$("table#booking_ticke_table > tbody").html('');
+				}
 			}
-		}
+		});
 	});
-});
-
-
 
 	$(document).on('click',"#booking_ticke_table button.btn1",function(){
 		var voyage_code = $(this).parent().finc
@@ -173,7 +171,7 @@ function get_page(count){
 		        				"<td>{{$value.start_time}}</td>"+
 		        				"<td>{{$value.end_time}}</td>"+
 		        				"<td>{{$value.voyage_name}}</td>"+
-		        				"<td><button code='{{$value.voyage_code}}' class='btn1'><img src='<?php echo $baseUrl;?>images/right.png'>"+
+		        				"<td><a href='<?php echo Url::toRoute(['input_mode'])?>&code={{$value.voyage_code}}'><button code='{{$value.voyage_code}}' class='btn1'><img src='<?php echo $baseUrl;?>images/right.png'>"+
 		        				"</button>"+
 		        				"</td>"+
 		        				"{{/each}}";

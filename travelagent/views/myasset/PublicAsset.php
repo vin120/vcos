@@ -22,6 +22,7 @@ class PublicAsset extends AssetBundle
         'js/My97DatePicker/WdatePicker.js',
         'js/public.js',
     	'js/jqPaginator.js',
+    	'js/addGuestInfo.js',
     	'js/template.js',
     ];
 
