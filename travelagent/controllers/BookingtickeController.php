@@ -153,7 +153,6 @@ class BookingtickeController  extends Controller
 		
 	}
 	
-	
 	public function actionGet_country_data(){
 		$query  = new Query();
 		$result = $query->select(['a.country_code','b.country_name'])
@@ -169,5 +168,35 @@ class BookingtickeController  extends Controller
 		}else{
 			echo 0;
 		}
+	}
+	
+	
+	public function actionSurcharge_cabinassignments()
+	{
+		$voyage_code = 1;
+		
+		$query  = new Query();
+		$shore = $query->select(['c.se_name','c.se_info','c.se_code'])
+		->from('v_c_shore_excursion a')
+		->join('LEFT JOIN','v_c_shore_excursion_lib b','a.sh_id=b.id')
+		->leftJoin('v_c_shore_excursion_lib_i18n c','b.se_code=c.se_code ')
+		->where(['c.i18n'=>'en','a.status'=>'1','a.voyage_code'=>$voyage_code])
+		->all();
+		
+		
+		
+		$query  = new Query();
+		$surcharge = $query->select(['c.cost_name','c.cost_desc','c.cost_id'])
+		->from('v_c_surcharge a')
+		->join('LEFT JOIN','v_c_surcharge_lib b','a.cost_id=b.id')
+		->leftJoin('v_c_surcharge_lib_i18n c','b.id=c.cost_id')
+		->where(['c.i18n'=>'en','a.status'=>'1','a.voyage_code'=>$voyage_code])
+		->all();
+		
+		
+
+		
+		
+		return $this->render("surcharge_cabinassignments",['shore'=>$shore,'surcharge'=>$surcharge]);
 	}
 }

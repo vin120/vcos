@@ -92,7 +92,7 @@ class ShoreexcursionController extends Controller
 		$result = Yii::$app->db->createCommand($sql)->queryAll();
 		if($result){
 			echo json_encode($result);
-		}  else {
+		} else {
 			echo 0;
 		}
 	

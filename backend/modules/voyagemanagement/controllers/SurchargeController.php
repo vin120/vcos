@@ -27,10 +27,10 @@ class SurchargeController extends Controller
 				$transaction->rollBack();
 				Helper::show_message(\Yii::t('app','Delete fail'),Url::toRoute(['surcharge_config']));
 			}
-			}
+		}
 		
 	
-			$sql="select *,s.id from v_c_surcharge_lib_i18n si right join v_c_surcharge_lib s on si.cost_id=s.id where si.i18n='en'";
+		$sql="select *,s.id from v_c_surcharge_lib_i18n si right join v_c_surcharge_lib s on si.cost_id=s.id where si.i18n='en'";
 		
 		$selectdata=new seletedata();
 		$data=$selectdata->paging($sql, $sql);
@@ -48,11 +48,11 @@ class SurchargeController extends Controller
 			$sidata['cost_desc']=$_POST['cost_desc'];
 			
 			if (!is_numeric($sdata['cost_price'])){
-			Helper::show_message("Price must be number",Url::toRoute(['surcharge_config']));
-			exit;
+				Helper::show_message("Price must be number",Url::toRoute(['surcharge_config']));
+				exit;
 			}
 			if ($sid==''){//没有sid就插入数据
-					//事务处理
+			//事务处理
     		$transaction=$db->beginTransaction();
             try{
             	$sidata['i18n']="en";//插入时设置
