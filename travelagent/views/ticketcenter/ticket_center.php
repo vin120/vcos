@@ -86,10 +86,7 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 							<td><?php echo $value['create_order_time']?></td>
 							<td><?php echo $value['pay_status'] == 0 ? yii::t('app','To Be Paid') : yii::t('app','Finished')  ?></td>
 							<td>
-								<button class="btn1"><img src="<?=$baseUrl ?>images/right.png"></button>
-								<?php if($value['pay_status'] == 0){?>
-								<button class="btn2"><img src="<?=$baseUrl ?>images/delete.png"></button>
-								<?php }?>
+								<button class="btn1" onclick="alertinfo('<?php echo $value['order_serial_number']?>');"><img src="<?=$baseUrl ?>images/right.png"></button>
 							</td>
 						</tr>
 					<?php endforeach;?>
@@ -128,41 +125,49 @@ window.onload = function(){
 			data:'order_no='+order_no+"&route_name="+route_name+"&route_code="+route_code+"&start_time="+start_time+"&end_time="+end_time,
 			dataType:'json',
 			success:function(data){
-				if(data != 0){
-					var tmp = "{{each ticket}}"+
-    				"<tr>"+
-    				"<td>{{$index + 1}}</td>"+
-    				"<td>{{$value.order_serial_number}}</td>"+
-    				"<td>{{$value.voyage_code}}</td>"+
-    				"<td>{{$value.voyage_name}}</td>"+
-    				"<td>￥{{$value.total_pay_price}}</td>"+
-    				"<td>{{$value.create_order_time}}</td>"+
-    				"<td>{{$value.pay_status=='0'?'<?php echo yii::t('app','To Be Paid');?>':'<?php echo yii::t('app','Finished');?>'}}</td>"+
-    				"<td><button code='{{$value.order_serial_number}}' class='btn1'><img src='<?php echo $baseUrl;?>images/right.png'></button>"+
-    				"<button code='{{$value.order_serial_number}}' class='btn2'><img src='<?php echo $baseUrl;?>images/delete.png'></button>"+
-    				"</td>"+
-    				"{{/each}}";
-					var render = template.compile(tmp);
-					var html = render({ticket:data});
-		         	$("table#ticket_center_table > tbody").html(html);
-	         	 	$("#count").html(data['count']);
-		            get_page(data['count']);
-				}else{
+				var str='';
+	     		if(data != 0){
+	                $.each(data,function(key){
+	                	var k=parseInt(key+1);
+		                if(key<2){
+                    	str += "<tr>";
+                        str += "<td>"+k+"</td>";
+                        str += "<td>"+data[key]['order_serial_number']+"</td>";
+                        str += "<td>"+data[key]['voyage_code']+"</td>";
+                        str += "<td>"+data[key]['voyage_name']+"</td>";
+                        str += "<td>"+data[key]['total_pay_price']+"</td>";
+                        str += "<td>"+data[key]['create_order_time']+"</td>";
+                        str += "<td>";
+                        str +=data[key]['pay_status']==0?"<?php echo yii::t('app','To Be Paid');?>":"<?php echo yii::t('app','Finished');?>";
+                        str += "</td>";
+                        str += "<td>";
+                        str += "<button onclick='alertinfo("+data[key]['order_serial_number']+");' code='"+data[key]['order_serial_number']+"' class='btn1'><img src='<?php echo $baseUrl;?>images/right.png'></button>";
+                        str += "</td>";
+                        str += "</tr>";
+		                }
+                      });
+	            $("#count").html(data['count']);
+				get_page(data['count']); 
+	            $("table#ticket_center_table > tbody").html(str);
+        		}  else{
 					$("table#booking_ticke_table > tbody").html('');
 				}
 			}
 		});
 	});
 
-
-	
 }
-
+function alertinfo(id){
+	location.href="<?php echo Url::toRoute(['ticket_center_info']);?>&id="+id;
+}
 
 function get_page(count)
 {
 	var booking_total = parseInt(Math.ceil(count/2));
-	if(booking_total >1){
+	if(booking_total==0){
+		booking_total=1;
+		}
+	
 		$('#ticket_center_page_div').jqPaginator({
 		    totalPages: booking_total,
 		    visiblePages: 5,
@@ -191,9 +196,9 @@ function get_page(count)
 	                data:'pag='+num+where_data,
 	             	dataType:'json',
 	            	success:function(data){
-		            	console.log(data['pay_status'])
+		            	
 	                	var str = '';
-	            		if(data != 0){
+	            		/* if(data != 0){
 	            			var tmp = "";
 	            			tmp += "{{each ticket}}";
 	            			tmp += "<tr>";
@@ -203,23 +208,41 @@ function get_page(count)
 	            			tmp +="<td>{{$value.voyage_name}}</td>";
 	            			tmp +="<td>￥{{$value.total_pay_price}}</td>";
 	            			tmp +="<td>{{$value.create_order_time}}</td>";
-	            			tmp +="<td>{{$value.pay_status=='0'?'<?php echo yii::t('app','To Be Paid');?>':'<?php echo yii::t('app','Finished');?>'}}</td>";
-	            			tmp +="<td><button code='{{$value.order_serial_number}}' class='btn1'><img src='<?php echo $baseUrl;?>images/right.png'></button>";
-	            			
-	            			tmp +="<button code='{{$value.order_serial_number}}' class='btn2'><img src='<?php echo $baseUrl;?>images/delete.png'></button>";
-	            			
-	            			tmp +="</td>";
+	            			tmp +="<td>{{$value.pay_status=='0'?'<php echo yii::t('app','To Be Paid');?>':'<pp echo yii::t('app','Finished');?>'}}</td>";
+	            			tmp +="<td>";	        
+							tmp +="<button code='{{$value.order_serial_number}}' class='btn1'><img src='<p]hp echo $baseUrl;?>images/right.png'></button>";
+							tmp +="{{$value.pay_status=='0'}}"?"<button code='{{$value.order_serial_number}}' class='btn2'><img src='?hp echo $baseUrl;?>images/delete.png'></button>":'';
+								
+	            			tmp +="</td></tr>";
 	            			tmp +="{{/each}}";
-
 							var render = template.compile(tmp);
 							var html = render({ticket:data});
 		    	         	$("table#ticket_center_table > tbody").html(html);
-	    	            }
+	    	            } */
+	            		if(data != 0){
+	    	                $.each(data,function(key){
+	                        	str += "<tr>";
+	                            str += "<td>"+(key+1)+"</td>";
+	                            str += "<td>"+data[key]['order_serial_number']+"</td>";
+	                            str += "<td>"+data[key]['voyage_code']+"</td>";
+	                            str += "<td>"+data[key]['voyage_name']+"</td>";
+	                            str += "<td>"+data[key]['total_pay_price']+"</td>";
+	                            str += "<td>"+data[key]['create_order_time']+"</td>";
+	                            str += "<td>";
+	                            str +=data[key]['pay_status']==0?"<?php echo yii::t('app','To Be Paid');?>":"<?php echo yii::t('app','Finished');?>";
+	                            str += "</td>";
+	                            str += "<td>";
+	                            str += "<button onclick='alertinfo("+"'"+data[key]['order_serial_number']+"'"+");' code='"+data[key]['order_serial_number']+"' class='btn1'><img src='<?php echo $baseUrl;?>images/right.png'></button>";
+	                            str += "</td>";
+		                        str += "</tr>";
+	                          });
+	    	                $("table#ticket_center_table > tbody").html(str);
 	            	}      
-	            });
+	           
 	    	}
 		});
 	}
+	});
 }
 </script>
 

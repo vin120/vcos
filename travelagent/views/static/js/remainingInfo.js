@@ -1,52 +1,20 @@
 $(document).ready(function() {
 	$("#search").click(function(){
-	         var voyage_code = $("input[name=voyage_code]").val(); 
-	         var type_code = $("input[name=type_code]").val(); 
-	         var url=$("#url").val();
-	         $.ajax({  
-	             url: url,
-	             data:{voyage_code:voyage_code,type_code:type_code},
-	             type: 'POST',  
-	             dataType: 'json',  
-	             timeout: 3000,  
-	             cache: false,  
-	             beforeSend: LoadFunction, //加载执行方法      
-	             error: erryFunction,  //错误执行方法      
-	             success: succFunction //成功执行方法      
-	         })  
-	         function LoadFunction() {  
-	             $("#list").html('加载中...');  
-	         }  
-	         function erryFunction() {  
-	             alert("error");  
-	         }  
-	         function succFunction(tt) {  
-        	    var data = eval(tt); //数组
-        	    $("#count").val(data.length);
-        	    if(data!=0){
-	            var tmp = "{{each remaining}}";
-	            var t="{{$index}}";
-	            if(t<2){
-  				tmp+="<tr>";
-  				tmp+="<td>{{$value.cabin_type}}</td>";
-  				tmp+="<td>{{$value.deck}}</td>";
-  				tmp+="<td>{{$value.quantity}}</td>";
-  				tmp+="</tr>";
-	            }
-  				tmp+="{{/each}}";
-  				var render = template.compile(tmp);
-				var html = render({remaining:data});
-  	         	$("table#remaining_page_table > tbody").html(html);
-        	    }
-        	    else{
-        	    	$("table#remaining_page_table > tbody").html("");
-        	    }
-	              var count=$("#count").val();
-	              var total= Math.ceil(count/2);
-	              if (total==0){
-	            	  total=1;
-	              }
-	              if(total>1){
+		var counturl=$("#counturl").val();
+		var voyage_id=$("select[name=voyage_id]").val();
+		var type_code=$("select[name=type_code]").val();
+		  $.ajax({
+			  url:counturl,
+			  type:'POST',
+			  data:{voyage_id:voyage_id,type_code:type_code},
+			  dataType:'json',
+			  success:function(d){
+				  alert(d);
+				if(d!=0){
+					var total = parseInt(Math.ceil(d/2));
+					if(total==0){
+						total=1;
+						}
 	            	  var pagefirst=$("#pagefirst").val();
 	            	  var pagelast=$("#pagelast").val();
 	            	  $('#remaining_page_div').jqPaginator({
@@ -61,15 +29,15 @@ $(document).ready(function() {
 	            		  page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
 	          		   
 	            		  onPageChange: function (num, type) {
-	            			 
 	            			  var this_page = $("input#pag").val();
 	            			  var pageurl=$("#pageurl").val();
-	            			 
+	            			  var voyage_id=$("select[name=voyage_id]").val();
+	            			  var type_code=$("select[name=type_code]").val();
 	            			  if(this_page==num){$("input#pag").val('fail');return false;}
 	            			  $.ajax({
 	            				  url:pageurl,
 	            				  type:'POST',
-	            				  data:{pag:num},
+	            				  data:{pag:num,voyage_id:voyage_id,type_code:type_code},
 	            				  dataType:'json',
 	            				  success:function(data){
 	            					  var data = eval(data); //数组
@@ -78,26 +46,31 @@ $(document).ready(function() {
 	            			            var t="{{$index}}";
 	            		  				tmp+="<tr>";
 	            		  				tmp+="<td>{{$value.cabin_type}}</td>";
-	            		  				tmp+="<td>{{$value.deck}}</td>";
+	            		  				tmp+="<td>{{$value.deck_num}}</td>";
 	            		  				tmp+="<td>{{$value.quantity}}</td>";
 	            		  				tmp+="</tr>";
 	            		  				tmp+="{{/each}}";
 	            		  				var render = template.compile(tmp);
 	            						var html = render({remaining:data});
+	            						 $("#count").html(data['count']);
 	            		  	         	$("table#remaining_page_table > tbody").html(html);
 	            					  }
 	            					  else{
+	            						  $("#count").html('0');
 	            						$("table#remaining_page_table > tbody").html("");
 	            					  }
 	            				  } 
 	            			  });
 	          	    	
-//	            			  $('#text').html('当前第' + num + '页');
 	            		  }
 	            	  });
-	              }
-	         }
+			  }
+				else{
+					 $("#count").html(d['count']);
+					$("table#remaining_page_table > tbody").html("");
+				}
+			  }
+			  });
+	        
 		});
-//		分页
-
 });

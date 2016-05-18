@@ -24,7 +24,8 @@ class PublicAsset extends AssetBundle
     	'js/jqPaginator.js',
     	'js/addGuestInfo.js',
     	'js/template.js',
-    	'js/surchargeAndCabinAssignments.js'
+    	'js/surchargeAndCabinAssignments.js',
+    	'js/dataImport.js'
     ];
 
     //依赖关系

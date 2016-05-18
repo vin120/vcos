@@ -49,7 +49,7 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 					<p><em>[Jeju,jeju Folk Museum of natural history]</em> info in 1984 Jeju Folk Museum of natural history displays originally scattered in Jeju's traditional folk relics, natural historical sites and other precious items and information. The museum is divided info the natural history of the exhibition hall and second first folk exhibition hall and outdoor exhibition hall.</p>
 				-->
 				</div>
-				<div class="pBox">
+				<div class="pBox shore_div">
 					<label>
 						<input type="checkbox"></input>
 						<span>ZHANG SAN</span>
@@ -85,7 +85,7 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 			<div class="head clearfix pBox">
 				<div class="l">
 					<label>
-						<input type="checkbox"></input>
+						<input type="checkbox" id="<?php echo $row['cost_id']?>"></input>
 						<span><?php echo $row['cost_name']?></span>
 					</label>
 				</div>
@@ -105,7 +105,47 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 					<p><em>[Jeju,jeju Folk Museum of natural history]</em> info in 1984 Jeju Folk Museum of natural history displays originally scattered in Jeju's traditional folk relics, natural historical sites and other precious items and information. The museum is divided info the natural history of the exhibition hall and second first folk exhibition hall and outdoor exhibition hall.</p>
 			 	-->
 				</div>
-				<div class="pBox">
+				<div class="pBox insurance_div">
+					<label>
+						<input type="checkbox"></input>
+						<span>ZHANG SAN</span>
+					</label>
+					<label>
+						<input type="checkbox"></input>
+						<span>ZHANG SAN</span>
+					</label>
+					<label>
+						<input type="checkbox"></input>
+						<span>ZHANG SAN</span>
+					</label>
+					<label>
+						<input type="checkbox"></input>
+						<span>ZHANG SAN</span>
+					</label>
+					<label>
+						<input type="checkbox"></input>
+						<span>ZHANG SAN</span>
+					</label>
+					<label>
+						<input type="checkbox"></input>
+						<span>ZHANG SAN</span>
+					</label>
+					<label>
+						<input type="checkbox"></input>
+						<span>ZHANG SAN</span>
+					</label>
+					<label>
+						<input type="checkbox"></input>
+						<span>ZHANG SAN</span>
+					</label>
+					<label>
+						<input type="checkbox"></input>
+						<span>ZHANG SAN</span>
+					</label>
+					<label>
+						<input type="checkbox"></input>
+						<span>ZHANG SAN</span>
+					</label>
 					<label>
 						<input type="checkbox"></input>
 						<span>ZHANG SAN</span>
@@ -135,7 +175,7 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 		
 		
 		<h2 class="mgt"><?php echo yii::t('app','Cabin Assignments')?></h2>
-		<table>
+		<table id="room_div">
 			<thead>
 				<tr>
 					<th><?php echo yii::t('app','Room')?></th>
@@ -174,3 +214,51 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 	</div>
 </div>
 <!-- main content end -->
+<script type="text/javascript">
+window.onload = function(){
+	var user_arr = new Array();
+	var data = $.session.get('membership');
+	//alert(data);
+	var str = '';	//	存放其他
+	var curr_str = ''; //存放当前
+	data_ex = data.split('-');
+	$.each(data_ex,function(e){
+		if(data_ex[e]!=''){
+			var val = data_ex[e].split('&');
+			var u_passport = '';
+			var u_full_name = ''
+			val.forEach(function(param){
+			  param = param.split('=');
+			  var name = param[0],
+			      val = param[1];
+				if(name == 'passport'){u_passport=val;}
+				if(name == 'full_name'){u_full_name=val;}
+		      	 
+			});
+			
+			user_arr.push(u_passport+'-'+u_full_name);
+		}
+		
+	});
+
+	var data_str = '';
+	$.each(user_arr,function(k){
+		var d_val = user_arr[k].split("-");
+		data_str += "<label>";
+		data_str += '<input type="checkbox" value="'+d_val[0]+'"></input>';
+		data_str += '<span>'+d_val[1]+'</span>';
+		data_str += '</label>';
+
+	});
+
+	$(".shore_div").html(data_str);
+	$(".insurance_div").html(data_str);
+
+
+	var room_data = $.session.get("room_<?php echo $code;?>");
+
+	//alert(room_data);
+
+	
+}
+</script>

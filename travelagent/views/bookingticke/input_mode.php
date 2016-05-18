@@ -20,7 +20,7 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 		<div class="pBox" id="entryBox">
 			<h2><?php echo yii::t('app','Please Input The Entry Mode')?></h2>
 			<div>
-				<a href="#">
+				<a href="<?php echo Url::toRoute(['data_import'])?>">
 					<img src="<?=$baseUrl ?>images/excel.png">
 					<span><?php echo yii::t('app','Excel Import')?></span>
 				</a>

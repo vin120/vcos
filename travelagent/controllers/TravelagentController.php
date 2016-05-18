@@ -13,14 +13,13 @@ class TravelagentController  extends Controller
 	
 		$travel_agent_id=23;
 		$sql="select * from v_travel_agent where travel_agent_id='$travel_agent_id'";
-		$data= Yii::$app->db->createCommand($sql)->queryAll();
+		$data= Yii::$app->db->createCommand($sql)->queryOne();
 		return $this->render("agentinfo",array('data'=>$data));
 	}
 	public function actionCheckpassword()
 	{//密码查询
 	
 		$travel_agent_id=23;
-		
 		$password=isset($_POST['pay_password'])?$_POST['pay_password']:'';
 		$sql="select pay_password from v_travel_agent where travel_agent_id='$travel_agent_id' and pay_password='$password'";
 		$data= Yii::$app->db->createCommand($sql)->queryAll();

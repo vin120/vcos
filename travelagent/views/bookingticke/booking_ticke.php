@@ -103,24 +103,29 @@ window.onload = function(){
 			data:'sailing_date='+sailing_date+"&route_name="+route_name+"&route_code="+route_code,
 			dataType:'json',
 			success:function(data){
+			
 				if(data != 0){
-					var tmp = "{{each voyage}}"+
-					"<tr>"+
-						"<td>{{$value.voyage_code}}</td>"+
+					var tmp = "{{each voyage}}";
+					var num="{{$index}}";
+					
+					tmp+="<tr>";
+					tmp+="<td>{{$value.voyage_code}}</td>"+
 						"<td>{{$value.ticket_price}}</td>"+
 						"<td>{{$value.start_time}}</td>"+
 						"<td>{{$value.end_time}}</td>"+
 						"<td>{{$value.voyage_name}}</td>"+
 						"<td><a href='<?php echo Url::toRoute(['input_mode'])?>&code={{$value.voyage_code}}'><button code='{{$value.voyage_code}}' class='btn1'> <img src='<?php echo $baseUrl;?>images/right.png'>"+
-						"</button>"+
-						"</td>"+
-						"{{/each}}";
+						"</button>";
+					tmp+="</td>";
+			
+					tmp+="{{/each}}";
 					var render = template.compile(tmp);
 					var html = render({voyage:data});
 		            $("table#booking_ticke_table > tbody").html(html);
-		            $("#count").html(data['count']);
-		            get_page(data['count']);
+		            $("#count").html(data[0]['count']);
+		            get_page(data[0]['count']);  
 				}else{
+					 $("#count").html('0');
 					$("table#booking_ticke_table > tbody").html('');
 				}
 			}

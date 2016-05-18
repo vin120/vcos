@@ -25,10 +25,10 @@ RemaininginfoAsset::register($this);
 					<label>
 						<span><?php echo \Yii::t('app','Route')?>:</span>
 						<span>
-							<select class="doubleWidth" name="voyage_code">
+							<select class="doubleWidth" name="voyage_id">
 							<option value=""><?php echo \Yii::t('app','No')?></option>
 							<?php foreach ($voyageinfo as $k=>$v):?>
-								<option value="<?php echo $v['voyage_code']?>"> <?php echo $v['voyage_name']?></option>
+								<option value="<?php echo $v['id']?>"> <?php echo $v['voyage_name']?></option>
 								<?php endforeach;?>
 							</select>
 						</span>
@@ -69,10 +69,11 @@ RemaininginfoAsset::register($this);
 							</tr>
 						</tbody>
 					</table>
-					<input type="hidden" id="count"> 
-					<input type="hidden" id="pageurl" value="<?php echo Url::toRoute(['get_remaining_page_info']);?>">
+						<p class="records"><?php echo yii::t('app','Records')?>:<span id="count">0</span></p>
+					<input type="hidden" id="pageurl" value="<?php echo Url::toRoute(['get_remaininginfo']);?>">
 					<div  class="center" id="remaining_page_div"></div>
 				</div>
 			</div>
 		</div>
 <!-- main content end -->
+		<input type="hidden" id="counturl" value="<?php echo Url::toRoute(['get_remainingcount']);?>">

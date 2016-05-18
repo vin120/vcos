@@ -143,6 +143,11 @@ class BookingtickeController  extends Controller
 		return $this->render("input_mode",['code'=>$voyage_code]);
 	}
 	
+	public function actionData_import()
+	{
+		return $this->render('data_import');
+	}
+	
 	
 	public function actionAdd_uest_info(){
 		return $this->render("add_uest_info");
@@ -192,11 +197,9 @@ class BookingtickeController  extends Controller
 		->leftJoin('v_c_surcharge_lib_i18n c','b.id=c.cost_id')
 		->where(['c.i18n'=>'en','a.status'=>'1','a.voyage_code'=>$voyage_code])
 		->all();
-		
-		
 
-		
-		
 		return $this->render("surcharge_cabinassignments",['shore'=>$shore,'surcharge'=>$surcharge]);
 	}
+	
+	
 }
