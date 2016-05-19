@@ -4,7 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-
+use yii\helpers\Url;
 use app\modules\ordermanagement\themes\basic\myasset\ThemeAsset;
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 
@@ -53,7 +53,7 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
                 <ul>
                     <li class="active"><a href="#"><?= \Yii::t('app', 'Web Order') ?></a></li>
                     <li><a href="#"><?= \Yii::t('app', 'Agent Order') ?></a></li>
-                    <li><a href="#"><?= \Yii::t('app', 'Free Order') ?></a></li>
+                    <li><a href="<?php echo Url::toRoute(['order/free_order']);?>"><?= \Yii::t('app', 'Free Order') ?></a></li>
                     <li><a href="#"><?= \Yii::t('app', 'Tour Group') ?></a></li>
                     <li><a href="#"><?= \Yii::t('app', 'Refund Type') ?></a></li>
                     <li><a href="#"><?= \Yii::t('app', 'Refund Policy') ?></a></li>

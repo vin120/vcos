@@ -90,7 +90,7 @@ AgentinfoAsset::register($this);
 			<div class="btnBox2">
 			   <input type='hidden' value="<?php echo Url::toRoute(['submitpaypassword']);?>" id="paysubmiturl">
 				<input type="button" value="<?php echo \Yii::t('app','SUBMIT')?>" id="pay_passwordsubmit" class="btn1"></input>
-				<input type="button" value="<?php echo \Yii::t('app','CANCEL')?>" class="btn2"></input>
+				<input type="button" value="<?php echo \Yii::t('app','CANCEL')?>" class="btn2 close"></input>
 			</div>
 		</div>
 	</div>
@@ -126,7 +126,7 @@ AgentinfoAsset::register($this);
 			<div class="btnBox2">
 			   <input type='hidden' value="<?php echo Url::toRoute(['submitloginpassword']);?>" id="loginsubmiturl">
 				<input type="button" value="<?php echo \Yii::t('app','SUBMIT')?>" id="login_passwordsubmit" class="btn1"></input>
-				<input type="button" value="<?php echo \Yii::t('app','CANCEL')?>" class="btn2"></input>
+				<input type="button" value="<?php echo \Yii::t('app','CANCEL')?>" class="btn2 close"></input>
 			</div>
 		</div>
 	</div>

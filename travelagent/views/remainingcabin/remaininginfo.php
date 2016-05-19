@@ -26,7 +26,7 @@ RemaininginfoAsset::register($this);
 						<span><?php echo \Yii::t('app','Route')?>:</span>
 						<span>
 							<select class="doubleWidth" name="voyage_id">
-							<option value=""><?php echo \Yii::t('app','No')?></option>
+							<option value=""><?php echo \Yii::t('app','NO')?></option>
 							<?php foreach ($voyageinfo as $k=>$v):?>
 								<option value="<?php echo $v['id']?>"> <?php echo $v['voyage_name']?></option>
 								<?php endforeach;?>
@@ -37,7 +37,7 @@ RemaininginfoAsset::register($this);
 						<span><?php echo \Yii::t('app','Cabin Type')?>:</span>
 						<span>
 							<select class="doubleWidth" name="type_code">
-							<option value=""><?php echo \Yii::t('app','No')?></option>
+							<option value=""><?php echo \Yii::t('app','NO')?></option>
 							<?php foreach ($cabintypeinfo as $k=>$v):?>
 								<option value="<?php echo $v['type_code']?>"><?php echo $v['type_name']?></option>
 								<?php endforeach;?>
@@ -57,16 +57,12 @@ RemaininginfoAsset::register($this);
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><?php echo \Yii::t('app','Presidential Suite')?></td>
-								<td><?php echo \Yii::t('app','10')?></td>
-								<td class="point">3</td>
-							</tr>
-							<tr>
-								<td><?php echo \Yii::t('app','Presidential Suite')?></td>
-								<td><?php echo \Yii::t('app','10')?></td>
-								<td><?php echo \Yii::t('app','Enough')?></td>
-							</tr>
+							
+							<!-- <tr>
+								<td><p echo \Yii::t('app','Presidential Suite')?></td>
+								<td><hp echo \Yii::t('app','10')?></td>
+								<td><p echo \Yii::t('app','Enough')?></td>
+							</tr> -->
 						</tbody>
 					</table>
 						<p class="records"><?php echo yii::t('app','Records')?>:<span id="count">0</span></p>
@@ -77,3 +73,4 @@ RemaininginfoAsset::register($this);
 		</div>
 <!-- main content end -->
 		<input type="hidden" id="counturl" value="<?php echo Url::toRoute(['get_remainingcount']);?>">
+		<input type="hidden" id="voyageurl" value="<?php echo Url::toRoute(['get_cabintype']);?>">

@@ -48,9 +48,14 @@
 #addGuestInfo .btnBox1 { margin-bottom: 20px; }
 #addGuestInfo .btnBox2 { margin-top: 30px; }
 #addGuestInfo #addPopups { width: 680px; }
-#addGuestInfo #addPopups label { display: inline-block; margin-bottom: 20px; }
+#addGuestInfo #addPopups label { display: inline-block; }
 #addGuestInfo #addPopups label span:first-child { width: 120px; text-align: right; }
 #addGuestInfo #addPopups .more { text-align: center; }
+
+#addGuestInfo #deailPopups { width: 680px; }
+#addGuestInfo #deailPopups label { display: inline-block; margin-bottom: 20px; }
+#addGuestInfo #deailPopups label span:first-child { width: 120px; text-align: right; }
+#addGuestInfo #deailPopups label span:last-child { width: 170px; text-align: left; }
 
 /*航线预定——录入模式——选择船舱类型和预约数量——添加乘客信息——附加费和舱房分配*/
 #surchargeAndCabinAssignments h2 { font-size: 16px; }
@@ -68,15 +73,23 @@
 #surchargeAndCabinAssignments .accordion .body .active { display: block; }
 #surchargeAndCabinAssignments .accordion .body h3 { font-size: 14px; color: #f8b551; }
 #surchargeAndCabinAssignments .accordion .body em { padding: 0 10px; font-style: normal; font-weight: bolder; }
-#surchargeAndCabinAssignments .accordion .body label { display: inline-block;width: 16%; }
+#surchargeAndCabinAssignments .accordion .body label + label { margin-left: 110px; }
 #surchargeAndCabinAssignments .btnBox2 { margin-top: 30px; }
 #surchargeAndCabinAssignments table select { width: 100%; height: 100%; border: none; }
 
 /*订单中心*/
-#orderCenter .search p { width: 1072px; margin: 0 auto 20px auto; }
+#orderCenter .search p { width: 1072px; margin: 0 auto; }
 #orderCenter .search label span:first-child { width: 120px; }
 #orderCenter .search .doubleWidth { width: 488px; }
 #orderCenter .search .btnBox2 { margin-bottom: 0; }
+
+/*订单中心——订单支付*/
+#orderPay .infoBox { margin-bottom: 20px; background-color: #fff; }
+#orderPay .infoBox h2 { line-height: 1.2em; font-size: 16px; }
+#orderPay .infoBox p { line-height: 40px; font-size: 14px; }
+#orderPay .infoBox ul { margin: 0; padding: 0; }
+#orderPay .infoBox li { padding: 4px 10px; }
+#orderPay .infoBox li span:first-child { display: inline-block; width: 140px; text-align: right; }
 
 /*个人中心*/
 #personalCenter h2 { margin-bottom: 10px; font-size: 16px; }
@@ -85,6 +98,15 @@
 #personalCenter #info li span:first-child { display: inline-block; width: 160px; line-height: 30px; text-align: right; }
 #personalCenter #info li span:last-child { color: #666; }
 #personalCenter .btnBox2 { margin-top: 30px; }
+#personalCenter #alertpaymentpassword { width: 400px; }
+#personalCenter #alertpaymentpassword .pBox div { margin-bottom: 20px; }
+#personalCenter #alertpaymentpassword label span:first-child { width: 120px; text-align: right; }
+#personalCenter #alertpaymentpassword .btnBox2 { margin-bottom: 0; }
+/* 登陆密码修改 */
+#personalCenter #alertloginpassword { width: 400px; }
+#personalCenter #alertloginpassword .pBox div { margin-bottom: 20px; }
+#personalCenter #alertloginpassword label span:first-child { width: 120px; text-align: right; }
+#personalCenter #alertloginpassword .btnBox2 { margin-bottom: 0; }
 
 /*剩余舱房*/
 #remainingCabin label { margin-right: 20px; }

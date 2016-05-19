@@ -3,14 +3,11 @@ $this->title = 'Agent Ticketing';
 use travelagent\views\myasset\PublicAsset;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-use travelagent\views\myasset\TicketCenterInfoAsset;
 PublicAsset::register($this);
-TicketCenterInfoAsset::register($this);
 $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
-
 ?>
 <!-- main content start -->
-<div id="orderPay" class="mainContent">
+<div id="retuenTicketInfo" class="mainContent">
     <div id="topNav">
 	    <?php echo yii::t('app','Agent Ticketing')?>&nbsp;&gt;&gt;&nbsp;
 	    <a href="#"><?php echo yii::t('app','Ticket Center')?></a>
@@ -26,9 +23,11 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 			<table id="ticket_center_table">
 				<thead>
 					<tr>
+						<th><input type=checkbox id="mycheck"></input></th>
 						<th><?php echo yii::t('app','No.')?></th>
 						<th><?php echo yii::t('app','Room Code')?></th>
 						<th><?php echo yii::t('app','Room Price')?></th>
+						<th><?php echo yii::t('app','Status')?></th>
 						<th><?php echo yii::t('app','Name')?></th>
 						<th><?php echo yii::t('app','PassportNum')?></th>
 						<th><?php echo yii::t('app','Additional Price')?></th>
@@ -42,9 +41,25 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 				<?php if($vv != null&& $vv['price_type']!=1){?>
 					<tr>
 					<?php if($num==0){?>
+						<td rowspan="<?php echo sizeof($v['member'][$k])?>"><input type=checkbox name="ids[]" value="<?php echo $v['id']?>" class="checkall"></input></td>
 						<td rowspan="<?php  echo sizeof($v['member'][$k])?>"><?php echo $k+1?></td>
 						<td rowspan="<?php echo sizeof($v['member'][$k])?>"><?php echo $v['cabin_type_code']?></td>
 						<td rowspan="<?php echo sizeof($v['member'][$k])?>"><?php echo $v['cabin_price']?></td>
+						<td rowspan="<?php echo sizeof($v['member'][$k])?>">
+						<?php if($v['status']==0){
+							echo "normal";
+						}
+						elseif ($v['status']==1){
+							echo "cancel";
+						}
+						elseif ($v['status']==2){
+							echo "In the processing";
+						}
+						elseif ($v['status']==3){
+							echo "complete";
+						}
+						?>
+						</td>
 						<?php }?>
 						
 						<td><?php echo $vv['m_name']?></td>
@@ -72,64 +87,64 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 		</div>
 			<div class="btnBox2">
 				<input type="button" id="back" value="<?php echo yii::t('app','Back')?>" class="btn2"></input>
-				<input type="button" value="<?php echo yii::t('app','PAY')?>" id="pay" class="btn1"></input>
-				<input type="button" value="<?php echo yii::t('app','Cancel The Order')?>" id="cancelorder" class="btn1"></input>
+				<input type="button" value="<?php echo yii::t('app','Refund')?>" id="refund" class="btn1"></input>
 			</div>
-	</div>
-	<div class="shadow"></div>
-	<div class="popups prompt">
-		<h3><?php echo yii::t('app','Prompt')?><a href="#" class="r close">&#10006;</a></h3>
-		<div class="pBox">
-			<p><?php echo yii::t('app','Do you want to cancel the order?')?></p>
-			<p class="btnBox">
-				<input type="button" value="<?php echo yii::t('app','YES')?>" id="submitcancelorder" class="btn1"></input>
-				<input type="button" value="<?php echo yii::t('app','NO')?>" class="btn2 close"></input>
-			</p>
-		</div>
 	</div>
 </div>
 <!-- main content end -->
 	<input type="hidden" value="<?php echo isset($_GET['id'])?$_GET['id']:''?>" id="order_serial_number"/>
 <script>
 	window.onload=function(){
-		$("#back").click(function(){
-			location.href="<?php echo Url::toRoute(['ticket_center']);?>";
+		$('#mycheck').click(function(){/* 多选按钮  */
+			   if($(this).prop('checked')==true)
+	         {
+	             $(".checkall").prop("checked",true);
+	         }
+	         else {
+	             $(".checkall").prop("checked",false);
+	         }
+	  
 			});
-		$("#pay").click(function(){
-			location.href="<?php echo Url::toRoute(['bookingticke/payment']);?>&order_serial_number="+"<?php echo isset($_GET['id'])?$_GET['id']:''?>";
-			});
-		$("#cancelorder").on("click",function() {
-			new PopUps($(".prompt"));
-		});
-		$("#submitcancelorder").click(function(){
-		       var order_serial_number=$("#order_serial_number").val();
-		         $.ajax({  
-		             url: "<?php echo Url::toRoute(['cancelorder']);?>",
-		             data:{order_serial_number:order_serial_number},
-		             type: 'POST',  
-		             dataType: 'json',  
-		             timeout: 3000,  
-		             cache: false,  
-		             beforeSend: LoadFunction, //加载执行方法      
-		             error: erryFunction,  //错误执行方法      
-		             success: succFunction //成功执行方法      
-		         })  
-		         function LoadFunction() {  
-		             $("#list").html('加载中...');  
-		         }  
-		         function erryFunction() {  
-		             alert("error");  
-		         }  
-		         function succFunction(tt) {  
-		        	if(tt==1){
-						alert('Cancel Success');
-						location.href="<?php echo Url::toRoute(['ticket_center']);?>";
-			        	}
-		        	else{
-		        		alert('Cancel Fail');	
-		        		location.href="<?php echo Url::toRoute(['ticket_center']);?>";	
-			        	}
-		         }  
+	
+		$("#refund").click(function(){
+			var value=[];
+			$("#ticket_center_table tbody input").each(function(index,element) {
+					if($(this).prop("checked")) {
+						value.push($(this).val());
+						}
+				}); 
+			
+		          $.ajax({  
+		              url:"<?php echo Url::toRoute(['returnticket']);?>",
+		              data:{value:value},
+		              type: 'POST',  
+		              dataType: 'json',  
+		              timeout: 3000,  
+		              cache: false,  
+		              beforeSend: LoadFunction, //加载执行方法      
+		              error: erryFunction,  //错误执行方法      
+		              success: succFunction //成功执行方法      
+		          })  
+		          function LoadFunction() {  
+		              $("#list").html('加载中...');  
+		          }  
+		          function erryFunction() {  
+		              alert("error");  
+		          }  
+		          function succFunction(tt) {  
+				         if(tt==0){
+							alert("Option fail");
+							location.href="<?php echo Url::toRoute(['returning_ticket']);?>";
+					         }
+				         else if(tt==1){
+							alert("Option success");
+							location.href="<?php echo Url::toRoute(['returning_ticket']);?>";
+					         }
+				         else if(tt==2){
+							alert("Please Choose...");
+					         }
+		                
+		          } 
 			});
 		}
 </script>

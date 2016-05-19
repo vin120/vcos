@@ -14,7 +14,6 @@ class ThemeAsset extends AssetBundle
     public $sourcePath = '@app/modules/ordermanagement/themes/basic/static';
     public $css = [
         'css/public.css',
-//        'css/style_test.css'
     ];
 
     public $js = [

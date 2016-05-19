@@ -1,395 +1,325 @@
 
 
 <style type="text/css">
-
-		#issueTicket_info .form { padding: 1em; border: 1px solid #e0e9f4; background: #fff; }
-		#issueTicket_info label span { display: inline-block; width: 100px; text-align: right; }
-		#issueTicket_info select { width: 184px; height: 24px; }
-		#issueTicket_info .lineSelect select { width: 478px; }
-		#issueTicket_info .table { width: 48%; margin-bottom: 1em; }
-		#issueTicket_info .btn { margin-top: 1em; }
-		#memberInfo label span { width: 140px; }
-	</style>
+	#issueTicket_info .form { padding: 1em; border: 1px solid #e0e9f4; background: #fff; }
+	#issueTicket_info label span { display: inline-block; width: 100px; text-align: right; }
+	#issueTicket_info select { width: 184px; height: 24px; }
+	#issueTicket_info .lineSelect select { width: 478px; }
+	#issueTicket_info .table { width: 48%; margin-bottom: 1em; }
+	#issueTicket_info .btn { margin-top: 1em; }
+	#memberInfo label span { width: 140px; }
+</style>
 
 
 <?php
-$this->title = 'Add Membership';
-
-
-use app\modules\membermanagement\themes\basic\myasset\ThemeAsset;
-
-use yii\helpers\Url;
-
-ThemeAsset::register($this);
-$baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
-
-
+	$this->title = 'Add Membership';
+	use app\modules\membermanagement\themes\basic\myasset\ThemeAsset;
+	use yii\helpers\Url;
+	ThemeAsset::register($this);
+	$baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 //$assets = '@app/modules/membermanagement/themes/basic/static';
 //$baseUrl = Yii::$app->assetManager->publish($assets);
-
 ?>
 
- <script type="text/javascript" src="<?php echo $baseUrl;?>js/jquery-ui.min.js"></script>
-
-  <script type="text/javascript" src="<?php echo $baseUrl;?>js/jquery.validate.js"></script>
- 
-  <script type="text/javascript" src="<?php echo $baseUrl;?>js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>js/jquery.validate.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>js/My97DatePicker/WdatePicker.js"></script>
   
 
 
 	
 
 <!-- content start -->
-		<div class="r content" id="issueTicket_info">
-			<div class="topNav">Route Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Scenic Route</a></div>
-			<form action="<?= Url::to(['member/member_add']);?>" method="post" id="member_add_form">
-			
-			<div id="memberInfo">
-				<h3>Booking person</h3>
-				<div class="form">
-					<p>
-						<label>
-							<span>ID Card</span>
-							<input type="text"   name="resident_id_card"  id="resident_id_card" ></input>
-						</label>
-					
-
-						
-						<label>
-							<span>MemeberCard No.:</span>
-							<input type="text"  name="smart_card_number" id="smart_card_number" ></input>
-						</label>
-						<label>
-							<span>Membership Grade:</span>
-							<select name="vip_grade" id="vip_grade">
-							    <option></option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								
-							</select>
-						</label>
-					</p>
-					<p>
-							<label>
-							<span>Memeber Code</span>
-							<input type="text" name="m_code" id="m_code" ></input>
-						</label>
-						<label>
-							<span>Country</span>
-							<select name="country_code" id="country_code">
-							<option></option>
-								<?php  
-
-                            foreach ($country as $row) {
-
-							?>
-
-							<!-- 国家编号 -->
-
-							<!-- 国家名字 -->
-								<option value="<?php echo $row['country_code']; ?>"><?php echo $row['country_name']; ?></option>
-							<?php
-								   }
-								   ?>
-							</select>
-						</label>
-						<label>
-							<span>Membership Status:</span>
-							<select>
-								<option>未激活</option>
-							</select>
-						</label>
-					</p>
-					<p>
-						<label>
-							<span>Chinese Name:</span>
-							<input type="text" name="m_name"  id="m_name"></input>
-						</label>
-						<label>
-							<span>Nation:</span>
-							<select >
-								<option>汉族</option>
-							</select>
-						</label>
-						<label>
-							<span>Balance:</span>
-							<input type="text" name="balance"  id="balance"></input>
-						</label>
-					</p>
-					<p>
-						<label>
-							<span>First Name:</span>
-							<input type="text" name="first_name" id="first_name"></input>	
-						</label>
-						<label>
-							<span>Landline Telephone:</span>
-							<input type="text" name="fixed_telephone"  id="fixed_telephone"></input>
-						</label>
-						<label>
-							<span>Integral:</span>
-							<!-- 积分 -->
-							<input type="text" name="points"  id="points" ></input>
-						</label>
-					</p>
-					<p>
-						<label>
-							<span>Last Name:</span>
-							<input type="text" name="last_name" id="last_name"></input>
-
-						
-						</label>
-						<label>
-							<span>Phone No.:</span>
-							<input type="text" name="mobile_number"  id="mobile_number"></input>
-						</label>
-						<label>
-							<span>Verify Phone No.:</span>
-							<select>
-								<option>未验证</option>
-							</select>
-						</label>
-					</p>
-					<p>
-						<label>
-							<span>Birthday:</span>
-							<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',lang:'en'})" class="Wdate"   name="birthday" id="birthday"></input>
-						</label>
-						<label>
-							<span>E-mail:</span>
-							<input type="email" name="email"  id="email"></input>
-						</label>
-						<label>
-							<span>Verity E-mail:</span>
-							<select>
-								<option>未验证</option>
-							</select>
-						</label>
-					</p>
-					<p>
-						<label>
-							<span>Gender:</span>
-							<select name="gender" id="gender">
-								<option value="M">male</option>
-								<option value="F">female</option>
-							</select>
-						</label>
-						<label>
-							<span>Login Name:</span>
-							<input type="text" disabled="disabled"></input>
-						</label>
-						<label>
-							<span>Registration IP:</span>
-							<input type="text" disabled="disabled"></input>
-						</label>
-					</p>
-					<p>
-						<label>
-							<span>Birthplace:</span>
-							<input type="text" name="birth_place"  id="birth_place"></input>
-						</label>
-						<label>
-							<span>Password:</span>
-							<input type="text" onfocus="this.type='password'" autocomplete="off" name="m_password"  id="m_password"></input>
-						</label>
-						<label>
-							<span>Registration Date:</span>
-						<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  name="create_time" id="create_time"></input>
-						</label>
-					</p>
-				</div>
-				<h3>Passport</h3>
-				<div class="form">
-
-
-	
-					<p>
-						<label>
-							<span>Passport No:</span>
-							<input type="text" name="passport_number"  id="passport_number">
-						</label>
-						<label>
-							<span>Issuing Country:</span>
-							<select name="post_country_code" id="post_country_code">
-							<option></option>
-
-							<?php  
-
-                            foreach ($country as $row) {
-                            
-
-							?>
-      
-								<option value="<?php echo $row['country_code']; ?>"><?php echo $row['country_name']; ?></option>
-
-							<?php
-								   }
-								   ?>
-							</select>
-						</label>
-						<label>
-							<span>Issue Place:</span>
-							<input type="text" name="place_issue"  id="place_issue" >
-						</label>
-					</p>
-					<p>
-						<label>
-							<span>Issue Date:</span>
-							<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',lang:'en'})" class="Wdate"  name="date_issue" id="date_issue" >
-						</label>
-						<label>
-							<span>Closing Date:</span>
-							<input type="text"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',lang:'en'})" class="Wdate"  name="date_expire"  >
-
-
-						</label>
-					</p>
-				</div>
-				<div class="btn">
-					<input type="submit" value="Add" id="member_add" style="width: 80px;text-align: center;cursor:pointer;">
-					<input type="button" value="Back" id="back" >
-				</div>
+<div class="r content" id="issueTicket_info">
+	<div class="topNav">Route Manage&nbsp;&gt;&gt;&nbsp;<a href="#">Scenic Route</a></div>
+		<form action="<?= Url::to(['member/member_add']);?>" method="post" id="member_add_form">	
+		<div id="memberInfo">
+		<h3>Booking person</h3>
+		<div class="form">
+			<p>
+				<label>
+					<span>ID Card</span>
+					<input type="text"   name="resident_id_card"  id="resident_id_card" ></input>
+				</label>
+				<label>
+					<span>MemeberCard No.:</span>
+					<input type="text"  name="smart_card_number" id="smart_card_number" ></input>
+				</label>
+				<label>
+					<span>Membership Grade:</span>
+					<select name="vip_grade" id="vip_grade">
+						<option></option>
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+					</select>
+				</label>
+			</p>
+			<p>
+				<label>
+					<span>Memeber Code</span>
+					<input type="text" name="m_code" id="m_code" ></input>
+				</label>
+				<label>
+					<span>Country</span>
+					<select name="country_code" id="country_code">
+					<option></option>
+					<?php  
+						foreach ($country as $row) {
+					?>
+					<!-- 国家编号 -->
+					<!-- 国家名字 -->
+					<option value="<?php echo $row['country_code']; ?>"><?php echo $row['country_name']; ?></option>
+					<?php
+						}
+					?>
+					</select>
+				</label>
+				<label>
+					<span>Membership Status:</span>
+						<select>
+							<option>未激活</option>
+						</select>
+				</label>
+			</p>
+			<p>
+				<label>
+					<span>Chinese Name:</span>
+					<input type="text" name="m_name"  id="m_name"></input>
+				</label>
+				<label>
+					<span>Nation:</span>
+					<select >
+						<option>汉族</option>
+					</select>
+				</label>
+				<label>
+					<span>Balance:</span>
+					<input type="text" name="balance"  id="balance"></input>
+				</label>
+			</p>
+			<p>
+				<label>
+					<span>First Name:</span>
+					<input type="text" name="first_name" id="first_name"></input>	
+				</label>
+				<label>
+					<span>Landline Telephone:</span>
+					<input type="text" name="fixed_telephone"  id="fixed_telephone"></input>
+				</label>
+				<label>
+					<span>Integral:</span>
+					<!-- 积分 -->
+					<input type="text" name="points"  id="points" ></input>
+				</label>
+			</p>
+			<p>
+				<label>
+					<span>Last Name:</span>
+					<input type="text" name="last_name" id="last_name"></input>
+				</label>
+				<label>
+					<span>Phone No.:</span>
+					<input type="text" name="mobile_number"  id="mobile_number"></input>
+				</label>
+				<label>
+					<span>Verify Phone No.:</span>
+					<select>
+						<option>未验证</option>
+					</select>
+				</label>
+			</p>
+			<p>
+				<label>
+					<span>Birthday:</span>
+					<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',lang:'en'})" class="Wdate"   name="birthday" id="birthday"></input>
+				</label>
+				<label>
+					<span>E-mail:</span>
+					<input type="email" name="email"  id="email"></input>
+				</label>
+				<label>
+					<span>Verity E-mail:</span>
+					<select>
+						<option>未验证</option>
+					</select>
+				</label>
+			</p>
+			<p>
+				<label>
+					<span>Gender:</span>
+					<select name="gender" id="gender">
+						<option value="M">male</option>
+						<option value="F">female</option>
+					</select>
+				</label>
+				<label>
+					<span>Login Name:</span>
+					<input type="text" disabled="disabled"></input>
+				</label>
+				<label>
+					<span>Registration IP:</span>
+					<input type="text" disabled="disabled"></input>
+				</label>
+			</p>
+			<p>
+				<label>
+					<span>Birthplace:</span>
+					<input type="text" name="birth_place"  id="birth_place"></input>
+				</label>
+				<label>
+					<span>Password:</span>
+					<input type="text" onfocus="this.type='password'" autocomplete="off" name="m_password"  id="m_password"></input>
+				</label>
+				<label>
+					<span>Registration Date:</span>
+					<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss ',lang:'en'})" class="Wdate"  name="create_time" id="create_time"></input>
+				</label>
+			</p>
 			</div>
-			</form>
-			
+			<h3>Passport</h3>
+			<div class="form">
+			<p>
+				<label>
+					<span>Passport No:</span>
+					<input type="text" name="passport_number"  id="passport_number">
+				</label>
+				<label>
+					<span>Issuing Country:</span>
+					<select name="post_country_code" id="post_country_code">
+					<option></option>
+					<?php  
+                    	foreach ($country as $row) {
+					?>
+						<option value="<?php echo $row['country_code']; ?>"><?php echo $row['country_name']; ?></option>
+					<?php
+						}
+					?>
+					</select>
+				</label>
+				<label>
+					<span>Issue Place:</span>
+					<input type="text" name="place_issue"  id="place_issue" >
+				</label>
+			</p>
+			<p>
+				<label>
+					<span>Issue Date:</span>
+					<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',lang:'en'})" class="Wdate"  name="date_issue" id="date_issue" >
+				</label>
+				<label>
+					<span>Closing Date:</span>
+					<input type="text"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',lang:'en'})" class="Wdate"  name="date_expire"  >
+				</label>
+			</p>
 		</div>
-		<!-- content end -->
-
-
-
-
-	
-	<script type="text/javascript">
-		$(document).ready(function($) {
-
-			$('#m_password').val('');
+		<div class="btn">
+			<input type="submit" value="Add" id="member_add" style="width: 80px;text-align: center;cursor:pointer;">
+			<input type="button" value="Back" id="back" >
+		</div>
+	</div>
+	</form>
 			
+</div>
+<!-- content end -->
+<script type="text/javascript">
+	$(document).ready(function($) {
+		$('#m_password').val('');
+			jQuery.validator.addMethod("shuzi", function(value, element) {
+				return this.optional(element) || /^[0-9]*$/.test(value);
+          	}, "please input number");
+			jQuery.validator.addMethod("fixnumber", function(value, element) {
+				return this.optional(element) || /^([0-9]{3,4}-)?[0-9]{7,8}$/.test(value);
+			}, "A positive or negative non-decimal number please");
+  			//手机号码
+  			jQuery.validator.addMethod("mobile", function(value, element) {
+				return this.optional(element) || /^((\+?86)|(\(\+86\)))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|18[02356789][0-9]{8}|147[0-9]{8}|1349[0-9]{7})$/.test(value);
+			}, "A positive or negative non-decimal number please");
+  			jQuery.validator.addMethod("emailsame", function(value, element) {
+  	   			var flag=1;
+		         $.ajax({
+		            type: "post",
+		            url: "<?= Url::to(['member/member_email_validate']);?>", 
+		            async:false,  
+		            data: {'email':$.trim($('#email').val())},    
+		            success: function(data) {
+		           		// var jsonObj = eval("("+data+")");  将json字符串转为json对象
+		           		if(data=='yes')
+		           		{
+		                	flag=0;
+		               	}
+		            },
+		            error: function(data) {
+		                alert('请求错误');
+		             	return false;
+		            }
+		        });
+
+         		if(flag==0)
+         		{
+         			return false;
+         		}
+         		else {
+         			return true;
+         		}
+ 			}, " email  have been exist");
+
+    		jQuery.validator.addMethod("mobliesame", function(value, element) {
+         		var flag=1;
+		         $.ajax({
+		            type: "post",
+		            url: "<?= Url::to(['member/member_mobile_validate']);?>",
+		            async:false,      
+		            data: {'mobile_number':$.trim($('#mobile_number').val())},    
+		            success: function(data) {
+		           		// var jsonObj = eval("("+data+")");  将json字符串转为json对象
+		            	if(data=='yes')
+		            	{
+		                	flag=0;
+		                }
+		            },
+		            error: function(data) {
+		                alert('请求错误');
+		             	return false;
+		            }
+		        });
+	         	if(flag==0)
+	         	{
+	         		return false;
+	         	}
+	         	else {
+	         		return true;
+	         	}
+ 			}, " moblie number have been exist");
 
 
-			 jQuery.validator.addMethod("shuzi", function(value, element) {
-	       return this.optional(element) || /^[0-9]*$/.test(value);
-             }, "please input number");
-
-
-  jQuery.validator.addMethod("fixnumber", function(value, element) {
-	return this.optional(element) || /^([0-9]{3,4}-)?[0-9]{7,8}$/.test(value);
-}, "A positive or negative non-decimal number please");
-
-  //手机号码
-  jQuery.validator.addMethod("mobile", function(value, element) {
- 
-		return this.optional(element) || /^((\+?86)|(\(\+86\)))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|18[02356789][0-9]{8}|147[0-9]{8}|1349[0-9]{7})$/.test(value);
-	}, "A positive or negative non-decimal number please");
-
-
-  jQuery.validator.addMethod("emailsame", function(value, element) {
-  	   var flag=1;
-         $.ajax({
-            type: "post",
-            url: "<?= Url::to(['member/member_email_validate']);?>", 
-            async:false,  
-            data: {'email':$.trim($('#email').val())},    
-            success: function(data) {
-            	 // var jsonObj = eval("("+data+")");  将json字符串转为json对象
-            	  if(data=='yes')
-            	  {
-                    flag=0;
-                  }
-                
-            },
-            error: function(data) {
-                alert('请求错误');
-             return false;
-            }
-        });
-
-         if(flag==0)
-         {
-         	return false;
-         }
-         else {
-         	return true;
-         }
-
-
-
-  
- }, " email  have been exist");
-
-
-
-    jQuery.validator.addMethod("mobliesame", function(value, element) {
-         var flag=1;
-         $.ajax({
-            type: "post",
-            url: "<?= Url::to(['member/member_mobile_validate']);?>",
-            async:false,      
-            data: {'mobile_number':$.trim($('#mobile_number').val())},    
-            success: function(data) {
-            	 // var jsonObj = eval("("+data+")");  将json字符串转为json对象
-            	  if(data=='yes')
-            	  {
-                    flag=0;
-                  }
-               	 
-             
-            },
-            error: function(data) {
-                alert('请求错误');
-             return false;
-
-
-            }
-        });
-
-
-         if(flag==0)
-         {
-         	return false;
-         }
-         else {
-         	return true;
-         }
-
-  
- }, " moblie number have been exist");
-
-
-        jQuery.validator.addMethod("IDCardsame", function(value, element) {
-         var flag=1;
-         $.ajax({
-            type: "post",
-            url: "<?= Url::to(['member/resident_id_card_validate']);?>",
-            async:false,      
-            data: {'id_card':$.trim($('#resident_id_card').val())},    
-            success: function(data) {
-            	 // var jsonObj = eval("("+data+")");  将json字符串转为json对象
-            	  if(data=='yes')
-            	  {
-                    flag=0;
-                  }
-               	 
-             
-            },
-            error: function(data) {
-                alert('请求错误');
-             return false;
-
-
-            }
-        });
-
-
-         if(flag==0)
-         {
-         	return false;
-         }
-         else {
-         	return true;
-         }
-
-  
- }, " Id Card have been exist");
+        	jQuery.validator.addMethod("IDCardsame", function(value, element) {
+        		var flag=1;
+		         $.ajax({
+		            type: "post",
+		            url: "<?= Url::to(['member/resident_id_card_validate']);?>",
+		            async:false,      
+		            data: {'id_card':$.trim($('#resident_id_card').val())},    
+		            success: function(data) {
+		            	// var jsonObj = eval("("+data+")");  将json字符串转为json对象
+		            	if(data=='yes')
+		            	{
+		            		flag=0;
+		                }
+		            },
+		            error: function(data) {
+		                alert('请求错误');
+		             	return false;
+		            }
+		        });
+		         if(flag==0)
+		         {
+		         	return false;
+		         }
+		         else {
+		         	return true;
+		         }
+ 			}, " Id Card have been exist");
 
 
             //passport_number 护照编号   ajax验证
@@ -509,23 +439,12 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
   
  }, " Memeber Code  have been exist");
 
-
-      // 清空表单所有内容，很好用，很强大
-        	 $(':input','#member_add_form')
-             .not(':button, :submit, :reset, :hidden')
-             .val('')
-             .removeAttr('checked')
-             .removeAttr('selected');
-
-            
-
-
-
-
-
-
-
-  
+      	// 清空表单所有内容，很好用，很强大
+		$(':input','#member_add_form')
+        .not(':button, :submit, :reset, :hidden')
+		.val('')
+		.removeAttr('checked')
+		.removeAttr('selected');
 
 		$("#member_add_form").validate({
 		   rules: {
@@ -564,16 +483,13 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 		   	balance:{required:'Balance不能为空',digits:'balance只能填入整数'},
 		   	first_name: { required : 'first_name不能为空'},
 		   	fixed_telephone: { required : 'Landline Telephone不能为空',
-			   	fixnumber:'Landline Telephone格式不对'
-
-
-			   	},
+			fixnumber:'Landline Telephone格式不对'},
 		   	points: { required : 'Integral不能为空',digits:'Integral只能是整数'},
 		   	last_name: { required : 'last_name不能为空'},
 		   	mobile_number: { required : 'mobile_number不能为空',mobile:'mobile_number格式不对'},
 		   	birthday: { required : 'birthday不能为空'},			
             email:{required:'email不能为空',email:"E-mail 地址格式不对" },
-	         gender: { required : '请选择性别'},
+	        gender: { required : '请选择性别'},
 		    birth_place: { required : 'birth_place不能为空'},
 			create_time: { required : 'create_time不能为空'},
 			passport_number: { required : 'passport_number不能为空'},
@@ -582,43 +498,14 @@ $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
 			date_issue: { required : 'date_issue不能为空'},
 			place_issue: { required : 'place_issue不能为空'},
 			post_country_code: { required : '请选择post_country_code'},
-		
-		
-			
 		},
-	
-        
-      
-
-
 	 });
 
 
-			$('#back').click(function(event) {
-
-       
-
-	var url="<?= Url::to(['member/index']);?>";	
-    location.href=url;
-    return false;
-				
-
-
-
-			});
-
-
-
-
-
-
-			
-		});
-
-
-
-		</script>
-
-	
-
-
+	$('#back').click(function(event) {
+		var url="<?= Url::to(['member/index']);?>";
+    	location.href=url;
+    	return false;
+	});
+});
+</script>

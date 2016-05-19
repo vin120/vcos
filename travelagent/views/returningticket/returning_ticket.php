@@ -40,7 +40,7 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 							<td>￥<?php echo $value['total_pay_price']?></td>
 							<td><?php echo $value['create_order_time']?></td>
 							<td><?php echo $value['pay_status'] == 0 ? yii::t('app','To Be Paid') : yii::t('app','Finished')  ?></td>
-						<td><button class="btn1"><img src="<?=$baseUrl?>images/return.png"></button></td>
+						<td><button class="btn1" onclick="hrefinfo('<?php echo $value['order_serial_number'] ?>')"><img src="<?=$baseUrl?>images/return.png"></button></td>
 					</tr>
 				<?php endforeach;?>
 				</tbody>
@@ -51,9 +51,8 @@ $baseUrl = $this->assetBundles[PublicAsset::className()]->baseUrl . '/';
 <!-- main content end -->
 
 <script type="text/javascript">
-window.onload = function(){ 
-
-
+function hrefinfo(id){
+	location.href="<?php echo Url::toRoute(['return_ticket_info']);?>&id="+id;
 }
 </script>
 
